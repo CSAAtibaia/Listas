@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #myapps
-    'core', 'listas', 'pedidos',
+    'ERP.core', 'ERP.listas', 'ERP.pedidos',
 ]
 
 MIDDLEWARE = [
