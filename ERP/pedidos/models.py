@@ -9,8 +9,11 @@ class Pedido(models.Model):
                                     on_delete=models.PROTECT)
     lista   = models.ForeignKey(Lista,
                                     on_delete=models.PROTECT)
+    retira  = models.BooleanField(default=False)
+
     def __str__(self):
         return self.coagri + ' ' + self.lista
+
 
 class PedidoItem(models.Model):
     pedido  = models.ForeignKey(Pedido,

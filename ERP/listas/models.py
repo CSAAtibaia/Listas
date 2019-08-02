@@ -20,6 +20,7 @@ class ItemLista(models.Model):
     item    = models.ForeignKey(Item,
                                     on_delete=models.PROTECT)
     limite  = models.IntegerField('Limite', default = 1)
+    saldo   = models.IntegerField('Saldo', default = 0)
 
     class Meta:
         ordering = ('lista', 'item')

@@ -5,6 +5,7 @@ from ERP.listas.models import Lista, ItemLista
 
 class ItemListaInline(admin.TabularInline):
     model = ItemLista
+    readonly_fields = ('saldo',)
 
 class ListaAdmin(admin.ModelAdmin):
     list_display = ('data_ini', 'data_fim', 'publicada')
