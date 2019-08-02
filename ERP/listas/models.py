@@ -9,7 +9,7 @@ class Lista(models.Model):
     mensagem = models.TextField(null=True, blank=True)
 
     class Meta:
-        ordering = ('data_ini',)
+        ordering = ('-data_ini',)
 
     def __str__(self):
         return self.data_ini.strftime("%Y-%m-%d")

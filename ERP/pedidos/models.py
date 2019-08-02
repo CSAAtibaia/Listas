@@ -9,7 +9,6 @@ class Pedido(models.Model):
                                     on_delete=models.PROTECT)
     lista   = models.ForeignKey(Lista,
                                     on_delete=models.PROTECT)
-
     def __str__(self):
         return self.coagri + ' ' + self.lista
 
