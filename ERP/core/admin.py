@@ -10,7 +10,9 @@ class CoAgriInline(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     inlines = [CoAgriInline,
-                ]
+        ]
+    #exclude = ('user_permissions',    )
+
 
 admin.site.site_header = 'CSA Atibaia'
 admin.site.site_title = 'CSA Atibaia'
