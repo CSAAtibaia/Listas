@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <style>
+        .ok {
+            color: green;
+        }
+        .no {
+            color: red;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="page header">
+    <h2><i class="fa fa-ra"></i> Lista Ativa</h2>
+    {% if object_list %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Disponível</th>
+                    <th>Item</th>
+                    <th class="text-center">Oferta</th>
+                    <th class="text-center">Saldo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in object_list %}
+                    <tr>
+                        <td>
+                            {% if object.saldo > 0 %}
+                                <i class="fa fa-check-circle ok"></i>
+                            {% else %}
+                                <i class="fa fa-minus-circle no"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ object.item }}</td>
+                        <td class="text-center">{{ object.limite }}</td>
+                        <td class="text-center">{{ object.saldo }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="alert alert-warning">Sem Lista Ativa Válida</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

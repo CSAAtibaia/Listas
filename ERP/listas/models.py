@@ -5,7 +5,8 @@ from ERP.core.models import Item
 class Lista(models.Model):
     data_ini = models.DateField()
     data_fim = models.DateField()
-    publicada = models.BooleanField()
+    publicada = models.BooleanField(default=False)
+    ativa = models.BooleanField(default=False)
     mensagem = models.TextField(null=True, blank=True)
 
     class Meta:
@@ -13,6 +14,17 @@ class Lista(models.Model):
 
     def __str__(self):
         return self.data_ini.strftime("%Y-%m-%d")
+
+    def save(self, *args, **kwargs):
+        if self.ativa:
+            try:
+                temp = Lista.objects.get(ativa=True)
+                if self != temp:
+                    temp.ativa = False
+                    temp.save()
+            except Lista.DoesNotExist:
+                pass
+        super(Lista, self).save(*args, **kwargs)
 
 class ItemLista(models.Model):
     lista   = models.ForeignKey(Lista,
