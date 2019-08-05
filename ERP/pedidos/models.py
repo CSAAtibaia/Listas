@@ -1,18 +1,22 @@
 from django.db import models
-from ERP.core.models import CoAgri, Item
+from django.contrib.auth.models import User
+from ERP.core.models import Item, TimeStampedModel
 from ERP.listas.models import Lista
 # Create your models here.
 
 
-class Pedido(models.Model):
-    coagri  = models.ForeignKey(CoAgri,
+class Pedido(TimeStampedModel):
+    user  = models.ForeignKey(User,
                                     on_delete=models.PROTECT)
     lista   = models.ForeignKey(Lista,
                                     on_delete=models.PROTECT)
     retira  = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('-created',)
+
     def __str__(self):
-        return self.coagri + ' ' + self.lista
+        return '{} / {} / {}'.format(self.user.username, self.pk, self.created.strftime('%d-%m-%Y'))
 
 
 class PedidoItem(models.Model):

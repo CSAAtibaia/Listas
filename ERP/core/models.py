@@ -1,5 +1,6 @@
 from django.db import models
 from enum import Enum
+#from datetime import datetime
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -13,7 +14,8 @@ class TimeStampedModel(models.Model):
     modified = models.DateTimeField(
         'Modificado em',
         auto_now_add=False,
-        auto_now=True
+        auto_now=True,
+        blank=True
     )
     class Meta:
         abstract = True
@@ -68,7 +70,7 @@ class CoAgri(models.Model):
     credito = models.IntegerField('Crédito Semanal', default = 8)
 
     class Meta:
-        ordering = ('apelido', 'user',)
+        ordering = ('user', 'apelido', )
 
     def __str__(self):
         return self.user.username
