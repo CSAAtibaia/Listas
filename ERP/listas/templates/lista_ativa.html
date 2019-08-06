@@ -4,7 +4,7 @@
 
 <div class="page header">
     <h2><i class="fa fa-ra"></i> Lista Ativa <i class="fa fa-empire"></i></h2>
-    {% if object_list %}
+    {% if ativa_tb %}
         <p>
             <!-- botões de controle de collapse -->
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lista_ativa" aria-expanded="false" aria-controls="collapseExample">
@@ -15,7 +15,7 @@
                 Itens por Local
             </button>
 
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#pedidos" aria-expanded="false" aria-controls="collapseExample">
                 Itens por CoAgri
             </button>
         </p>
@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for object in object_list %}
+                    {% for object in ativa_tb %}
                         <tr>
                             <td>
                                 {% if object.saldo > 0 %}
@@ -43,6 +43,31 @@
                             <td>{{ object.item }}</td>
                             <td class="text-center">{{ object.limite }}</td>
                             <td class="text-center">{{ object.saldo }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="collapse" id="pedidos">
+          <!--<div class="card card-body"> Ftaghn </div>-->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Higieniza</th>
+                        <th>Coagri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in pedidos %}
+                        <tr>
+                            <td>
+                                {% if object.user.coagri.higieniza %}
+                                    <i class="fa fa-check-circle ok"></i>
+                                {% else %}
+                                    <i class="fa fa-minus-circle no"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ object.user }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
