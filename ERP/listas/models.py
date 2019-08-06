@@ -36,6 +36,10 @@ class ItemLista(models.Model):
 
     class Meta:
         ordering = ('lista', 'item')
+        constraints = [
+            models.UniqueConstraint(fields= ['lista','item'],
+            name = 'NaoRepetirItememLista')
+            ]
 
     def __str__(self):
         return self.item.nome

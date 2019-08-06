@@ -26,5 +26,10 @@ class PedidoItem(models.Model):
                                     on_delete=models.PROTECT)
     qtde    = models.IntegerField('Qtde', default = 1)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['pedido','item'],
+            name = 'NaoRepetirItememPedido')
+            ]
     def __str__(self):
         return '{}/{}'.format(self.pedido, self.item)
