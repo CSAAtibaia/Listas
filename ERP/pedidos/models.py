@@ -27,4 +27,4 @@ class PedidoItem(models.Model):
     qtde    = models.IntegerField('Qtde', default = 1)
 
     def __str__(self):
-        return self.pedido + ' ' + self.item
+        return '{}/{}'.format(self.pedido, self.item)

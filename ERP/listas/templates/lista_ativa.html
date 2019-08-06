@@ -1,20 +1,9 @@
 {% extends "base.html" %}
 
-{% block css %}
-    <style>
-        .ok {
-            color: green;
-        }
-        .no {
-            color: red;
-        }
-    </style>
-{% endblock css %}
-
 {% block content %}
 
 <div class="page header">
-    <h2><i class="fa fa-ra"></i> Lista Ativa</h2>
+    <h2><i class="fa fa-ra"></i> Lista Ativa <i class="fa fa-empire"></i></h2>
     {% if object_list %}
         <table class="table table-striped">
             <thead>
