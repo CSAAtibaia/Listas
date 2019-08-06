@@ -4,14 +4,13 @@
 
 <div class="page header">
     <h2><i class="fa fa-ra"></i> Lista Ativa <i class="fa fa-empire"></i></h2>
-    {% if ativa_tb %}
         <p>
             <!-- botões de controle de collapse -->
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lista_ativa" aria-expanded="false" aria-controls="collapseExample">
                 Itens da Lista Ativa
             </button>
 
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#locais" aria-expanded="false" aria-controls="collapseExample">
                 Itens por Local
             </button>
 
@@ -44,9 +43,28 @@
                             <td class="text-center">{{ object.limite }}</td>
                             <td class="text-center">{{ object.saldo }}</td>
                         </tr>
+                    {% empty %}
+                        <p class="alert alert-warning">Sem Lista Ativa Válida</p>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="collapse" id="locais">
+          <!--<div class="card card-body"> Ftaghn </div>-->
+            {% regroup pedidos_item_tb|dictsort:"retira" by pedidos_item_tb.pedido.retira as retira_list %}
+                <ul>
+                {% for retira in retira_list %}
+                    <li>{{ retira.grouper }}
+                    <ul>
+                        {% for item in retira.list %}
+                          <li>{{ item.item }}: {{ item.qtde }}</li>
+                        {% endfor %}
+                    </ul>
+                    </li>
+                {% empty %}
+                    <p class="alert alert-warning">Sem Lista Ativa Válida</p>
+                {% endfor %}
+                </ul>
         </div>
         <div class="collapse" id="pedidos">
           <!--<div class="card card-body"> Ftaghn </div>-->
@@ -58,7 +76,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for object in pedidos %}
+                    {% for object in pedidos_tb %}
                         <tr>
                             <td>
                                 {% if object.user.coagri.higieniza %}
@@ -69,13 +87,13 @@
                             </td>
                             <td>{{ object.user }}</td>
                         </tr>
+                    {% empty %}
+                        <p class="alert alert-warning">Sem Pedidos Válidos para a Lista Ativa</p>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    {% else %}
-        <p class="alert alert-warning">Sem Lista Ativa Válida</p>
-    {% endif %}
+
 </div>
 
 {% endblock content %}

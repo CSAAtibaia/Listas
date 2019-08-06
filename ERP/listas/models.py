@@ -34,6 +34,9 @@ class ItemLista(models.Model):
     limite  = models.IntegerField('Limite', default = 1)
     saldo   = models.IntegerField('Saldo', default = 0)
 
+#    def saldo(self):
+#        return limite - #query pedido_item filter self.item & pedido filter lista filter ativa true agregate sum qtde
+
     class Meta:
         ordering = ('lista', 'item')
         constraints = [

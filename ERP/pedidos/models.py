@@ -13,10 +13,14 @@ class Pedido(TimeStampedModel):
                                     limit_choices_to={'ativa': True},
                                     )
     retira  = models.BooleanField(default=False)
-    #higienizada = models.BooleanField(default=False)
+
 
     class Meta:
         ordering = ('-created',)
+        constraints = [
+            models.UniqueConstraint(fields= ['user','lista'],
+            name = 'UmPedidoporCoAgri')
+            ]
 
     def __str__(self):
         return '{} / {} / {}'.format(self.user.username, self.pk, self.created.strftime('%d-%m-%Y'))
