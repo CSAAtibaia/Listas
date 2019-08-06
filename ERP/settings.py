@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #3rd
+    'widget_tweaks',
     #myapps
     'ERP.core', 'ERP.listas', 'ERP.pedidos',
 ]

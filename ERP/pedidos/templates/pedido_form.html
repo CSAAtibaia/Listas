@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load wiget tweaks %}
+
+{% block content %}
+
+<form method="POST" novalidate>
+    {% csrf token %}
+    {% for field in form.visible_fields %}
+
+    {% empty %}
+        <p class="alert alert-warning">Formulário Inválido</p>
+    {% endfor %}
+</form>
+
+{% endblock content %}
