@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .models import Lista, ItemLista
 from ERP.pedidos.models import Pedido, PedidoItem
-from django.db.models import Sum, F
+from django.db.models import Sum, F, CharField
+from django.db.models.functions import Coalesce, Cast
 # Create your views here.
 
 
@@ -21,13 +22,20 @@ def lista_itens(request):
             'pedido__user__coagri__higieniza',
             'item__item__nome'
         ).annotate(soma=Sum('qtde'))
-    #pedidos_item_tb = PedidoItem.objects.filter(Pedido.lista_id = ativa_id)
-        #higieniza, retira, item, sum(qtde)
-    #ModelName.objects.aggregate(Sum('field_name'))
+
+    coagris_tb = pedidos_item_tb.values(
+            retira = F('pedido__retira'),
+            higieniza = F('pedido__user__coagri__higieniza'),
+            coagri = Coalesce(
+                Cast('pedido__user__coagri__apelido', CharField()),
+                Cast('pedido__user__username', CharField())
+                ),
+            nomeitem = F('item__item__nome'),
+            total = F('qtde')
+        )
 
     context={'ativa_tb': ativa_tb,
-                'pedidos_tb': pedidos_tb,
-                'pedidos_item_tb': pedidos_item_tb,
                 'locais_tb': locais_tb,
-                }
+                'coagris_tb': coagris_tb,
+            }
     return render (request, template_name, context)

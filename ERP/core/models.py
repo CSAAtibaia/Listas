@@ -83,3 +83,4 @@ class CoAgri(models.Model):
         else:
             x = self.user.username
         return x
+
