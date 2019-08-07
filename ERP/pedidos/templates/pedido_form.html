@@ -1,11 +1,20 @@
 {% extends "base.html" %}
 
-{% load wiget tweaks %}
+{% load widget_tweaks %}
+
+{% block css %}
+    <style>
+        span.required:after {
+            content:" *";
+            color: red;
+        }
+    </style>
+{% endblock css %}
 
 {% block content %}
 
 <form method="POST" novalidate>
-    {% csrf token %}
+    {% csrf_token %}
     {% for field in form.visible_fields %}
         <div class="form group{% if fields.error %} has-error {% endif %}">
             <label for="{{ field.id_for_label }}">
@@ -27,3 +36,10 @@
 </form>
 
 {% endblock content %}
+
+{% block js %}
+    <script>
+        $('#id_retira').removeClass('form-control');
+    </script>
+{% endblock js %}
+
