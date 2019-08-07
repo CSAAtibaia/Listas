@@ -23,7 +23,7 @@ class Pedido(TimeStampedModel):
             ]
 
     def __str__(self):
-        return '{} / {} / {}'.format(self.user.username, self.pk, self.created.strftime('%d-%m-%Y'))
+        return '{}/{}'.format(self.user.coagri, self.created.strftime('%d-%m-%Y'))
 
 ativa_id = Lista.objects.get(ativa=True).id
 
@@ -38,12 +38,14 @@ class PedidoItem(models.Model):
 
     qtde    = models.IntegerField('Qtde', default = 1)
 
+    #higieniza = pedido.user.coagri.higieniza
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields= ['pedido','item'],
             name = 'NaoRepetirItememPedido')
             ]
     def __str__(self):
-        return '{}/{}'.format(self.pedido, self.item)
+        return '{}/{}/{}'.format(self.pedido, self.item, self.qtde)
 
 

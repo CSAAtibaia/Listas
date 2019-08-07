@@ -74,7 +74,12 @@ class CoAgri(models.Model):
         ordering = ('user', 'apelido', )
 
     def __str__(self):
-        return Coalesce(self.apelido,
-                        '{} {}'.format(self.user.first_name, self.user.last_name),
-                        self.user.email,
-                        self.user.username)
+        if self.apelido:
+            x = self.apelido
+        elif self.user.first_name:
+            x = '{} {}'.format(self.user.first_name, self.user.last_name).strip()
+        elif self.user.email:
+            x = self.user.email
+        else:
+            x = self.user.username
+        return x
