@@ -2,6 +2,7 @@ from django.db import models
 from enum import Enum
 #from datetime import datetime
 from django.contrib.auth.models import User
+from django.db.models.functions import Coalesce
 
 # Create your models here.
 
@@ -73,4 +74,7 @@ class CoAgri(models.Model):
         ordering = ('user', 'apelido', )
 
     def __str__(self):
-        return self.user.username
+        return Coalesce(self.apelido,
+                        '{} {}'.format(self.user.first_name, self.user.last_name),
+                        self.user.email,
+                        self.user.username)

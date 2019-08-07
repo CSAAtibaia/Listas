@@ -13,7 +13,7 @@ def lista_itens(request):
 
     #pedidos_item_tb = PedidoItem.objects.filter(Pedido.lista_id = ativa_id)
         #higieniza, retira, item, sum(qtde)
-
+    #ModelName.objects.aggregate(Sum('field_name'))
 
     context={'ativa_tb': ativa_tb,
                 'pedidos_tb': pedidos_tb,
