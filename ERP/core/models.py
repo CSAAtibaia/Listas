@@ -2,7 +2,6 @@ from django.db import models
 from enum import Enum
 #from datetime import datetime
 from django.contrib.auth.models import User
-from django.db.models.functions import Coalesce
 
 # Create your models here.
 
@@ -42,6 +41,7 @@ class Status(ChoiceEnum):
 
 class Partilha(models.Model):
     partilha = models.CharField('Partilha', max_length=50, unique=True)
+    icone = models.CharField('Ícone', max_length=50, null=True)
 
     def __str__(self):
         return self.partilha
