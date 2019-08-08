@@ -41,7 +41,7 @@ class Status(ChoiceEnum):
 
 class Partilha(models.Model):
     partilha = models.CharField('Partilha', max_length=50, unique=True)
-    icone = models.CharField('Ícone', max_length=50, null=True)
+    icone = models.CharField('Ícone', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.partilha
