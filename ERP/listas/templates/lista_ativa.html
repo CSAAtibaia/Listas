@@ -3,8 +3,8 @@
 {% block content %}
 
 <div class="page header">
-    <h2><i class="fa fa-ra"></i> Lista Ativa <i class="fa fa-empire"></i></h2>
-        <!--{{ coagris_tb }}-->
+    <h2><i class="fab fa-rebel rebel"></i> Lista Ativa <i class="fab fa-empire empire"></i></h2>
+        {{ locais_tb }}
         <p>
             <!-- botões de controle de collapse -->
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lista_ativa" aria-expanded="false" aria-controls="collapseExample">
@@ -52,24 +52,25 @@
         </div>
         <div class="collapse" id="locais">
             <!-- <p>{{ pedidos_item_tb }}</p> -->
-            {% regroup locais_tb by retira as retira_tb %}
-                {% for retira in retira_tb %}
+            {% regroup locais_tb|dictsort:"entrega" by entrega as entrega_tb %}
+                {% for entrega in entrega_tb %}
                 <hr>
-                    {% if retira.grouper %}
-                        <h3><i class="fa fa-check-circle ok"> Retira na Horta</i></h3>
+                    <h4>
+                    {% if entrega.grouper == "Retira" %}
+                        <i class="fab fa-pied-piper-alt ok"> Retira na Horta</i>
                     {% else %}
-                        <h3><i class="fa fa-minus-circle no"> Partilha</i></h3>
+                        <i class={{ entrega.icone }}> {{ entrega.grouper|title }}</i>
                     {% endif %}
 
-                    {% regroup retira.list by higieniza as higieniza_tb %}
+                    {% regroup entrega.list by higieniza as higieniza_tb %}
                     {% for higieniza in higieniza_tb %}
                         <!--<h4>{{ higieniza.grouper }}</h4>-->
                         {% if higieniza.grouper %}
-                            <h4><i class="fa fa-check-circle ok"> Higienizados</i></h4>
+                            <i class="fas fa-shower water"> Pré-Lavados</i>
                         {% else %}
-                            <h4><i class="fa fa-minus-circle no"> Natural</i></h4>
+                            <i class="fas fa-tint-slash ok">In Natura</i>
                         {% endif %}
-
+                    </h4>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
