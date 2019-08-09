@@ -14,24 +14,7 @@ def lista_itens(request):
 
     pedidos_item_tb = PedidoItem.objects.filter(pedido__lista_id = ativa_id)
 
-    int_locais_tb = pedidos_item_tb.values(
-            higieniza = F('pedido__user__coagri__higieniza'),
-            nomeitem = F('item__item__nome'),
-            icone = F('pedido__user__coagri__partilha__icone')
-        ).annotate(entrega=Case(
-                        When(pedido__retira=True, then=Value("Retira")),
-                        default=F('pedido__user__coagri__partilha__partilha'),
-                        output_field=CharField(),
-                        )
-        )
-    locais_tb = int_locais_tb.values(
-                'entrega', 'icone', 'higieniza', 'nomeitem'
-            ).order_by(
-                'entrega', 'icone', 'higieniza', 'nomeitem'
-            ).annotate(soma=Sum('qtde'))
-
     coagris_tb = pedidos_item_tb.values(
-            retira = F('pedido__retira'),
             higieniza = F('pedido__user__coagri__higieniza'),
             coagri = Coalesce(
                 Cast('pedido__user__coagri__apelido', CharField()),
@@ -39,7 +22,22 @@ def lista_itens(request):
                 ),
             nomeitem = F('item__item__nome'),
             total = F('qtde')
+        ).annotate(entrega=Case(
+                        When(pedido__retira=True, then=Value("Retira")),
+                        default=F('pedido__user__coagri__partilha__partilha'),
+                        output_field=CharField(),
+                        ),
+                    entrega_ico=Case(
+                        When(pedido__retira=True, then=Value("fab fa-pied-piper-alt ok")),
+                        default=F('pedido__user__coagri__partilha__icone'),
+                        output_field=CharField(),
+                        )
         )
+    locais_tb = coagris_tb.values(
+                'entrega', 'entrega_ico', 'higieniza', 'nomeitem'
+            ).order_by(
+                'entrega', 'entrega_ico', 'higieniza', 'nomeitem'
+            ).annotate(soma=Sum('qtde'))
 
     context={'ativa_tb': ativa_tb,
                 'locais_tb': locais_tb,
