@@ -13,6 +13,8 @@
 
 {% block content %}
 
+<!--<a href="{% url 'estoque:estoque_entrada_list' %}">Voltar</a>-->
+
 <form method="POST" novalidate>
     {% csrf_token %}
     {% for field in form.visible_fields %}
