@@ -132,3 +132,14 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
+
+
+#EMAIL
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Sistema CSAAtibaia <noreply@csaatibaia.com>'
