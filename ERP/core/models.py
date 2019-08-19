@@ -70,6 +70,7 @@ class CoAgri(models.Model):
 
     telefone = models.BigIntegerField('Telefone', null=True, blank=True)
     credito = models.IntegerField('Crédito Semanal', default = 8)
+    id_cota = models.IntegerField('Código Cota', null=True, blank=True)
 
     class Meta:
         ordering = ('user', 'apelido', )
