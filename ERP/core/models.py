@@ -50,6 +50,7 @@ class Item(models.Model):
     nome = models.CharField('Item', max_length=50, unique=True)
 
     class Meta:
+        verbose_name_plural = "Itens"
         ordering = ('nome',)
 
     def __str__(self):

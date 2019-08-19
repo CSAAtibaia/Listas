@@ -41,6 +41,7 @@ class PedidoItem(models.Model):
     #higieniza = pedido.user.coagri.higieniza
 
     class Meta:
+        verbose_name_plural = "Itens do Pedido"
         constraints = [
             models.UniqueConstraint(fields= ['pedido','item'],
             name = 'NaoRepetirItememPedido')

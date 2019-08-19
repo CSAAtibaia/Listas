@@ -38,6 +38,7 @@ class ItemLista(models.Model):
 #        return limite - #query pedido_item filter self.item & pedido filter lista filter ativa true agregate sum qtde
 
     class Meta:
+        verbose_name_plural = "Itens da Lista"
         ordering = ('lista', 'item')
         constraints = [
             models.UniqueConstraint(fields= ['lista','item'],
