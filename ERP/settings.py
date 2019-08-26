@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #3rd
     'widget_tweaks',
+    'bootstrapform',
     #myapps
     'ERP.core', 'ERP.listas', 'ERP.pedidos',
 ]
