@@ -7,6 +7,7 @@ class PedidoItemInline(admin.TabularInline):
     model = PedidoItem
 
 class PedidoAdmin(admin.ModelAdmin):
+    fields = (('user', 'lista', 'retira'),)
     inlines = [PedidoItemInline,
         ]
 
