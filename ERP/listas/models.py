@@ -1,5 +1,6 @@
 from django.db import models
 from ERP.core.models import Item
+from django.db import connection
 # Create your models here.
 
 class Lista(models.Model):
@@ -25,6 +26,11 @@ class Lista(models.Model):
             except Lista.DoesNotExist:
                 pass
         super(Lista, self).save(*args, **kwargs)
+        cursor = connection.cursor()
+        cursor.execute("insert into pedidos_pedido (lista_id, user_id, retira, created, modified) " +
+                        "select %i, c.user_id, false, NOW(), null from core_coagri c " +
+                        "where c.status like 'A%%' and c.user_id not in (select p.user_id from pedidos_pedido p where p.lista_id = %i)",
+                        [self.id])
 
 class ItemLista(models.Model):
     lista   = models.ForeignKey(Lista,

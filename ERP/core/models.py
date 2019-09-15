@@ -15,7 +15,7 @@ class TimeStampedModel(models.Model):
         'Modificado em',
         auto_now_add=False,
         auto_now=True,
-        blank=True
+        blank=True, null=True
     )
     class Meta:
         abstract = True
