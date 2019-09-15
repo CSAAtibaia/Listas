@@ -8,7 +8,7 @@ class ItemListaInline(admin.TabularInline):
     readonly_fields = ('saldo',)
 
 class ListaAdmin(admin.ModelAdmin):
-    list_display = ('data_ini', 'data_fim', 'publicada')
+    list_display = ('data_ini', 'data_fim', 'publicada', 'ativa')
     inlines = [ItemListaInline]
     date_hierarchy = 'data_fim'
 

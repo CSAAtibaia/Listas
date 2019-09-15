@@ -28,9 +28,9 @@ class Lista(models.Model):
         super(Lista, self).save(*args, **kwargs)
         cursor = connection.cursor()
         cursor.execute("insert into pedidos_pedido (lista_id, user_id, retira, created, modified) " +
-                        "select %i, c.user_id, false, NOW(), null from core_coagri c " +
-                        "where c.status like 'A%%' and c.user_id not in (select p.user_id from pedidos_pedido p where p.lista_id = %i)",
-                        [self.id])
+                        "select %s, c.user_id, false, NOW(), null from core_coagri c " +
+                        "where c.status like 'A%%' and c.user_id not in (select p.user_id from pedidos_pedido p where p.lista_id = %s)",
+                        ([self.id], [self.id]))
 
 class ItemLista(models.Model):
     lista   = models.ForeignKey(Lista,
