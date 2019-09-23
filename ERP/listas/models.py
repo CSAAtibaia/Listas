@@ -53,3 +53,14 @@ class ItemLista(models.Model):
 
     def __str__(self):
         return self.item.nome
+
+    def save(self, *args, **kwargs):
+        super(ItemLista, self).save(*args, **kwargs)
+        cursor = connection.cursor()
+        cursor.execute("insert into pedidos_pedidoitem (pedido_id, item_lista_id, qtde)" +
+                        "select distinct p.id, i.id, 0 from listas_itemlista i " +
+                        "inner join pedidos_pedido p on (i.lista_id = p.lista_id) " +
+                        "where i.lista_id = %s and not EXISTS (" +
+                        "select * from pedidos_pedidoitem pi " +
+                        "where p.id = pi.pedido_id and i.id = pi.item_lista_id)",
+                        [self.id])

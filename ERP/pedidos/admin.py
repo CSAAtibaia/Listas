@@ -8,19 +8,20 @@ class PedidoItemInline(admin.TabularInline):
     model = PedidoItem
 
 class PedidoAdmin(admin.ModelAdmin):
-    inlines = [PedidoItemInline,
-        ]
+    pass
+    #inlines = [PedidoItemInline,
+    #    ]
 
-class PedidoUser(admin.ModelAdmin):
-    inlines = [PedidoItemInline,
-        ]
-    exclude = ('user', 'lista',)
-    def save_model(self, request, obj, form, change):
-        if not change:
-            # the object is being created, so set the user
-            obj.user = request.user
-            obj.lista = Lista.objects.get(ativa=True)
-        obj.save()
+#class PedidoUser(admin.ModelAdmin):
+#    inlines = [PedidoItemInline,
+#        ]
+#    exclude = ('user', 'lista',)
+#    def save_model(self, request, obj, form, change):
+#        if not change:
+#            # the object is being created, so set the user
+#            obj.user = request.user
+#            obj.lista = Lista.objects.get(ativa=True)
+#        obj.save()
 
-#admin.site.register(Pedido, PedidoAdmin)
-admin.site.register(Pedido, PedidoUser)
+admin.site.register(Pedido, PedidoAdmin)
+#admin.site.register(Pedido, PedidoUser)

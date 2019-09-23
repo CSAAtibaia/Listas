@@ -31,22 +31,22 @@ class PedidoItem(models.Model):
     pedido  = models.ForeignKey(Pedido,
                                     on_delete=models.PROTECT)
 
-    item  = models.ForeignKey(ItemLista,
+    item_lista  = models.ForeignKey(ItemLista,
                                     on_delete=models.PROTECT,
                                     limit_choices_to={'lista_id': ativa_id},
                                     )
 
-    qtde    = models.IntegerField('Qtde', default = 1)
+    qtde    = models.IntegerField('Qtde', default = 0)
 
     #higieniza = pedido.user.coagri.higieniza
 
     class Meta:
-        verbose_name_plural = "Itens do Pedido"
+        verbose_name_plural = 'Itens do Pedido'
         constraints = [
-            models.UniqueConstraint(fields= ['pedido','item'],
+            models.UniqueConstraint(fields= ['pedido','item_lista'],
             name = 'NaoRepetirItememPedido')
             ]
-    def __str__(self):
-        return '{}/{}/{}'.format(self.pedido, self.item, self.qtde)
+    #def __str__(self):
+    #    return '{}/{}/{}'.format(self.pedido, self.item, self.qtde)
 
 
