@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from projeto.core.models import TimeStampedModel
-from projeto.produto.models import Produto
+from ERP.core.models import TimeStampedModel, Item
 from .managers import EstoqueEntradaManager, EstoqueSaidaManager
 
 
@@ -12,22 +11,22 @@ MOVIMENTO = (
 
 
 class Estoque(TimeStampedModel):
-    funcionario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    nf = models.PositiveIntegerField('nota fiscal', null=True, blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    #nf = models.PositiveIntegerField('nota fiscal', null=True, blank=True)
     movimento = models.CharField(max_length=1, choices=MOVIMENTO, blank=True)
 
     class Meta:
         ordering = ('-created',)
 
     def __str__(self):
-        if self.nf:
-            return '{} - {} - {}'.format(self.pk, self.nf, self.created.strftime('%d-%m-%Y'))
+#        if self.nf:
+#            return '{} - {} - {}'.format(self.pk, self.nf, self.created.strftime('%d-%m-%Y'))
         return '{} --- {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))
 
-    def nf_formated(self):
-        if self.nf:
-            return str(self.nf).zfill(3)
-        return '---'
+#    def nf_formated(self):
+#        if self.nf:
+#            return str(self.nf).zfill(3)
+#        return '---'
 
 
 class EstoqueEntrada(Estoque):
