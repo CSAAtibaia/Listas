@@ -35,8 +35,8 @@ class EstoqueEntrada(Estoque):
 
     class Meta:
         proxy = True
-        verbose_name = 'estoque entrada'
-        verbose_name_plural = 'estoque entrada'
+        verbose_name = 'Lista (Entrada)'
+        verbose_name_plural = 'Listas (Entradas)'
 
 
 class EstoqueSaida(Estoque):
@@ -45,8 +45,8 @@ class EstoqueSaida(Estoque):
 
     class Meta:
         proxy = True
-        verbose_name = 'estoque saída'
-        verbose_name_plural = 'estoque saída'
+        verbose_name = 'Pedido (Saída)'
+        verbose_name_plural = 'Pedidos (Saídas)'
 
 
 class EstoqueItens(models.Model):
@@ -55,7 +55,7 @@ class EstoqueItens(models.Model):
         on_delete=models.CASCADE,
         related_name='estoques'
     )
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
     saldo = models.PositiveIntegerField(blank=True)
 

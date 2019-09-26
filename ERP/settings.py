@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'bootstrapform',
     #myapps
-    'ERP.core', 'ERP.listas', 'ERP.pedidos',
+    'ERP.core', #'ERP.listas', 'ERP.pedidos',
+    'ERP.estoque',
 ]
 
 MIDDLEWARE = [
