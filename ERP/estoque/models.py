@@ -29,9 +29,9 @@ class Estoque(TimeStampedModel):
 #        return '---'
 
 
-class EstoqueEntrada(Estoque):
+class Lista(Estoque):
 
-    objects = EstoqueEntradaManager()
+    objects = ListaManager()
 
     class Meta:
         proxy = True
@@ -39,9 +39,9 @@ class EstoqueEntrada(Estoque):
         verbose_name_plural = 'Listas (Entradas)'
 
 
-class EstoqueSaida(Estoque):
+class Pedido(Estoque):
 
-    objects = EstoqueSaidaManager()
+    objects = PedidoManager()
 
     class Meta:
         proxy = True

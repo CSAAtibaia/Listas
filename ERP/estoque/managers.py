@@ -1,13 +1,13 @@
 from django.db import models
 
 
-class EstoqueEntradaManager(models.Manager):
+class ListaManager(models.Manager):
 
     def get_queryset(self):
-        return super(EstoqueEntradaManager, self).get_queryset().filter(movimento='e')
+        return super(ListaManager, self).get_queryset().filter(movimento='e')
 
 
-class EstoqueSaidaManager(models.Manager):
+class PedidoManager(models.Manager):
 
     def get_queryset(self):
-        return super(EstoqueSaidaManager, self).get_queryset().filter(movimento='s')
+        return super(PedidoManager, self).get_queryset().filter(movimento='s')
