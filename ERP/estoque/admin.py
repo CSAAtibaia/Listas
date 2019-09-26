@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import EstoqueEntrada, EstoqueSaida, EstoqueItens
+from .models import Lista, Pedido, EstoqueItens
 
 
 class EstoqueItensInline(admin.TabularInline):
@@ -7,19 +7,19 @@ class EstoqueItensInline(admin.TabularInline):
     extra = 0
 
 
-@admin.register(EstoqueEntrada)
-class EstoqueEntradaAdmin(admin.ModelAdmin):
+@admin.register(Lista)
+class ListaAdmin(admin.ModelAdmin):
     inlines = (EstoqueItensInline,)
-    list_display = ('__str__', 'nf', 'funcionario',)
-    search_fields = ('nf',)
-    list_filter = ('funcionario',)
+    list_display = ('__str__', 'usuario',)
+    #search_fields = ('nf',)
+    list_filter = ('usuario',)
     date_hierarchy = 'created'
 
 
-@admin.register(EstoqueSaida)
-class EstoqueSaidaAdmin(admin.ModelAdmin):
+@admin.register(Pedido)
+class PedidoAdmin(admin.ModelAdmin):
     inlines = (EstoqueItensInline,)
-    list_display = ('__str__', 'nf', 'funcionario',)
-    search_fields = ('nf',)
-    list_filter = ('funcionario',)
+    list_display = ('__str__', 'usuario',)
+    #search_fields = ('nf',)
+    list_filter = ('usuario',)
     date_hierarchy = 'created'

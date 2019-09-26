@@ -42,6 +42,6 @@ urlpatterns = [
     ),
 
     path('', include('ERP.core.urls')),
-    path('listas/', include('ERP.listas.urls')),
-    path('pedidos/', include('ERP.pedidos.urls')),
+    #path('listas/', include('ERP.listas.urls')),
+    #path('pedidos/', include('ERP.pedidos.urls')),
 ]
