@@ -38,6 +38,10 @@ class Lista(Estoque):
         verbose_name = 'Lista (Entrada)'
         verbose_name_plural = 'Listas (Entradas)'
 
+    def save(self, *args, **kwargs):
+        self.movimento = 'e'
+        super(Lista, self).save(*args, **kwargs)
+
 
 class Pedido(Estoque):
 
@@ -47,6 +51,9 @@ class Pedido(Estoque):
         proxy = True
         verbose_name = 'Pedido (Saída)'
         verbose_name_plural = 'Pedidos (Saídas)'
+    def save(self, *args, **kwargs):
+        self.movimento = 's'
+        super(Pedido, self).save(*args, **kwargs)
 
 
 class EstoqueItens(models.Model):

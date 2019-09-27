@@ -10,6 +10,7 @@ class EstoqueItensInline(admin.TabularInline):
 @admin.register(Lista)
 class ListaAdmin(admin.ModelAdmin):
     inlines = (EstoqueItensInline,)
+    exclude = ('movimento',)
     list_display = ('__str__', 'usuario',)
     #search_fields = ('nf',)
     list_filter = ('usuario',)
@@ -19,6 +20,7 @@ class ListaAdmin(admin.ModelAdmin):
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
     inlines = (EstoqueItensInline,)
+    exclude = ('movimento',)
     list_display = ('__str__', 'usuario',)
     #search_fields = ('nf',)
     list_filter = ('usuario',)
