@@ -3,8 +3,8 @@ from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView
-from projeto.produto.models import Produto
-from .models import Estoque, EstoqueEntrada, EstoqueSaida, EstoqueItens
+from ERP.core.models import Item as Produto
+from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm
 
 
