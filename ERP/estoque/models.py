@@ -32,6 +32,7 @@ class Estoque(TimeStampedModel):
 class Lista(Estoque):
 
     objects = ListaManager()
+    finaliza = models.DateField(verbose_name='Finaliza em', blank=True, null=True)
 
     class Meta:
         proxy = True
