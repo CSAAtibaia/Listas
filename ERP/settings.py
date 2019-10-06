@@ -147,5 +147,6 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Sistema CSAAtibaia <noreply@csaatibaia.com>'
 
 #login control
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = 'login/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'core:index'
