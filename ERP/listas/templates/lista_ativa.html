@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="page header">
-    <h2><i class="fa fa-ra"></i> Lista Ativa <i class="fa fa-empire"></i></h2>
+    <h1><i class="fas fa-seedling ok"></i> Lista Ativa <i class="fas fa-leaf ok"></i></h1>
         <p>
             <!-- botões de controle de collapse -->
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lista_ativa" aria-expanded="false" aria-controls="collapseExample">
@@ -14,24 +14,26 @@
                 Itens por Local
             </button>
 
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#pedidos" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#coagris" aria-expanded="false" aria-controls="collapseExample">
                 Itens por CoAgri
             </button>
         </p>
-        <div class="collapse" id="lista_ativa">
+        <div class="collapse" id="lista_ativa"> <h2>Itens da Lista Ativa</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Disponível</th>
                         <th>Item</th>
                         <th class="text-center">Oferta</th>
+                        <th>Sobras</th>
                         <th class="text-center">Saldo</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for object in ativa_tb %}
                         <tr>
+                            <td>{{ object.item|title }}</td>
+                            <td class="text-center">{{ object.limite }}</td>
                             <td>
                                 {% if object.saldo > 0 %}
                                     <i class="fa fa-check-circle ok"></i>
@@ -39,8 +41,6 @@
                                     <i class="fa fa-minus-circle no"></i>
                                 {% endif %}
                             </td>
-                            <td>{{ object.item }}</td>
-                            <td class="text-center">{{ object.limite }}</td>
                             <td class="text-center">{{ object.saldo }}</td>
                         </tr>
                     {% empty %}
@@ -49,49 +49,85 @@
                 </tbody>
             </table>
         </div>
-        <div class="collapse" id="locais">
-          <!--<div class="card card-body"> Ftaghn </div>-->
-            {% regroup pedidos_item_tb|dictsort:"retira" by pedidos_item_tb.pedido.retira as retira_list %}
-                <ul>
-                {% for retira in retira_list %}
-                    <li>{{ retira.grouper }}
-                    <ul>
-                        {% for item in retira.list %}
-                          <li>{{ item.item }}: {{ item.qtde }}</li>
-                        {% endfor %}
-                    </ul>
-                    </li>
-                {% empty %}
-                    <p class="alert alert-warning">Sem Lista Ativa Válida</p>
-                {% endfor %}
-                </ul>
-        </div>
-        <div class="collapse" id="pedidos">
-          <!--<div class="card card-body"> Ftaghn </div>-->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Higieniza</th>
-                        <th>Coagri</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for object in pedidos_tb %}
-                        <tr>
-                            <td>
-                                {% if object.user.coagri.higieniza %}
-                                    <i class="fa fa-check-circle ok"></i>
+        <div class="collapse" id="locais"> <h2>Itens por Locais de Entrega</h2>
+            {% regroup locais_tb|dictsort:"entrega" by entrega_ico as ico_tb %}
+                {% for ico in ico_tb %}
+                <hr>
+                    <h4>
+                        <i class="{{ ico.grouper }}">
+                    {% regroup ico.list|dictsort:"entrega" by entrega as entrega_tb %}
+                        {% for entrega in entrega_tb %}
+                            {{ entrega.grouper|title }}</i>
+                            {% regroup entrega.list by higieniza as higieniza_tb %}
+                            {% for higieniza in higieniza_tb %}
+                                <!--<h4>{{ higieniza.grouper }}</h4>-->
+                                {% if higieniza.grouper %}
+                                    <i class="fas fa-shower water"> Pré-Lavados</i>
                                 {% else %}
-                                    <i class="fa fa-minus-circle no"></i>
+                                    <i class="fas fa-tint-slash ok">In Natura</i>
                                 {% endif %}
-                            </td>
-                            <td>{{ object.user }}</td>
-                        </tr>
-                    {% empty %}
-                        <p class="alert alert-warning">Sem Pedidos Válidos para a Lista Ativa</p>
-                    {% endfor %}
-                </tbody>
-            </table>
+                            </h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qtde</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in higieniza.list %}
+                                            <tr>
+                                                <td>{{ item.nomeitem|title }}</td>
+                                                <td>{{ item.soma }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        {% endfor %}
+                {% endfor %}
+        </div>
+        <div class="collapse" id="coagris"> <h2>Itens por Coagri</h2>
+          <!--<div class="card card-body"> Ftaghn </div>-->
+            {% regroup coagris_tb|dictsort:"entrega" by entrega_ico as ico_tb %}
+                {% for ico in ico_tb %}
+                <hr>
+                    <h4>
+                        <i class="{{ ico.grouper }}">
+                    {% regroup ico.list|dictsort:"entrega" by entrega as entrega_tb %}
+                        {% for entrega in entrega_tb %}
+                            {{ entrega.grouper|title }}</i>
+                            {% regroup entrega.list|dictsort:"higieniza" by higieniza as higieniza_tb %}
+                            {% for higieniza in higieniza_tb %}
+                                <!--<h4>{{ higieniza.grouper }}</h4>-->
+                                {% if higieniza.grouper %}
+                                    <i class="fas fa-shower water"> Pré-Lavados</i>
+                                {% else %}
+                                    <i class="fas fa-tint-slash ok">In Natura</i>
+                                {% endif %}
+                                </h4>
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Coagri</th>
+                                            <th>Item</th>
+                                            <th>Qtde</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in higieniza.list|dictsort:"coagri" %}
+                                            <tr>
+                                                <td>{{ item.coagri|title }}</td>
+                                                <td>{{ item.nomeitem|title }}</td>
+                                                <td>{{ item.total }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        {% endfor %}
+            {% endfor %}
         </div>
 
 </div>

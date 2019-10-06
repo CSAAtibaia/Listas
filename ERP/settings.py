@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
 from decouple import config, Csv
 
@@ -40,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #3rd
     'widget_tweaks',
+    'bootstrapform',
     #myapps
-    'ERP.core', 'ERP.listas', 'ERP.pedidos',
+    'ERP.core', #'ERP.listas', 'ERP.pedidos',
+    'ERP.estoque',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'en-us' #'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -133,3 +134,14 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
+
+
+#EMAIL
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Sistema CSAAtibaia <noreply@csaatibaia.com>'

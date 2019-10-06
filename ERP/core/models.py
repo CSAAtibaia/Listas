@@ -15,7 +15,7 @@ class TimeStampedModel(models.Model):
         'Modificado em',
         auto_now_add=False,
         auto_now=True,
-        blank=True
+        blank=True, null=True
     )
     class Meta:
         abstract = True
@@ -41,6 +41,7 @@ class Status(ChoiceEnum):
 
 class Partilha(models.Model):
     partilha = models.CharField('Partilha', max_length=50, unique=True)
+    icone = models.CharField('Ícone', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.partilha
@@ -49,6 +50,7 @@ class Item(models.Model):
     nome = models.CharField('Item', max_length=50, unique=True)
 
     class Meta:
+        verbose_name_plural = "Itens"
         ordering = ('nome',)
 
     def __str__(self):
@@ -61,16 +63,26 @@ class CoAgri(models.Model):
     dt_nascimento = models.DateField('Data de Nascimento', null=True, blank=True)
     apelido = models.CharField('Apelido', max_length=50, unique=True, null=True, blank=True)
     tipo = models.CharField('Tipo', choices=Tipo.choices(), default=Tipo.COTISTA, max_length=15, null=True, blank=True)
-    status = models.CharField('Status', choices=Status.choices(), default=Status.ATIVO, max_length=15, null=True, blank=True)
+    status = models.CharField('Status', choices=Status.choices(), default=Status.ATIVO, max_length=15)
     higieniza = models.BooleanField('Higieniza', default=False)
     partilha = models.ForeignKey(Partilha,
                                         on_delete=models.PROTECT, null=True, blank=True)
 
     telefone = models.BigIntegerField('Telefone', null=True, blank=True)
     credito = models.IntegerField('Crédito Semanal', default = 8)
+    id_cota = models.IntegerField('Código Cota', null=True, blank=True)
 
     class Meta:
         ordering = ('user', 'apelido', )
 
     def __str__(self):
-        return self.user.username
+        if self.apelido:
+            x = self.apelido
+        elif self.user.first_name:
+            x = '{} {}'.format(self.user.first_name, self.user.last_name).strip()
+        elif self.user.email:
+            x = self.user.email
+        else:
+            x = self.user.username
+        return x
+
