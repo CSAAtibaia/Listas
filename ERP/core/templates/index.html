@@ -8,5 +8,12 @@
         <p>Controle de Pedidos Semanais</p>
     </div>
 </div>
-
+<div class="container">
+  {% if user.is_authenticated %}
+    Olá {{ user.username }}!
+  {% else %}
+  <p>Você não está logado.</p>
+  <a href="{% url 'login' %}">login</a>
+  {% endif %}
+</div>
 {% endblock content %}

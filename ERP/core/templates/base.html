@@ -27,12 +27,6 @@
   <body>
     {% include "includes/nav.html" %}
     <div class="container">
-      {% if user.is_authenticated %}
-        Olá {{ user.username }}!
-      {% else %}
-      <p>Você não está logado.</p>
-      <a href="{% url 'login' %}">login</a>
-      {% endif %}
       {% block content %}{% endblock content%}
     </div>
     <!-- Optional JavaScript -->
