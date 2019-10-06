@@ -43,5 +43,6 @@ urlpatterns = [
 
     path('', include('ERP.core.urls')),
     path('estoque/', include('ERP.estoque.urls')),
-    #path('pedidos/', include('ERP.pedidos.urls')),
+
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]

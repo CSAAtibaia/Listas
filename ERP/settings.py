@@ -145,3 +145,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Sistema CSAAtibaia <noreply@csaatibaia.com>'
+
+#login control
+LOGIN_URL = '/admin/login/'
+LOGOUT_REDIRECT_URL = 'core:index'
