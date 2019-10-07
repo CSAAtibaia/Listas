@@ -15,7 +15,7 @@ def estoque_entrada_list(request):
     context = {
         'object_list': objects,
         'titulo': 'Lista',
-        'url_add': 'estoque:estoque_entrada_add'
+        'url_add': 'estoque:estoque_entrada_add',
     }
     return render(request, template_name, context)
 
@@ -76,7 +76,7 @@ def estoque_add(request, template_name, movimento, url):
         )
         if form.is_valid() and formset.is_valid():
             form = form.save(commit=False)
-            form.funcionario = request.user
+            form.usuario = request.user
             form.movimento = movimento
             form.save()
             formset.save()

@@ -1,7 +1,6 @@
 from django import forms
 from .models import Estoque, EstoqueItens
 
-
 class EstoqueForm(forms.ModelForm):
 
     class Meta:
