@@ -1,3 +1,4 @@
+
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
@@ -13,7 +14,7 @@ def estoque_entrada_list(request):
     objects = EstoqueEntrada.objects.all()
     context = {
         'object_list': objects,
-        'titulo': 'Entrada',
+        'titulo': 'Lista',
         'url_add': 'estoque:estoque_entrada_add'
     }
     return render(request, template_name, context)
@@ -25,7 +26,7 @@ class EstoqueEntradaList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EstoqueEntradaList, self).get_context_data(**kwargs)
-        context['titulo'] = 'Entrada'
+        context['titulo'] = 'Lista'
         context['url_add'] = 'estoque:estoque_entrada_add'
         return context
 
@@ -61,7 +62,7 @@ def estoque_add(request, template_name, movimento, url):
         Estoque,
         EstoqueItens,
         form=EstoqueItensForm,
-        extra=0,
+        extra=3,
         can_delete=False,
         min_num=1,
         validate_min=True,
@@ -104,7 +105,7 @@ def estoque_saida_list(request):
     objects = EstoqueSaida.objects.all()
     context = {
         'object_list': objects,
-        'titulo': 'Saída',
+        'titulo': 'Pedido',
         'url_add': 'estoque:estoque_saida_add'
     }
     return render(request, template_name, context)
@@ -116,7 +117,7 @@ class EstoqueSaidaList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
-        context['titulo'] = 'Saída'
+        context['titulo'] = 'Pedido'
         context['url_add'] = 'estoque:estoque_saida_add'
         return context
 

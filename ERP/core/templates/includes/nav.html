@@ -12,27 +12,35 @@
         <a class="nav-link" href="{% url 'core:index' %}">Home <span class="sr-only">(current)</span></a>
       </li>
       {% if user.is_superuser %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'estoque:estoque_entrada_list' %}">Lista</a>
-      </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'estoque:estoque_entrada_add' %}">Criar Lista</a>
+          </li>
       {% endif %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Relatórios
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Lista Ativa</a>
-          <a class="dropdown-item" href="#">Pedidos por Coagri</a>
-          <a class="dropdown-item" href="#">Pedidos por Local</a>
-          <div class="dropdown-divider">Histórico</div>
-          <a class="dropdown-item" href="#">Listas</a>
-          <a class="dropdown-item" href="#">Pedidos</a>
-          <div class="dropdown-divider">Admin</div>
-          <a class="dropdown-item" href="#">Usuários e Coagris</a>
-          <a class="dropdown-item" href="#">Itens da Horta</a>
-          <a class="dropdown-item" href="#">Locais</a>
-        </div>
-      </li>
+      {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'estoque:estoque_saida_add' %}">Fazer Pedido</a>
+          </li>
+      {% endif %}
+      {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Relatórios
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Lista Ativa</a>
+              <a class="dropdown-item" href="#">Pedidos por Coagri</a>
+              <a class="dropdown-item" href="#">Pedidos por Local</a>
+              <div class="dropdown-divider">Histórico</div>
+              <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_list' %}">Listas</a>
+              <a class="dropdown-item" href="{% url 'estoque:estoque_saida_list' %}">Pedidos</a>
+              {% if user.is_superuser %}
+                  <div class="dropdown-divider">Admin</div>
+                  <a class="dropdown-item" href="{% url 'admin:auth_user_changelist' %}">Usuários e Coagris</a>
+                  <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Home</a>
+              {% endif %}
+            </div>
+          </li>
+      {% endif %}
     </ul>
     {% if user.is_authenticated %}
       <ul class="navbar-nav px-3">
