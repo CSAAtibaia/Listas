@@ -10,9 +10,9 @@ class EstoqueForm(forms.ModelForm):
 
 class EstoqueItensForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-       super(EstoqueItensForm, self).__init__(*args, **kwargs)
-       self.fields['saldo'].widget.attrs['readonly'] = True
+    #def __init__(self, *args, **kwargs):
+    #   super(EstoqueItensForm, self).__init__(*args, **kwargs)
+    #   self.fields['saldo'].widget.attrs['readonly'] = True
 
     class Meta:
         model = EstoqueItens
