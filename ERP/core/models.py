@@ -2,6 +2,7 @@ from django.db import models
 from enum import Enum
 #from datetime import datetime
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 # Create your models here.
 
@@ -47,14 +48,26 @@ class Partilha(models.Model):
         return self.partilha
 
 class Item(models.Model):
-    nome = models.CharField('Item', max_length=50, unique=True)
+
+    produto = models.CharField('Item', max_length=50, unique=True)
+    estoque = models.IntegerField('estoque atual')
+
+    def get_absolute_url(self):
+        return reverse_lazy('core:produto_detail', kwargs={'pk': self.pk})
+
+    def to_dict_json(self):
+        return {
+            'pk': self.pk,
+            'produto': self.produto,
+            'estoque': self.estoque,
+        }
 
     class Meta:
         verbose_name_plural = "Itens"
-        ordering = ('nome',)
+        ordering = ('produto',)
 
     def __str__(self):
-        return self.nome
+        return self.produto
 
 class CoAgri(models.Model):
 

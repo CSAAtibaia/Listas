@@ -3,7 +3,13 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from ERP.core.models import CoAgri, Item, Partilha
 
-# Register your models here.
+
+class ItemAdmin(admin.ModelAdmin):
+    list_display = (
+        '__str__',
+        'estoque',
+    )
+    search_fields = ('produto',)
 
 class CoAgriInline(admin.StackedInline):
     model = CoAgri
@@ -20,5 +26,5 @@ admin.site.index_title = 'Admin'
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Item)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(Partilha)
