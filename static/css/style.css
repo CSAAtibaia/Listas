@@ -1,0 +1,18 @@
+        body {
+            margin top: 60px;
+        }
+        .water {
+            color: #3366ff;
+        }
+        .empire {
+            color: gray;
+        }
+        .rebel {
+            color: #cc0000;
+        }
+        .ok {
+            color: green;
+        }
+        .no {
+            color: red;
+        }

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #3rd
+    'django_extensions',
     'widget_tweaks',
     'bootstrapform',
     #myapps
@@ -133,9 +134,8 @@ DATE_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y',]
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
 STATIC_URL = '/static/'
-
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #EMAIL
 
