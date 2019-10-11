@@ -5,4 +5,6 @@ app_name = 'core'
 
 urlpatterns = [
     path('', v.index, name='index'),
+    path('produto/<int:pk>/json/', v.produto_json, name='produto_json'),
+
     ]
