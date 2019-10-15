@@ -7,7 +7,9 @@
 <h2>Login</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Login</button>
+  <div class="container">
+	{{ form.as_p }}
+  	<button type="submit" class="btn btn-primary">Login</button>
+  </div>
 </form>
 {% endblock %}
