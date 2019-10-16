@@ -30,4 +30,4 @@ class ListaItensForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['estoque'].queryset = EstoqueItens.objects.filter(saldo__gt=0)
+        self.fields['produto'].queryset = EstoqueItens.objects.filter(saldo__gt=0)
