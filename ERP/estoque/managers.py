@@ -12,7 +12,7 @@ class PedidoManager(models.Manager):
     def get_queryset(self):
         return super(PedidoManager, self).get_queryset().filter(movimento='s')
 
-class ListaItensManager(models.Manager):
-
-    def get_queryset(self):
-        return super(ListaItensManager, self).get_queryset().filter(saldo__gt = 0)
+#class ListaItensManager(models.Manager):
+#
+#    def get_queryset(self):
+#        return super(ListaItensManager, self).get_queryset().filter(saldo__gt = 0)

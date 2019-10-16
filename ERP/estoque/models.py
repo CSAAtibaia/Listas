@@ -73,14 +73,14 @@ class EstoqueItens(models.Model):
     def __str__(self):
         return '{} - {} - {}'.format(self.pk, self.estoque.pk, self.produto)
 
-class ListaItens(EstoqueItens):
-
-    objects = ListaItensManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = 'Itens da Lista (Saída)'
-        verbose_name_plural = 'Itens da Lista (Saídas)'
-    def save(self, *args, **kwargs):
-        super(ListaItens, self).save(*args, **kwargs)
+#class ListaItens(EstoqueItens):
+#
+#    objects = ListaItensManager()
+#
+#    class Meta:
+#        proxy = True
+#        verbose_name = 'Itens da Lista (Saída)'
+#        verbose_name_plural = 'Itens da Lista (Saídas)'
+#    def save(self, *args, **kwargs):
+#        super(ListaItens, self).save(*args, **kwargs)
 
