@@ -18,12 +18,16 @@ class EstoqueItensForm(forms.ModelForm):
         model = EstoqueItens
         fields = '__all__'
 
-#class ListaItensForm(forms.ModelForm):
+class ListaItensForm(forms.ModelForm):
 
     #def __init__(self, *args, **kwargs):
     #   super(EstoqueItensForm, self).__init__(*args, **kwargs)
     #   self.fields['saldo'].widget.attrs['readonly'] = True
 
-#    class Meta:
-#        model = ListaItens
-#        fields = '__all__'
+    class Meta:
+        model = EstoqueItens
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['estoque'].queryset = EstoqueItens.objects.filter(saldo__gt=0)
