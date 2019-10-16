@@ -5,8 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView
 from ERP.core.models import Item as Produto
-from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens, ListaItens
-from .forms import EstoqueForm, EstoqueItensForm, ListaItensForm
+from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens #, ListaItens
+from .forms import EstoqueForm, EstoqueItensForm #, ListaItensForm
 
 
 def estoque_entrada_list(request):
