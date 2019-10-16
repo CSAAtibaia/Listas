@@ -15,4 +15,4 @@ class PedidoManager(models.Manager):
 class ListaItensManager(models.Manager):
 
     def get_queryset(self):
-        return super(ListaItensManager, self).get_queryset().filter(saldo>0)
+        return super(ListaItensManager, self).get_queryset().filter(saldo__gt = 0)
