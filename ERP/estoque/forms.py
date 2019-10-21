@@ -1,5 +1,8 @@
 from django import forms
+import logging
 from .models import Estoque, EstoqueItens #, ListaItens
+
+logger = logging.getLogger(__name__)
 
 class EstoqueForm(forms.ModelForm):
 
@@ -28,6 +31,9 @@ class ListaItensForm(forms.ModelForm):
         model = EstoqueItens
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['produto'].queryset = EstoqueItens.objects.filter(saldo__gt=0)
+    #def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    logger.error(self)
+    #    logger.error(args)
+    #    logger.error(kwargs)
+        #self.fields['produto'].queryset = EstoqueItens.objects.filter(saldo__gt=0).values('produto', 'produto__produto')

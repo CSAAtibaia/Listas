@@ -137,7 +137,7 @@ def pedido_add(request, template_name, movimento, url):
     item_estoque_formset = inlineformset_factory(
         Estoque,
         EstoqueItens,
-        form=ListaItensForm,
+        form=EstoqueItensForm,
         extra=0,
         can_delete=False,
         min_num=1,
