@@ -31,9 +31,10 @@ class ListaItensForm(forms.ModelForm):
         model = EstoqueItens
         fields = '__all__'
 
-    #def __init__(self, *args, **kwargs):
-    #    super().__init__(*args, **kwargs)
-    #    logger.error(self)
-    #    logger.error(args)
-    #    logger.error(kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        logger.error(self)
+        logger.error(args)
+        logger.error(kwargs)
         #self.fields['produto'].queryset = EstoqueItens.objects.filter(saldo__gt=0).values('produto', 'produto__produto')
+        self.fields['produto'].choices= [(EstoqueItens.produto.id, EstoqueItens.produto.produto) for produto in EstoqueItens.objects.filter(saldo__gt=0)]
