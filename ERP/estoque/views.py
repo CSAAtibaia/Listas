@@ -5,8 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView
 from ERP.core.models import Item as Produto
-from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens #, ListaItens
-from .forms import EstoqueForm, EstoqueItensForm, ListaItensForm
+from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
+from .forms import EstoqueForm, EstoqueItensForm
 
 
 def estoque_entrada_list(request):
@@ -132,45 +132,12 @@ def estoque_saida_detail(request, pk):
     return render(request, template_name, context)
 
 
-def pedido_add(request, template_name, movimento, url):
-    estoque_form = Estoque()
-    item_estoque_formset = inlineformset_factory(
-        Estoque,
-        EstoqueItens,
-        form=ListaItensForm,
-        extra=0,
-        can_delete=False,
-        min_num=1,
-        validate_min=True,
-    )
-    if request.method == 'POST':
-        form = EstoqueForm(request.POST, instance=estoque_form, prefix='main')
-        formset = item_estoque_formset(
-            request.POST,
-            instance=estoque_form,
-            prefix='estoque'
-        )
-        if form.is_valid() and formset.is_valid():
-            form = form.save(commit=False)
-            form.usuario = request.user
-            form.movimento = movimento
-            form.save()
-            formset.save()
-            dar_baixa_estoque(form)
-            return {'pk': form.pk}
-    else:
-        form = EstoqueForm(instance=estoque_form, prefix='main')
-        formset = item_estoque_formset(instance=estoque_form, prefix='estoque')
-    context = {'form': form, 'formset': formset}
-    return context
-
-
 @login_required
 def estoque_saida_add(request):
     template_name = 'estoque_saida_form.html'
     movimento = 's'
     url = 'estoque:estoque_detail'
-    context = pedido_add(request, template_name, movimento, url)
+    context = estoque_add(request, template_name, movimento, url)
     if context.get('pk'):
         return HttpResponseRedirect(resolve_url(url, context.get('pk')))
     return render(request, template_name, context)

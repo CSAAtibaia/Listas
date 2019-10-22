@@ -50,7 +50,7 @@ class Partilha(models.Model):
 class Item(models.Model):
 
     produto = models.CharField('Item', max_length=50, unique=True)
-    estoque = models.IntegerField('estoque atual')
+    estoque = models.IntegerField('estoque atual', default=0)
 
     def get_absolute_url(self):
         return reverse_lazy('core:produto_detail', kwargs={'pk': self.pk})
