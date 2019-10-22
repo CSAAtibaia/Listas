@@ -14,6 +14,7 @@ class Estoque(TimeStampedModel):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     #nf = models.PositiveIntegerField('nota fiscal', null=True, blank=True)
     movimento = models.CharField(max_length=1, choices=MOVIMENTO, blank=True)
+    aberto = models.BooleanField(default=True)
     finaliza = models.DateField(verbose_name='Finaliza em', blank=True, null=True)
 
     class Meta:
@@ -42,6 +43,13 @@ class Lista(Estoque):
     def save(self, *args, **kwargs):
         self.movimento = 'e'
         super(Lista, self).save(*args, **kwargs)
+        cursor = connection.cursor()
+        #insere preemptivo pedido
+        cursor.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
+                        "select NOW(), null, 's', c.user_id, null, True from core_coagri c " +
+                        "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
+                        "where p.aberto = True and p.movimento = 's')"
+                        )
 
 
 class Pedido(Estoque):
