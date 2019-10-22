@@ -57,8 +57,8 @@ $(document).on('change', '.clProduto', function() {
     type: 'GET',
     success: function(response) {
       estoque = response.data[0].estoque
-      campo = 0
-      estoque_inicial = 0
+      campo = self.attr('id').replace('produto', 'quantidade')
+      estoque_inicial = self.attr('id').replace('produto', 'inicial')
       // Estoque inicial.
       $('#'+estoque_inicial).val(estoque)
       // Remove o valor do campo 'quantidade'
