@@ -36,14 +36,13 @@ class Lista(Estoque):
     def save(self, *args, **kwargs):
         self.movimento = 'e'
         super(Lista, self).save(*args, **kwargs)
-        cursor = connection.cursor()
+        cursor1 = connection.cursor()
         #insere preemptivo pedido
-        cursor.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
+        cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
                         "select NOW(), null, 's', c.user_id, null, True from core_coagri c " +
                         "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
                         "where p.aberto = True and p.movimento = 's')"
                         )
-
 
 class Pedido(Estoque):
 
@@ -53,6 +52,14 @@ class Pedido(Estoque):
         proxy = True
         verbose_name = 'Pedido (Saída)'
         verbose_name_plural = 'Pedidos (Saídas)'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        cursor2 = connection.cursor()
+        cursor2.execute("insert into estoque_estoqueitens (quantidade, saldo, estoque_id, produto_id) " +
+                        "select 0, i.estoque, e.id, i.id from core_item i, estoque_estoque e " +
+                        "where i.estoque > 0 and i.id not in (select p.produto_id from estoque_estoqueitens p where p.estoque_id = e.id) " +
+                        "and e.movimento = 's' and e.aberto = True")
 
     def save(self, *args, **kwargs):
         self.movimento = 's'
