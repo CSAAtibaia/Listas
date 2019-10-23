@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from ERP.core.models import TimeStampedModel, Item
-from .managers import ListaManager, PedidoManager #, ListaItensManager
+from .managers import ListaManager, PedidoManager
+from django.db import connection
 
 
 MOVIMENTO = (
@@ -12,7 +13,6 @@ MOVIMENTO = (
 
 class Estoque(TimeStampedModel):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    #nf = models.PositiveIntegerField('nota fiscal', null=True, blank=True)
     movimento = models.CharField(max_length=1, choices=MOVIMENTO, blank=True)
     aberto = models.BooleanField(default=True)
     finaliza = models.DateField(verbose_name='Finaliza em', blank=True, null=True)
@@ -21,14 +21,7 @@ class Estoque(TimeStampedModel):
         ordering = ('-created',)
 
     def __str__(self):
-#        if self.nf:
-#            return '{} - {} - {}'.format(self.pk, self.nf, self.created.strftime('%d-%m-%Y'))
         return '{} --- {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))
-
-#    def nf_formated(self):
-#        if self.nf:
-#            return str(self.nf).zfill(3)
-#        return '---'
 
 
 class Lista(Estoque):
@@ -60,6 +53,7 @@ class Pedido(Estoque):
         proxy = True
         verbose_name = 'Pedido (Saída)'
         verbose_name_plural = 'Pedidos (Saídas)'
+
     def save(self, *args, **kwargs):
         self.movimento = 's'
         super(Pedido, self).save(*args, **kwargs)
