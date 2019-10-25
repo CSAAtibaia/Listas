@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 from ERP.core.models import Item as Produto
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm
@@ -141,3 +141,19 @@ def estoque_saida_add(request):
     if context.get('pk'):
         return HttpResponseRedirect(resolve_url(url, context.get('pk')))
     return render(request, template_name, context)
+
+
+class PedidoDetail(UpdateView):
+    model = Estoque
+    template_name = 'estoque_detail.html'
+
+@login_required
+def pedido_view(request):
+    template_name = 'estoque_detail.html'
+    obj = EstoqueSaida.objects.filter(aberto=True).get(usuario=request.user)
+    context = {
+        'object': obj,
+        'url_list': 'estoque:estoque_saida_list'
+    }
+    return render(request, template_name, context)
+

@@ -18,10 +18,10 @@ class Estoque(TimeStampedModel):
     finaliza = models.DateField(verbose_name='Finaliza em', blank=True, null=True)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('-usuario',)
 
     def __str__(self):
-        return '{} --- {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))
+        return '{} - {} - {}'.format(self.usuario, self.finaliza.strftime('%d-%m-%Y'), self.pk)
 
 
 class Lista(Estoque):
@@ -39,10 +39,10 @@ class Lista(Estoque):
         cursor1 = connection.cursor()
         #insere preemptivo pedido
         cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
-                        "select NOW(), null, 's', c.user_id, null, True from core_coagri c " +
+                        "select NOW(), null, 's', c.user_id, %d, True from core_coagri c " +
                         "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
-                        "where p.aberto = True and p.movimento = 's')"
-                        )
+                        "where p.aberto = True and p.movimento = 's')",
+                        [self.finaliza])
 
 class Pedido(Estoque):
 
