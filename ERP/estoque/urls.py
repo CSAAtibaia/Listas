@@ -16,7 +16,6 @@ saida_patterns = [
 ]
 
 urlpatterns = [
-	path('pedido/', v.PedidoDetail.as_view(), name='pedido_view'),
     path('<int:pk>/', v.EstoqueDetail.as_view(), name='estoque_detail'),
     path('entrada/', include(entrada_patterns)),
     path('saida/', include(saida_patterns)),

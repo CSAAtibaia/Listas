@@ -143,10 +143,6 @@ def estoque_saida_add(request):
     return render(request, template_name, context)
 
 
-class PedidoDetail(UpdateView):
-    model = Estoque
-    template_name = 'estoque_detail.html'
-
 @login_required
 def pedido_view(request):
     template_name = 'estoque_detail.html'

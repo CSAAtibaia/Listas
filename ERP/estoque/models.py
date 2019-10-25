@@ -21,7 +21,11 @@ class Estoque(TimeStampedModel):
         ordering = ('-usuario',)
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.usuario, self.finaliza.strftime('%d-%m-%Y'), self.pk)
+        try:
+            fim = self.finaliza.strftime('%d-%m-%Y')
+        except:
+            fim = None
+        return '{} - {} - {}'.format(self.usuario, fim, self.pk)
 
 
 class Lista(Estoque):
