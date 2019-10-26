@@ -6,7 +6,9 @@ from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView, UpdateView
 from ERP.core.models import Item as Produto
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
-from .forms import EstoqueForm, EstoqueItensForm
+from .forms import EstoqueForm, EstoqueItensForm, PedidoForm, PedidoFormSet
+from django.urls import reverse_lazy
+from django.db import transaction
 
 
 def estoque_entrada_list(request):
@@ -144,12 +146,30 @@ def estoque_saida_add(request):
 
 
 @login_required
-def pedido_view(request):
-    template_name = 'estoque_detail.html'
-    obj = EstoqueSaida.objects.filter(aberto=True).get(usuario=request.user)
-    context = {
-        'object': obj,
-        'url_list': 'estoque:estoque_saida_list'
-    }
-    return render(request, template_name, context)
+class PedidoUpdate(UpdateView):
+    model = EstoqueSaida
+    template_name = 'pedido_update.html'
+    form_class = PedidoForm
+    success_url = None
 
+    def get_context_data(self, **kwargs):
+        data = super(PedidoUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['titles'] = PedidoFormSet(self.request.POST, instance=self.object)
+        else:
+            data['titles'] = PedidoFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        quantidade = context['quantidade']
+        with transaction.atomic():
+            form.instance.created_by = self.request.user
+            self.object = form.save()
+            if quantidade.is_valid():
+                quantidade.instance = self.object
+                quantidade.save()
+        return super(PedidoUpdate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('estoque:estoque_saida_list', kwargs={'pk': self.object.pk})
