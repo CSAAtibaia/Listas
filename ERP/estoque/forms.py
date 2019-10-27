@@ -21,10 +21,4 @@ class PedidoForm(forms.ModelForm):
 
     class Meta:
         model = Estoque
-        exclude = ()
-
-
-PedidoFormSet = inlineformset_factory(
-    Estoque, EstoqueItens, form=PedidoForm,
-    fields=['produto', 'quantidade', 'saldo'], extra=0, can_delete=True
-    )
+        fields = '__all__'

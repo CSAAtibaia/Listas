@@ -146,30 +146,23 @@ def estoque_saida_add(request):
 
 
 @login_required
-class PedidoUpdate(UpdateView):
-    model = EstoqueSaida
-    template_name = 'pedido_update.html'
-    form_class = PedidoForm
-    success_url = None
+def pedido_edit(request):
+    pedido = EstoqueSaida.objects.get(aberto=True, usuario=request.user)
+    return pedido_manager(request, pedido)
 
-    def get_context_data(self, **kwargs):
-        data = super(PedidoUpdate, self).get_context_data(**kwargs)
-        if self.request.POST:
-            data['titles'] = PedidoFormSet(self.request.POST, instance=self.object)
-        else:
-            data['titles'] = PedidoFormSet(instance=self.object)
-        return data
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        quantidade = context['quantidade']
-        with transaction.atomic():
-            form.instance.created_by = self.request.user
-            self.object = form.save()
-            if quantidade.is_valid():
-                quantidade.instance = self.object
-                quantidade.save()
-        return super(PedidoUpdate, self).form_valid(form)
+def pedido_manager(request, pedido):
+    pedido_itens_formset = inlineformset_factory(EstoqueSaida, EstoqueItens, extra=0)
 
-    def get_success_url(self):
-        return reverse_lazy('estoque:estoque_saida_list', kwargs={'pk': self.object.pk})
+    form = PedidoForm(request.POST or None, instance=pedido)
+    formset = pedido_itens_formset(request.POST or None, instance=pedido)
+
+    if form.is_valid() and formset.is_valid():
+        form.save()
+        formset.save()
+        return HttpResponseRedirect('/estoque/saida/')
+
+    return render_to_response("pedido_edit.html",
+        {"formset": formset,
+        "form": form},
+        RequestContext(request))
