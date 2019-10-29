@@ -1,15 +1,14 @@
-
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView #, UpdateView
 from ERP.core.models import Item as Produto
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
-from .forms import EstoqueForm, EstoqueItensForm, PedidoForm, PedidoFormSet
-from django.urls import reverse_lazy
-from django.db import transaction
+from .forms import EstoqueForm, EstoqueItensForm, PedidoForm
+import logging
 
+logger = logging.getLogger(__name__)
 
 def estoque_entrada_list(request):
     template_name = 'estoque_list.html'
@@ -147,22 +146,27 @@ def estoque_saida_add(request):
 
 @login_required
 def pedido_edit(request):
-    pedido = EstoqueSaida.objects.get(aberto=True, usuario=request.user)
+    pedido = Estoque.objects.get(aberto=True, usuario=request.user, movimento='s')
     return pedido_manager(request, pedido)
 
 
 def pedido_manager(request, pedido):
-    pedido_itens_formset = inlineformset_factory(EstoqueSaida, EstoqueItens, extra=0)
-
+    pedido_itens_formset = inlineformset_factory(
+                                EstoqueSaida,
+                                EstoqueItens,
+                                extra=0,
+                                fields='__all__',
+                                can_delete=False)
     form = PedidoForm(request.POST or None, instance=pedido)
-    formset = pedido_itens_formset(request.POST or None, instance=pedido)
-
+    logger.error(form)
+    formset = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
+    logger.error(formset)
     if form.is_valid() and formset.is_valid():
         form.save()
         formset.save()
         return HttpResponseRedirect('/estoque/saida/')
 
-    return render_to_response("pedido_edit.html",
-        {"formset": formset,
-        "form": form},
-        RequestContext(request))
+#    return render_to_response("pedido_edit.html",
+#        {"formset": formset,
+#        "form": form},
+#        RequestContext(request))

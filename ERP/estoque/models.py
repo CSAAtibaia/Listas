@@ -25,7 +25,11 @@ class Estoque(TimeStampedModel):
             fim = self.finaliza.strftime('%d-%m-%Y')
         except:
             fim = None
-        return '{} - {} - {}'.format(self.usuario, fim, self.pk)
+        try:
+            coagri = self.usuario
+        except:
+            coagri = None
+        return '{} - {} - {}'.format(coagri, fim, self.pk)
 
 
 class Lista(Estoque):

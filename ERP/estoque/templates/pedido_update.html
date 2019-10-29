@@ -2,21 +2,21 @@
 
 {% block content %}
   <a href="{% url 'estoque:estoque_saida_list' %}">Voltar</a>
-  <h1>Pedido: {{ object }}</h1>
 
 <table>
     <thead>
-        {% for form in Formset.forms %}
+        {{ formset.management_form }}
+        {% for tabula in formset.forms %}
             {% if forloop.first %}
-                {% for field in form %}
-                    <th>{{ field.label_tag }}</th>
+                {% for campo in tabula %}
+                    <th>{{ campo.label_tag }}</th>
                 {% endfor %}
             {% endif %}
     </thead>
     <tbody>
             <tr>
-                {% for field in form %}
-                    <td>{{ field }}</td>
+                {% for campo in tabula %}
+                    <td>{{ campo }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}
