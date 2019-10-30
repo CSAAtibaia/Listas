@@ -1,26 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <a href="{% url 'estoque:estoque_saida_list' %}">Voltar</a>
 
-<table>
+<a href="{% url 'estoque:estoque_saida_list' %}">Listagem</a>
+
+<h3>Pedido:</h3>
+<p> {{ form.usuario }} para {{ form.finaliza }} </p>
+
+<table class="table table-hover">
     <thead>
         {{ formset.management_form }}
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Saldo</th>
+        </tr>
+    </thead>
         {% for tabula in formset.forms %}
             {% if forloop.first %}
                 {% for campo in tabula %}
-                    <th>{{ campo.label_tag }}</th>
                 {% endfor %}
             {% endif %}
-    </thead>
     <tbody>
-            <tr>
-                {% for campo in tabula %}
-                    <td>{{ campo }}</td>
-                {% endfor %}
-            </tr>
+        <tr>
+            <td>{{ tabula.produto }}</td>
+            <td>{{ tabula.quantidade }}</td>
+            <td>{{ tabula.saldo }}</td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
-
+<div class="row float-right">
+    <div class="col-sm-12" style="margin-top: 10px;">
+      <div class="form-inline buttons">
+        <button class="btn btn-primary" value="Save">
+            <i class="fa fa-floppy-o"></i>
+            Salvar
+            </button>
+        <a href="{% url 'core:index' %}" class="btn btn-danger">
+            <i class="fa fa-times"></i>
+            Cancelar
+        </a>
+      </div>
+    </div>
+</div>
 {% endblock content %}

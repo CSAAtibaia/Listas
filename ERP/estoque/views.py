@@ -92,7 +92,7 @@ def estoque_add(request, template_name, movimento, url):
     return context
 
 
-@login_required
+@login_required(login_url='login/')
 def estoque_entrada_add(request):
     template_name = 'estoque_entrada_form.html'
     movimento = 'e'
@@ -135,7 +135,7 @@ def estoque_saida_detail(request, pk):
     return render(request, template_name, context)
 
 
-@login_required
+@login_required(login_url='login/')
 def estoque_saida_add(request):
     template_name = 'estoque_saida_form.html'
     movimento = 's'
@@ -146,18 +146,19 @@ def estoque_saida_add(request):
     return render(request, template_name, context)
 
 
-@login_required
 def pedido_edit(request):
     pedido = Estoque.objects.get(aberto=True, usuario=request.user, movimento='s')
     return pedido_manager(request, pedido)
 
 
+@login_required(login_url='login/')
 def pedido_manager(request, pedido):
     pedido_itens_formset = inlineformset_factory(
                                 EstoqueSaida,
                                 EstoqueItens,
                                 extra=0,
                                 fields=('produto', 'quantidade', 'saldo',),
+                                #widgets={'name': Textarea(attrs={'cols': 80, 'rows': 20})},
                                 can_delete=False)
     form = PedidoForm(request.POST or None, instance=pedido)
     logger.error(form)
