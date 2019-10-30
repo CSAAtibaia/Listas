@@ -1,11 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView #, UpdateView
 from ERP.core.models import Item as Produto
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoForm
+#from django.template                import RequestContext
 import logging
 
 logger = logging.getLogger(__name__)
@@ -155,7 +157,7 @@ def pedido_manager(request, pedido):
                                 EstoqueSaida,
                                 EstoqueItens,
                                 extra=0,
-                                fields='__all__',
+                                fields=('produto', 'quantidade', 'saldo',),
                                 can_delete=False)
     form = PedidoForm(request.POST or None, instance=pedido)
     logger.error(form)
@@ -164,9 +166,7 @@ def pedido_manager(request, pedido):
     if form.is_valid() and formset.is_valid():
         form.save()
         formset.save()
-        return HttpResponseRedirect('/estoque/saida/')
+        return HttpResponseRedirect(reverse_lazy('/estoque/saida/'))
 
-#    return render_to_response("pedido_edit.html",
-#        {"formset": formset,
-#        "form": form},
-#        RequestContext(request))
+    return render(request, 'pedido_update.html',
+        {"formset": formset, "form": form})
