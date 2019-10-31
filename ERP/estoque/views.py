@@ -163,7 +163,7 @@ def pedido_manager(request, pedido):
     form = PedidoForm(request.POST or None, instance=pedido)
     logger.error(form)
     formset = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
-    logger.error(formset)
+    #logger.error(formset)
     if form.is_valid() and formset.is_valid():
         form.save()
         formset.save()

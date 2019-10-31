@@ -8,7 +8,9 @@
 <a href="{% url 'estoque:estoque_saida_list' %}">Listagem</a>
 
 <h3>Pedido:</h3>
-<p> {{ form.usuario }} para {{ form.finaliza }} </p>
+<fieldset disabled="disabled">
+    {{ form.usuario }} para {{ form.finaliza.value }}
+</fieldset>
 
 <table class="table table-hover">
     <thead>
@@ -19,17 +21,17 @@
             <th>Saldo</th>
         </tr>
     </thead>
+    <tbody>
         {% for tabula in formset.forms %}
             {% if forloop.first %}
                 {% for campo in tabula %}
                 {% endfor %}
             {% endif %}
-    <tbody>
-        <tr>
-            <td>{{ tabula.produto }}</td>
-            <td>{{ tabula.quantidade }}</td>
-            <td>{{ tabula.saldo }}</td>
-        </tr>
+            <tr>
+                <td>{{ tabula.produto }}</td>
+                <td>{{ tabula.quantidade }}</td>
+                <td>{{ tabula.saldo }}</td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>
