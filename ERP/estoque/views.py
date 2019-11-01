@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, modelformset_factory
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView #, UpdateView
 from ERP.core.models import Item as Produto
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
-from .forms import EstoqueForm, EstoqueItensForm, PedidoForm
+from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 #from django.template                import RequestContext
+from django.db import connection
 import logging
 
 logger = logging.getLogger(__name__)
@@ -147,27 +148,39 @@ def estoque_saida_add(request):
 
 
 def pedido_edit(request):
+    cursor1 = connection.cursor()
+    #insere preemptivo pedido
+    cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
+                    "select NOW(), null, 's', c.user_id, %d, True from core_coagri c " +
+                    "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
+                    "where p.aberto = True and p.movimento = 's')",
+                    [self.finaliza])
+    cursor2 = connection.cursor()
+    cursor2.execute("insert into estoque_estoqueitens (quantidade, saldo, estoque_id, produto_id) " +
+                    "select 0, i.estoque, e.id, i.id from core_item i, estoque_estoque e " +
+                    "where i.estoque > 0 and i.id not in (select p.produto_id from estoque_estoqueitens p where p.estoque_id = e.id) " +
+                    "and e.movimento = 's' and e.aberto = True")
+
     pedido = Estoque.objects.get(aberto=True, usuario=request.user, movimento='s')
     return pedido_manager(request, pedido)
 
 
 @login_required(login_url='login/')
 def pedido_manager(request, pedido):
-    pedido_itens_formset = inlineformset_factory(
-                                EstoqueSaida,
+    pedido_itens_formset = modelformset_factory(
                                 EstoqueItens,
+                                form=PedidoItemForm,
                                 extra=0,
                                 fields=('produto', 'quantidade', 'saldo',),
-                                #widgets={'name': Textarea(attrs={'cols': 80, 'rows': 20})},
                                 can_delete=False)
-    form = PedidoForm(request.POST or None, instance=pedido)
-    logger.error(form)
-    formset = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
+    pedidopk = pedido.pk
+    #pedidoitens = EstoqueItens.objects.all
+    #logger.error(pedidoitens)
+    itens = pedido_itens_formset(request.POST or None, queryset=(EstoqueItens.objects.filter(estoque_id=pedidopk)), prefix='item')
     #logger.error(formset)
-    if form.is_valid() and formset.is_valid():
-        form.save()
-        formset.save()
+    if itens.is_valid():
+        itens.save()
         return HttpResponseRedirect(reverse_lazy('/estoque/saida/'))
 
     return render(request, 'pedido_update.html',
-        {"formset": formset, "form": form})
+        {"itens": itens, "pedido": pedido})

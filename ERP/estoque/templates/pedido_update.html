@@ -9,12 +9,13 @@
 
 <h3>Pedido:</h3>
 <fieldset disabled="disabled">
-    {{ form.usuario }} para {{ form.finaliza.value }}
+    {{ pedido.usuario }} para {{ pedido.finaliza }}
 </fieldset>
+
+{{ itens.management_form }}
 
 <table class="table table-hover">
     <thead>
-        {{ formset.management_form }}
         <tr>
             <th>Produto</th>
             <th>Quantidade</th>
@@ -22,19 +23,20 @@
         </tr>
     </thead>
     <tbody>
-        {% for tabula in formset.forms %}
+        {% for item in itens %}
             {% if forloop.first %}
                 {% for campo in tabula %}
                 {% endfor %}
             {% endif %}
             <tr>
-                <td>{{ tabula.produto }}</td>
-                <td>{{ tabula.quantidade }}</td>
-                <td>{{ tabula.saldo }}</td>
+                <td>{{ item.produto|append_attr:"disabled:disabled" }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>{{ item.saldo|append_attr:"readonly:readonly" }}</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+
 <div class="row float-right">
     <div class="col-sm-12" style="margin-top: 10px;">
       <div class="form-inline buttons">
@@ -53,12 +55,5 @@
 {% block js %}
 
 <script src="{% static 'js/pedido.js' %}"></script>
-
-<script type="text/html" id="item-estoque">
-  <div id="item-__prefix__" class="form-group">
-    {{ formset.empty_form|bootstrap }}
-  </div>
-</script>
-
 
 {% endblock js %}

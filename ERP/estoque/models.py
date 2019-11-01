@@ -51,6 +51,12 @@ class Lista(Estoque):
                         "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
                         "where p.aberto = True and p.movimento = 's')",
                         [self.finaliza])
+        cursor2 = connection.cursor()
+        cursor2.execute("insert into estoque_estoqueitens (quantidade, saldo, estoque_id, produto_id) " +
+                        "select 0, i.estoque, e.id, i.id from core_item i, estoque_estoque e " +
+                        "where i.estoque > 0 and i.id not in (select p.produto_id from estoque_estoqueitens p where p.estoque_id = e.id) " +
+                        "and e.movimento = 's' and e.aberto = True")
+
 
 class Pedido(Estoque):
 

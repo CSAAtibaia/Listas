@@ -16,8 +16,8 @@ class EstoqueItensForm(forms.ModelForm):
         fields = '__all__'
 
 
-class PedidoForm(forms.ModelForm):
+class PedidoItemForm(forms.ModelForm):
 
     class Meta:
-        model = Estoque
-        fields = '__all__'
+        model = EstoqueItens
+        fields = ('produto', 'quantidade', 'saldo',)
