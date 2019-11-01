@@ -151,10 +151,9 @@ def pedido_edit(request):
     cursor1 = connection.cursor()
     #insere preemptivo pedido
     cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
-                    "select NOW(), null, 's', c.user_id, %d, True from core_coagri c " +
+                    "select NOW(), null, 's', c.user_id, null, True from core_coagri c " +
                     "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
-                    "where p.aberto = True and p.movimento = 's')",
-                    [self.finaliza])
+                    "where p.aberto = True and p.movimento = 's')")
     cursor2 = connection.cursor()
     cursor2.execute("insert into estoque_estoqueitens (quantidade, saldo, estoque_id, produto_id) " +
                     "select 0, i.estoque, e.id, i.id from core_item i, estoque_estoque e " +
