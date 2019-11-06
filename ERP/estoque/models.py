@@ -20,6 +20,7 @@ class Estoque(TimeStampedModel):
     class Meta:
         ordering = ('-usuario',)
 
+
     def __str__(self):
         try:
             fim = self.finaliza.strftime('%d-%m-%Y')

@@ -1,5 +1,4 @@
 let estoque
-let saldo
 let campo_saldo
 let quantidade
 let campo_prod
@@ -37,4 +36,6 @@ $(document).on('change', '.clQuantidade', function() {
   }
   // Atribui o saldo ao campo 'saldo'
   $('#'+campo_saldo).val(saldo)
+  n = $('#id_pedido-credito').val() - quantidade
+  $('#id_pedido-credito').val(n)
 });

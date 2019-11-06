@@ -40,7 +40,11 @@
         {% endfor %}
     </tbody>
 </table>
-
+<b>
+    <p>Crédito Semanal:
+        <input type="number" name="pedido-credito" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clCredito" id="id_pedido-credito">
+    / {{ coagri.credito }} </p>
+</b>
 <div class="row float-right">
     <div class="col-sm-12" style="margin-top: 10px;">
       <div class="form-inline buttons">

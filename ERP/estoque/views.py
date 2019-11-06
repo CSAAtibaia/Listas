@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import ListView, DetailView #, UpdateView
-from ERP.core.models import Item as Produto
+from ERP.core.models import Item as Produto, CoAgri
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 #from django.template                import RequestContext
@@ -176,10 +176,11 @@ def pedido_manager(request, pedido):
     #pedidoitens = EstoqueItens.objects.all
     #logger.error(pedidoitens)
     itens = pedido_itens_formset(request.POST or None, queryset=(EstoqueItens.objects.filter(estoque_id=pedidopk)), prefix='item')
+    coagri = CoAgri.objects.get(user=request.user)
     #logger.error(formset)
     if itens.is_valid():
         itens.save()
-        return HttpResponseRedirect(reverse_lazy('/estoque/saida/'))
+        return HttpResponseRedirect(reverse_lazy('/estoque/pedido/'))
 
     return render(request, 'pedido_update.html',
-        {"itens": itens, "pedido": pedido})
+        {"itens": itens, "pedido": pedido, "coagri": coagri})
