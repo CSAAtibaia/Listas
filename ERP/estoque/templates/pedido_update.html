@@ -29,9 +29,13 @@
                 {% endfor %}
             {% endif %}
             <tr>
-                <td>{{ item.produto|append_attr:"disabled:disabled class: clProduto"}}</td>
+                <td>
+                    {% render_field item.produto class="clProduto" disabled="disabled" %}
+                </td>
                 <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
-                <td>{{ item.saldo|append_attr:"readonly:readonly" }}</td>
+                <td>
+                    {% render_field item.saldo class="clSaldo" readonly="readonly" %}
+                </td>
             </tr>
         {% endfor %}
     </tbody>
