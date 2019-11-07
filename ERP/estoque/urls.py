@@ -1,5 +1,5 @@
 from django.urls import include, path
-from ERP.estoque import views as v
+from ERP.estoque import views as v, lista_view as l
 
 
 app_name = 'estoque'
@@ -16,6 +16,7 @@ saida_patterns = [
 ]
 
 urlpatterns = [
+    path('lista/', l.lista_itens, name='lista_ativa'),
 	path('pedido/', v.pedido_edit, name='pedido_update'),
     path('<int:pk>/', v.EstoqueDetail.as_view(), name='estoque_detail'),
     path('entrada/', include(entrada_patterns)),

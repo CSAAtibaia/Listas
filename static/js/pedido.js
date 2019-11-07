@@ -10,7 +10,6 @@ $(document).on('change', '.clQuantidade', function() {
   // Aqui é feito o cálculo de subtração do estoque
   // saldo = Number(estoque) - Number(quantidade);
   campo_saldo = $(this).attr('id').replace('quantidade', 'saldo')
-    saldo = 0
   campo_prod = $(this).attr('id').replace('quantidade', 'produto')
   pk = $('#'+campo_prod).val()
   url = '/produto/' + pk + '/json/'
@@ -26,8 +25,7 @@ $(document).on('change', '.clQuantidade', function() {
     }
   })
 
-  saldo = Number(estoque) - Number(quantidade)
-  if (saldo < 0) {
+  if (Number(estoque) < Number(quantidade)) {
     alert('O saldo não pode ser negativo.')
     // Atribui o saldo ao campo 'saldo'
     $(this).val(0)
@@ -35,7 +33,9 @@ $(document).on('change', '.clQuantidade', function() {
     return
   }
   // Atribui o saldo ao campo 'saldo'
-  $('#'+campo_saldo).val(saldo)
+  x = $('#'+campo_saldo).val() - quantidade
+
+  $('#'+campo_saldo).val(x)
   n = $('#id_pedido-credito').val() - quantidade
   $('#id_pedido-credito').val(n)
 });
