@@ -7,57 +7,66 @@
 
 <a href="{% url 'estoque:estoque_saida_list' %}">Listagem</a>
 
-<h3>Pedido:</h3>
-<p>
-    {{ pedido.usuario }} para {{ pedido.finaliza }}
-</p>
+<div class="row">
+  <div class="cols">
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      <legend style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario }} para {{ pedido.finaliza }}</legend>
 
-{{ itens.management_form }}
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Produto</th>
-            <th>Quantidade</th>
-            <th>Saldo</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in itens %}
-            {% if forloop.first %}
-                {% for campo in tabula %}
-                {% endfor %}
-            {% endif %}
-            <tr>
-                <td>
-                    {% render_field item.produto class="clProduto" disabled="disabled" %}
-                </td>
-                <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
-                <td>
-                    {% render_field item.saldo class="clSaldo" readonly="readonly" %}
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<b>
-    <p>Crédito Semanal:
-        <input type="number" name="pedido-credito" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clCredito" id="id_pedido-credito">
-    / {{ coagri.credito }} </p>
-</b>
-<div class="row float-right">
-    <div class="col-sm-12" style="margin-top: 10px;">
-      <div class="form-inline buttons">
-        <button class="btn btn-primary" value="Save">
-            <i class="fa fa-floppy-o"></i>
-            Salvar
-            </button>
-        <a href="{% url 'core:index' %}" class="btn btn-danger">
-            <i class="fa fa-times"></i>
-            Cancelar
-        </a>
+      <div class="row">
+        <div class="col-sm-6">
+            {{ itens.management_form }}
+        </div>
       </div>
-    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+                {% if forloop.first %}
+                    {% for campo in tabula %}
+                    {% endfor %}
+                {% endif %}
+                <tr>
+                    <td>
+                        {% render_field item.produto class="clProduto" disabled="disabled" %}
+                    </td>
+                    <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
+                    <td>
+                        {% render_field item.saldo class="clSaldo" readonly="readonly" %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <b>
+        <p>Crédito Semanal:
+            <input type="number" name="pedido-credito" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clCredito" id="id_pedido-credito">
+        / {{ coagri.credito }} </p>
+    </b>
+
+      <div class="row float-right">
+        <div class="col-sm-12" style="margin-top: 10px;">
+          <div class="form-inline buttons">
+            <button class="btn btn-primary" value="Save">
+              <i class="fa fa-floppy-o"></i>
+              Salvar
+            </button>
+            <a href="{% url 'core:index' %}" class="btn btn-danger">
+              <i class="fa fa-times"></i>
+              Cancelar
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
 </div>
 {% endblock content %}
 {% block js %}
