@@ -20,4 +20,4 @@ class PedidoItemForm(forms.ModelForm):
 
     class Meta:
         model = EstoqueItens
-        fields = ('produto', 'quantidade', 'saldo',)
+        fields = ('produto', 'quantidade',) # 'saldo',)
