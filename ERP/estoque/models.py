@@ -8,6 +8,7 @@ from django.db import connection
 MOVIMENTO = (
     ('e', 'entrada'),
     ('s', 'saida'),
+    ('f', 'fechamento'),
 )
 
 
@@ -18,7 +19,7 @@ class Estoque(TimeStampedModel):
     finaliza = models.DateField(verbose_name='Finaliza em', blank=True, null=True)
 
     class Meta:
-        ordering = ('-usuario',)
+        ordering = ('-finaliza', 'usuario',)
 
 
     def __str__(self):
@@ -52,11 +53,6 @@ class Lista(Estoque):
                         "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
                         "where p.aberto = True and p.movimento = 's')",
                         [self.finaliza])
-        cursor2 = connection.cursor()
-        cursor2.execute("insert into estoque_estoqueitens (quantidade, saldo, estoque_id, produto_id) " +
-                        "select 0, i.estoque, e.id, i.id from core_item i, estoque_estoque e " +
-                        "where i.estoque > 0 and i.id not in (select p.produto_id from estoque_estoqueitens p where p.estoque_id = e.id) " +
-                        "and e.movimento = 's' and e.aberto = True")
 
 
 class Pedido(Estoque):
@@ -67,14 +63,6 @@ class Pedido(Estoque):
         proxy = True
         verbose_name = 'Pedido (Saída)'
         verbose_name_plural = 'Pedidos (Saídas)'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        cursor2 = connection.cursor()
-        cursor2.execute("insert into estoque_estoqueitens (quantidade, saldo, estoque_id, produto_id) " +
-                        "select 0, i.estoque, e.id, i.id from core_item i, estoque_estoque e " +
-                        "where i.estoque > 0 and i.id not in (select p.produto_id from estoque_estoqueitens p where p.estoque_id = e.id) " +
-                        "and e.movimento = 's' and e.aberto = True")
 
     def save(self, *args, **kwargs):
         self.movimento = 's'
@@ -89,10 +77,15 @@ class EstoqueItens(models.Model):
     )
     produto = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
-    saldo = models.PositiveIntegerField(blank=True)
 
     class Meta:
         ordering = ('pk',)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.pk, self.estoque.pk, self.produto)
+
+    def saldo(self):
+        return self.produto.estoque
+
+    def preco(self):
+        return self.produto.preco

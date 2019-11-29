@@ -50,7 +50,8 @@ class Partilha(models.Model):
 class Item(models.Model):
 
     produto = models.CharField('Item', max_length=50, unique=True)
-    estoque = models.IntegerField('estoque atual', default=0)
+    saldo = models.IntegerField('Saldo Atual', default=0)
+    preco   = models.DecimalField('Preço R$', max_digits=7, decimal_places=2, default=0)
 
     def get_absolute_url(self):
         return reverse_lazy('core:produto_detail', kwargs={'pk': self.pk})
@@ -58,8 +59,9 @@ class Item(models.Model):
     def to_dict_json(self):
         return {
             'pk': self.pk,
-            'produto': self.produto,
-            'estoque': self.estoque,
+            'produto':  self.produto,
+            'saldo':  self.saldo,
+            'preco':    self.preco,
         }
 
     class Meta:
