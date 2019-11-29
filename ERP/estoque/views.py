@@ -50,14 +50,25 @@ class EstoqueDetail(DetailView):
     template_name = 'estoque_detail.html'
 
 
-def dar_baixa_estoque(form):
-    # Pega os produtos a partir da instância do formulário (Estoque).
-    produtos = form.estoques.all()
-    for item in produtos:
-        produto = Produto.objects.get(pk=item.produto.pk)
-        produto.estoque = item.saldo
-        produto.save()
-    print('Estoque atualizado com sucesso.')
+def recalcular_estoque:
+    cursor1 = connection.cursor()
+    cursor1.execute("update core_item as c " + 
+                    "inner join ( " + 
+                    "select a.produto_id, sum(a.qtde) as total " + 
+                    "from ( " + 
+                    "select i.produto_id, " + 
+                    "(CASE WHEN e.movimento = 'e' THEN i.quantidade ELSE i.quantidade * -1 END) as qtde  " + 
+                    "from estoque_estoqueitens i inner join estoque_estoque e on (i.estoque_id = e.id) " + 
+                    "where e.aberto = TRUE) a " + 
+                    "group by a.produto_id) as g " + 
+                    "on c.id = g.produto_id " + 
+                    "set c.saldo = g.total")
+
+
+def finalizar:
+    cursor1 = connection.cursor()
+    cursor1.execute("update core_item as c set c.saldo = 0")
+    cursor1.execute("update estoque_estoque set aberto = FALSE")
 
 
 def estoque_add(request, template_name, movimento, url):
@@ -84,7 +95,7 @@ def estoque_add(request, template_name, movimento, url):
             form.movimento = movimento
             form.save()
             formset.save()
-            dar_baixa_estoque(form)
+            recalcular_estoque
             return {'pk': form.pk}
     else:
         form = EstoqueForm(instance=estoque_form, prefix='main')

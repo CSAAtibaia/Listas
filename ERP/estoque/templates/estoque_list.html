@@ -17,20 +17,18 @@
     <thead>
       <tr>
         <th>Item</th>
-        <th>NF</th>
         <th>Data</th>
-        <th>Funcionário</th>
+        <th>Criador</th>
       </tr>
     </thead>
     <tbody>
       {% for object in object_list %}
         <tr>
           <td>
-            <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object }}</a>
+            <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object.pk }}</a>
           </td>
-          <td>{{ object.nf_formated }}</td>
           <td>{{ object.created }}</td>
-          <td>{{ object.funcionario.first_name }}</td>
+          <td>{{ object.usuario }}</td>
         </tr>
       {% endfor %}
     </tbody>

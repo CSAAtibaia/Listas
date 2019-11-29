@@ -10,6 +10,7 @@ class ItemAdmin(admin.ModelAdmin):
         'saldo',
     )
     search_fields = ('produto',)
+    readonly_fields = ('saldo', )
 
 class CoAgriInline(admin.StackedInline):
     model = CoAgri
