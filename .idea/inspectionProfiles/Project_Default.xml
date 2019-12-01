@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="8">
+          <list size="9">
             <item index="0" class="java.lang.String" itemvalue="django-widget-tweaks" />
             <item index="1" class="java.lang.String" itemvalue="mysqlclient" />
             <item index="2" class="java.lang.String" itemvalue="django-bootstrap-form" />
@@ -13,6 +13,7 @@
             <item index="5" class="java.lang.String" itemvalue="python-decouple" />
             <item index="6" class="java.lang.String" itemvalue="pytz" />
             <item index="7" class="java.lang.String" itemvalue="django-extensions" />
+            <item index="8" class="java.lang.String" itemvalue="django-bootstrap-datepicker-plus" />
           </list>
         </value>
       </option>

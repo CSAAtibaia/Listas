@@ -13,6 +13,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def estoque_entrada_list(request):
     template_name = 'estoque_list.html'
     objects = EstoqueEntrada.objects.all()
@@ -50,7 +51,7 @@ class EstoqueDetail(DetailView):
     template_name = 'estoque_detail.html'
 
 
-def recalcular_estoque:
+def recalcular_estoque():
     cursor1 = connection.cursor()
     cursor1.execute("update core_item as c " + 
                     "inner join ( " + 
@@ -65,7 +66,7 @@ def recalcular_estoque:
                     "set c.saldo = g.total")
 
 
-def finalizar:
+def finalizar():
     cursor1 = connection.cursor()
     cursor1.execute("update core_item as c set c.saldo = 0")
     cursor1.execute("update estoque_estoque set aberto = FALSE")
@@ -95,7 +96,7 @@ def estoque_add(request, template_name, movimento, url):
             form.movimento = movimento
             form.save()
             formset.save()
-            recalcular_estoque
+            recalcular_estoque()
             return {'pk': form.pk}
     else:
         form = EstoqueForm(instance=estoque_form, prefix='main')
@@ -184,7 +185,7 @@ def pedido_manager(request, pedido):
     itens = pedido_itens_formset(request.POST or None, queryset=(EstoqueItens.objects.filter(estoque_id=pedidopk)), prefix='item')
     coagri = CoAgri.objects.get(user=request.user)
     #logger.error(formset)
-    if itens.is_valid():
+    if request.POST and itens.is_valid():
         itens.save()
         return HttpResponseRedirect(reverse_lazy('/estoque/pedido/'))
 

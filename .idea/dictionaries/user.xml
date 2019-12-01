@@ -1,8 +1,20 @@
 <component name="ProjectDictionaryState">
   <dictionary name="user">
     <words>
+      <w>aberto</w>
+      <w>entrada</w>
+      <w>estoque</w>
+      <w>estoqueitens</w>
+      <w>finalizar</w>
+      <w>movimento</w>
       <w>pedido</w>
       <w>produto</w>
+      <w>qtde</w>
+      <w>quantidade</w>
+      <w>recalcular</w>
+      <w>saida</w>
+      <w>saldo</w>
+      <w>usuario</w>
     </words>
   </dictionary>
 </component>
