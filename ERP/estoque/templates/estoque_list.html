@@ -16,9 +16,10 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Item</th>
+        <th>Id</th>
         <th>Data</th>
         <th>Criador</th>
+        <th>Aberta</th>
       </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
           </td>
           <td>{{ object.created }}</td>
           <td>{{ object.usuario }}</td>
+          <td>{{ object.aberto }}</td>
         </tr>
       {% endfor %}
     </tbody>
