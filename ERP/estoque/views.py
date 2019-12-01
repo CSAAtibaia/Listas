@@ -161,7 +161,7 @@ def estoque_saida_add(request):
 
 def pedido_edit(request):
     cursor1 = connection.cursor()
-    #insere preemptivo pedido
+    ##insere preemptivo pedido
     cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
                     "select NOW(), null, 's', c.user_id, null, True from core_coagri c " +
                     "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
@@ -177,7 +177,7 @@ def pedido_manager(request, pedido):
                                 EstoqueItens,
                                 form=PedidoItemForm,
                                 extra=0,
-                                fields=('produto', 'quantidade', 'saldo',),
+                                fields=('produto', 'quantidade', ),
                                 can_delete=False)
     pedidopk = pedido.pk
     #pedidoitens = EstoqueItens.objects.all

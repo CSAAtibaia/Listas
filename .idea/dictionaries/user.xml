@@ -2,10 +2,13 @@
   <dictionary name="user">
     <words>
       <w>aberto</w>
+      <w>coagri</w>
       <w>entrada</w>
       <w>estoque</w>
       <w>estoqueitens</w>
+      <w>finaliza</w>
       <w>finalizar</w>
+      <w>itens</w>
       <w>movimento</w>
       <w>pedido</w>
       <w>preco</w>
