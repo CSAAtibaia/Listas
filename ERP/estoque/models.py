@@ -84,8 +84,10 @@ class EstoqueItens(models.Model):
     def __str__(self):
         return '{} - {} - {}'.format(self.pk, self.estoque.pk, self.produto)
 
+    @property
     def saldo(self):
         return self.produto.saldo
 
+    @property
     def preco(self):
         return self.produto.preco
