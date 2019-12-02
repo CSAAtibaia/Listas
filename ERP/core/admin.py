@@ -7,6 +7,7 @@ from ERP.core.models import CoAgri, Item, Partilha
 class ItemAdmin(admin.ModelAdmin):
     list_display = (
         '__str__',
+        'preco',
         'saldo',
     )
     search_fields = ('produto',)

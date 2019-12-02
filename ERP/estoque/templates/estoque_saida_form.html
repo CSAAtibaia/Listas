@@ -21,7 +21,7 @@
   <div class="cols">
     <form method="POST" novalidate>
       {% csrf_token %}
-      <legend style="border-bottom: 1px solid #e5e5e5;">Criar Pedido</legend>
+      <label style="border-bottom: 1px solid #e5e5e5;">Criar Pedido</label>
 
       <div class="row">
         <div class="col-sm-6">
@@ -31,7 +31,7 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <legend style="border-bottom: 1px solid #e5e5e5;">Produtos</legend>
+          <label style="border-bottom: 1px solid #e5e5e5;">Produtos</label>
           <div id="estoque" class="form-inline">
             {% for item_estoque_form in formset %}
               <div id="item-{{ forloop.counter0 }}" class="form-group">

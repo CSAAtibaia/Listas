@@ -176,7 +176,7 @@ def pedido_manager(request, pedido):
     pedido_itens_formset = modelformset_factory(
                                 EstoqueItens,
                                 form=PedidoItemForm,
-                                extra=0,
+                                extra=1,
                                 fields=('produto', 'quantidade', ),
                                 can_delete=False)
     pedidopk = pedido.pk
