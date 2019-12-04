@@ -34,7 +34,7 @@
                     {% endfor %}
                 {% endif %}
                 <tr>
-                    <td>{{ item.produto|add_class="clProduto" }}</td>
+                    <td>{{ item.produto|add_class:"clProduto" }}</td>
                     <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
                     <td>
                       {% render_field item.saldo class="clSaldo" readonly="readonly" %}
@@ -43,7 +43,7 @@
                       {% render_field item.preco class="clValor" readonly="readonly" %}
                     </td>
                     <td style="visibility:collapse;">
-                      {% render_field item.quantidade class:"clQuantidade_old" readonly="readonly" %}
+                      {% render_field item.quantidade class="clQuantidade_old" readonly="readonly" %}
                     </td>
                 </tr>
             {% endfor %}
