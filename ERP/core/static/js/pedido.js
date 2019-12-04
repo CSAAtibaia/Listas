@@ -1,4 +1,6 @@
-let estoque
+let saldo
+let preco
+let campo_preco
 let campo_saldo
 let quantidade
 let campo_prod
@@ -11,7 +13,7 @@ $(document).on('change', '.clProduto', function() {
   // saldo = Number(estoque) - Number(quantidade);
   campo_saldo = $(this).attr('id').replace('produto', 'saldo')
   campo_preco = $(this).attr('id').replace('produto', 'preco')
-  
+
   url = '/produto/' + pk + '/json/'
 
   $.ajax({
