@@ -162,7 +162,7 @@ def estoque_saida_add(request):
 @login_required(login_url='login/')
 def pedido_edit(request):
     coagri = CoAgri.objects.get(user=request.user)
-    if coagri.status.left(1) == 'A':
+    if coagri.status == 'ATIVO' or coagri.status == 'AVISO':
         finaliza = Estoque.objects.filter(aberto=True, movimento='e').aggregate(Max('finaliza'))
         if finaliza is not None:
             pedido = Estoque.objects.filter(aberto=True, movimento='s', usuario=request.user)
