@@ -158,34 +158,20 @@ def estoque_saida_add(request):
         return HttpResponseRedirect(resolve_url(url, context.get('pk')))
     return render(request, template_name, context)
 
-
-def pedido_edit(request):
-    cursor1 = connection.cursor()
-    ##insere preemptivo pedido
-    cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
-                    "select NOW(), null, 's', c.user_id, null, True from core_coagri c " +
-                    "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
-                    "where p.aberto = True and p.movimento = 's')")
-
-    pedido = Estoque.objects.get(aberto=True, usuario=request.user, movimento='s')
-    return pedido_manager(request, pedido)
-
-
 @login_required(login_url='login/')
-def pedido_manager(request, pedido):
-    pedido_itens_formset = modelformset_factory(
+def pedido_edit(request):
+    pedido = Estoque.objects.get(aberto=True, usuario=request.user, movimento='s')
+    pedido_itens_formset = inlineformset_factory(
+                                Estoque,
                                 EstoqueItens,
                                 form=PedidoItemForm,
                                 extra=1,
-                                fields=('produto', 'quantidade', ),
+                                #fields=('produto', 'quantidade', ),
                                 can_delete=False)
-    pedidopk = pedido.pk
-    #pedidoitens = EstoqueItens.objects.all
-    #logger.error(pedidoitens)
-    itens = pedido_itens_formset(request.POST or None, queryset=(EstoqueItens.objects.filter(estoque_id=pedidopk)), prefix='item')
+    itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
     coagri = CoAgri.objects.get(user=request.user)
     #logger.error(formset)
-    if request.POST and itens.is_valid():
+    if request.method == 'POST' and itens.is_valid():
         itens.save()
         return HttpResponseRedirect(reverse_lazy('/estoque/pedido/'))
 

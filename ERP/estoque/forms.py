@@ -21,7 +21,7 @@ class PedidoItemForm(forms.ModelForm):
 
     class Meta:
         model = EstoqueItens
-        fields = ('produto', 'quantidade',) # 'saldo',)
+        fields = '__all__' #('produto', 'quantidade',) # 'saldo',)
 
     def __init__(self, *args, **kwargs):
         super(PedidoItemForm, self).__init__(*args, **kwargs)
