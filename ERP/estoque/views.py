@@ -175,14 +175,14 @@ def pedido_edit(request):
                                 )
                 pedido.save
         else:
-            raise ValidationError( 
-                _('Sem lista aberta. Por favor aguarde.')
-                )
+            #raise ValidationError(
+            #    _('Sem lista aberta. Por favor aguarde.')
+            #    )
             return redirect('index')
     else:
-        raise ValidationError( 
-            _('CoAgricultor sem permissão para Pedidos')
-            )
+        #raise ValidationError(
+        #    _('CoAgricultor sem permissão para Pedidos')
+        #    )
         return redirect('index')
 
     pedido_itens_formset = inlineformset_factory(
