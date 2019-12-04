@@ -46,13 +46,6 @@ class Lista(Estoque):
     def save(self, *args, **kwargs):
         self.movimento = 'e'
         super(Lista, self).save(*args, **kwargs)
-        cursor1 = connection.cursor()
-        #insere preemptivo pedido
-        cursor1.execute("insert into estoque_estoque (created, modified, movimento, usuario_id, finaliza, aberto) " +
-                        "select NOW(), null, 's', c.user_id, %d, True from core_coagri c " +
-                        "where c.status like 'A%%' and c.user_id not in (select p.usuario_id from estoque_estoque p " +
-                        "where p.aberto = True and p.movimento = 's')",
-                        [self.finaliza])
 
 
 class Pedido(Estoque):

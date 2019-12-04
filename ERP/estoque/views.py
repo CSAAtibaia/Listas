@@ -1,8 +1,9 @@
+from django.db.models import Max
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory, modelformset_factory
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, resolve_url
+from django.shortcuts import render, resolve_url, redirect
 from django.views.generic import ListView, DetailView #, UpdateView
 from ERP.core.models import Item as Produto, CoAgri
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
@@ -160,7 +161,30 @@ def estoque_saida_add(request):
 
 @login_required(login_url='login/')
 def pedido_edit(request):
-    pedido = Estoque.objects.get(aberto=True, usuario=request.user, movimento='s')
+    coagri = CoAgri.objects.get(user=request.user)
+    if coagri.status.left(1) == 'A':
+        finaliza = Estoque.objects.filter(aberto=True, movimento='e').aggregate(Max('finaliza'))
+        if finaliza is not None:
+            pedido = Estoque.objects.filter(aberto=True, movimento='s', usuario=request.user)
+            if pedido is None:
+                pedido = Estoque(
+                            aberto=True, 
+                            movimento='s', 
+                            finaliza=finaliza, 
+                            usuario=request.user
+                                )
+                pedido.save
+        else:
+            raise ValidationError( 
+                _('Sem lista aberta. Por favor aguarde.')
+                )
+            return redirect('index')
+    else:
+        raise ValidationError( 
+            _('CoAgricultor sem permissão para Pedidos')
+            )
+        return redirect('index')
+
     pedido_itens_formset = inlineformset_factory(
                                 Estoque,
                                 EstoqueItens,
@@ -169,10 +193,10 @@ def pedido_edit(request):
                                 #fields=('produto', 'quantidade', ),
                                 can_delete=False)
     itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
-    coagri = CoAgri.objects.get(user=request.user)
     #logger.error(formset)
     if request.method == 'POST' and itens.is_valid():
         itens.save()
+        recalcular_estoque()
         return HttpResponseRedirect(reverse_lazy('/estoque/pedido/'))
 
     return render(request, 'pedido_update.html',
