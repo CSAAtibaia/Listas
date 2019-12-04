@@ -1,6 +1,6 @@
 from django.db.models import Max
 from django.contrib.auth.decorators import login_required
-from django.forms import inlineformset_factory, modelformset_factory
+from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url, redirect
@@ -54,16 +54,16 @@ class EstoqueDetail(DetailView):
 
 def recalcular_estoque():
     cursor1 = connection.cursor()
-    cursor1.execute("update core_item as c " + 
-                    "inner join ( " + 
-                    "select a.produto_id, sum(a.qtde) as total " + 
-                    "from ( " + 
-                    "select i.produto_id, " + 
-                    "(CASE WHEN e.movimento = 'e' THEN i.quantidade ELSE i.quantidade * -1 END) as qtde  " + 
-                    "from estoque_estoqueitens i inner join estoque_estoque e on (i.estoque_id = e.id) " + 
-                    "where e.aberto = TRUE) a " + 
-                    "group by a.produto_id) as g " + 
-                    "on c.id = g.produto_id " + 
+    cursor1.execute("update core_item as c " +
+                    "inner join ( " +
+                    "select a.produto_id, sum(a.qtde) as total " +
+                    "from ( " +
+                    "select i.produto_id, " +
+                    "(CASE WHEN e.movimento = 'e' THEN i.quantidade ELSE i.quantidade * -1 END) as qtde  " +
+                    "from estoque_estoqueitens i inner join estoque_estoque e on (i.estoque_id = e.id) " +
+                    "where e.aberto = TRUE) a " +
+                    "group by a.produto_id) as g " +
+                    "on c.id = g.produto_id " +
                     "set c.saldo = g.total")
 
 
@@ -165,12 +165,12 @@ def pedido_edit(request):
     if coagri.status == 'ATIVO' or coagri.status == 'AVISO':
         finaliza = Estoque.objects.filter(aberto=True, movimento='e').aggregate(Max('finaliza'))
         if finaliza is not None:
-            pedido = Estoque.objects.filter(aberto=True, movimento='s', usuario=request.user)
+            pedido = Estoque.objects.get(aberto=True, movimento='s', usuario=request.user)
             if pedido is None:
                 pedido = Estoque(
-                            aberto=True, 
-                            movimento='s', 
-                            finaliza=finaliza, 
+                            aberto=True,
+                            movimento='s',
+                            finaliza=finaliza,
                             usuario=request.user
                                 )
                 pedido.save
