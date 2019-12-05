@@ -2,7 +2,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max, Sum
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url, redirect
 from django.views.generic import ListView, DetailView #, UpdateView
@@ -12,7 +11,7 @@ from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
 import logging
 
-#logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def estoque_entrada_list(request):
@@ -193,14 +192,17 @@ def pedido_edit(request):
                                 EstoqueItens,
                                 form=PedidoItemForm,
                                 extra=1,
-                                #fields=('produto', 'quantidade', ),
                                 can_delete=False)
     itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
-    #logger.error(formset)
-    if request.method == 'POST' and itens.is_valid():
+    logger.error(itens)
+    if request.method == 'POST':
+        logger.error('É POST')
+        #if itens.is_valid():
+        #logger.error('É Valido')
         itens.save()
         recalcular_estoque()
         return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
+    logger.error('É GET ou Invalido')
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})
