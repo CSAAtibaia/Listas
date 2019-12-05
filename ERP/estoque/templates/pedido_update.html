@@ -28,10 +28,10 @@
                         <td>{{ item.produto|add_class:"clProduto" }}</td>
                         <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
                         <td>
-                          {% render_field item.saldo.value class="clSaldo" readonly="readonly" %}
+                          {{ item.instance.saldo }}
                         </td>
                         <td>
-                          {% render_field item.preco.value class="clValor" readonly="readonly" %}
+                          {{ item.instance.preco }}
                         </td>
                     </tr>
                 {% endfor %}

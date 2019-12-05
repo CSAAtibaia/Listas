@@ -16,12 +16,11 @@ class EstoqueItensForm(forms.ModelForm):
 
 
 class PedidoItemForm(forms.ModelForm):
-    saldo = forms.IntegerField(required=False)
-    preco = forms.DecimalField(required=False)
 
     class Meta:
         model = EstoqueItens
         fields = '__all__'
+
     def __init__(self, *args, **kwargs):
         super(PedidoItemForm, self).__init__(*args, **kwargs)
         # Retorna somente produtos com estoque maior do que zero.

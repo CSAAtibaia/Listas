@@ -193,16 +193,21 @@ def pedido_edit(request):
                                 form=PedidoItemForm,
                                 extra=1,
                                 can_delete=False)
-    itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
-    logger.error(itens)
+
+    logger.error(pedido)
     if request.method == 'POST':
         logger.error('É POST')
-        #if itens.is_valid():
-        #logger.error('É Valido')
-        itens.save()
-        recalcular_estoque()
-        return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
+        itens = pedido_itens_formset(request.POST, instance=pedido, prefix='item')
+        logger.error(request.POST)
+        if itens.is_valid():
+            logger.error('É Valido')
+            itens.save()
+            recalcular_estoque()
+            return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
+        else:
+            logger.error(itens.errors)
 
+    itens = pedido_itens_formset(instance=pedido, prefix='item')
     logger.error('É GET ou Invalido')
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})
