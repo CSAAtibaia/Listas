@@ -18,8 +18,6 @@ class EstoqueItensForm(forms.ModelForm):
 
 
 class PedidoItemForm(forms.ModelForm):
-    saldo = forms.IntegerField()
-    preco = forms.DecimalField()
 
     class Meta:
         model = EstoqueItens
@@ -29,9 +27,6 @@ class PedidoItemForm(forms.ModelForm):
         super(PedidoItemForm, self).__init__(*args, **kwargs)
         # Retorna somente produtos com estoque maior do que zero.
         self.fields['produto'].queryset = Item.objects.filter(saldo__gt=0)
-        instance = kwargs.get('instance', None)
-        if instance:
-            kwargs['initial'] = {'saldo': instance.saldo, 'preco': instance.preco}
 
     def save(self, *args, **kwargs):
         self.instance.saldo = self.cleaned_data['saldo']
