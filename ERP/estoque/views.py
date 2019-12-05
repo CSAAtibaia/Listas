@@ -1,18 +1,18 @@
-from django.db.models import Max
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Max, Sum
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url, redirect
 from django.views.generic import ListView, DetailView #, UpdateView
-from ERP.core.models import Item as Produto, CoAgri
+from ERP.core.models import CoAgri, Item
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
-#from django.template                import RequestContext
 from django.db import connection
 import logging
 
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 
 def estoque_entrada_list(request):
@@ -53,18 +53,21 @@ class EstoqueDetail(DetailView):
 
 
 def recalcular_estoque():
-    cursor1 = connection.cursor()
-    cursor1.execute("update core_item as c " +
-                    "inner join ( " +
-                    "select a.produto_id, sum(a.qtde) as total " +
-                    "from ( " +
-                    "select i.produto_id, " +
-                    "(CASE WHEN e.movimento = 'e' THEN i.quantidade ELSE i.quantidade * -1 END) as qtde  " +
-                    "from estoque_estoqueitens i inner join estoque_estoque e on (i.estoque_id = e.id) " +
-                    "where e.aberto = TRUE) a " +
-                    "group by a.produto_id) as g " +
-                    "on c.id = g.produto_id " +
-                    "set c.saldo = g.total")
+    entradas = EstoqueItens.objects.filter(estoque__movimento='e', estoque__aberto=True)
+    entradas = entradas.values('produto').annotate(entrada=Sum('quantidade'))
+    saidas = EstoqueItens.objects.filter(estoque__movimento='s', estoque__aberto=True)
+    saidas = saidas.values('produto').annotate(saida=Sum('quantidade'))
+    for produto in entradas:
+        item = Item.objects.get(pk=produto['produto'])
+        try:
+            saida_dict = saidas.get(produto=produto['produto'])
+            saida = saida_dict['saida']
+        except ObjectDoesNotExist:
+            saida = 0
+
+        entrada = produto['entrada']
+        item.saldo = entrada - saida
+        item.save()
 
 
 def finalizar():
@@ -197,7 +200,7 @@ def pedido_edit(request):
     if request.method == 'POST' and itens.is_valid():
         itens.save()
         recalcular_estoque()
-        return HttpResponseRedirect(reverse_lazy('/estoque/pedido/'))
+        return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})

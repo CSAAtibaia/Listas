@@ -12,8 +12,38 @@
     <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario }} para {{ pedido.finaliza }}</label>
     <form method="POST" novalidate>
       {% csrf_token %}
-      {{ itens.as_table }}
 
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Saldo</th>
+                    <th>$ Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens %}
+                    {% if forloop.first %}
+                        {% for campo in tabula %}
+                        {% endfor %}
+                    {% endif %}
+                    <tr>
+                        <td>{{ item.produto|add_class:"clProduto" }}</td>
+                        <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
+                        <td>
+                          {% render_field item.saldo class="clSaldo" readonly="readonly" %}
+                        </td>
+                        <td>
+                          {% render_field item.preco class="clValor" readonly="readonly" %}
+                        </td>
+                        <td style="visibility:collapse;">
+                          {% render_field item.quantidade class="clQuantidade_old" readonly="readonly" %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
       <div class="row float-right">
         <div class="col-sm-12" style="margin-top: 10px;">
           <div class="form-inline buttons">
@@ -34,7 +64,7 @@
     <b>
         <p>Crédito Semanal:
             <input type="number" name="pedido-credito" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clCredito" id="id_pedido-credito">
-        / {{ coagri.credito }</p>
+        / {{ coagri.credito }}</p>
         <p>Valor do Pedido (R$):
             <input type="number" name="pedido-valor" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clValor" id="id_pedido-valor">
         </p>
