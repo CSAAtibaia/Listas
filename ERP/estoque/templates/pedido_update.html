@@ -29,28 +29,13 @@
                     <tr>
                         <td style="visibility:collapse;">{{ item.id }}</td>
                         <td>{{ item.produto|add_class:"clProduto" }}</td>
-                        <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
+                        <td>{% render_field item.quantidade class="clQuantidade" onChange="form.submit();" %}</td>
                         <td>{{ item.instance.saldo }}</td>
                         <td>{{ item.instance.preco }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-      <div class="row float-right">
-        <div class="col-sm-12" style="margin-top: 10px;">
-          <div class="form-inline buttons">
-            <button type="submit" class="btn btn-primary" value="Save">
-              <i class="fa fa-floppy-o"></i>
-              Salvar
-            </button>
-            <a href="{% url 'core:index' %}" class="btn btn-danger">
-              <i class="fa fa-times"></i>
-              Cancelar
-            </a>
-          </div>
-        </div>
-      </div>
-
     </form>
   </div>
 </div>
