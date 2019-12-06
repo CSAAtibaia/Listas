@@ -16,6 +16,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th style="visibility:collapse;">Id</th>
                     <th>Produto</th>
                     <th>Quantidade</th>
                     <th>Saldo</th>
@@ -25,14 +26,11 @@
             <tbody>
                 {% for item in itens %}
                     <tr>
+                        <td style="visibility:collapse;">{{ item.id }}</td>
                         <td>{{ item.produto|add_class:"clProduto" }}</td>
                         <td>{{ item.quantidade|add_class:"clQuantidade" }}</td>
-                        <td>
-                          {{ item.instance.saldo }}
-                        </td>
-                        <td>
-                          {{ item.instance.preco }}
-                        </td>
+                        <td>{{ item.instance.saldo }}</td>
+                        <td>{{ item.instance.preco }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

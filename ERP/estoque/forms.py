@@ -24,4 +24,6 @@ class PedidoItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PedidoItemForm, self).__init__(*args, **kwargs)
         # Retorna somente produtos com estoque maior do que zero.
-        self.fields['produto'].queryset = Item.objects.filter(saldo__gt=0)
+        itens = Item.objects.filter(saldo__gt=0)
+        #itens = itens.exclude(estoqueitens__estoque__id=self['estoque'])
+        self.fields['produto'].queryset = itens

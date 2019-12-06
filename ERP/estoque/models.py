@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from ERP.core.models import TimeStampedModel, Item
 from .managers import ListaManager, PedidoManager
-from django.db import connection
 
 
 MOVIMENTO = (
