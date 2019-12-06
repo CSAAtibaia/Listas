@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from ERP.core.models import TimeStampedModel, Item
 from .managers import ListaManager, PedidoManager
+import decimal
 
 
 MOVIMENTO = (
@@ -22,14 +23,14 @@ class Estoque(TimeStampedModel):
 
     @property
     def total(self):
-        total = list(EstoqueItens.objects.filter(estoque=self).aggregate(Sum('quantidade')).values())[0]
+        total = list(EstoqueItens.objects.filter(estoque=self, produto__preco=decimal.Decimal(0)).aggregate(models.Sum('quantidade')).values())[0]
         return total
-    
+
     @property
     def preco_total(self):
-        x = 0.00
+        x = decimal.Decimal(0)
         for item in EstoqueItens.objects.filter(estoque=self):
-            x = x + (item.quantidade * item.preco)
+            x = x + (decimal.Decimal(item.quantidade) * item.preco)
         return x
 
     def __str__(self):

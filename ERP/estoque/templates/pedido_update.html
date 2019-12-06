@@ -10,6 +10,7 @@
 <div class="row">
   <div class="cols">
     <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario }} para {{ pedido.finaliza }}</label>
+    <b><label style="border-bottom: 1px solid #e5e5e5;">Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
     <form method="POST" novalidate>
       {% csrf_token %}
         {{ itens.management_form }}
@@ -51,16 +52,6 @@
       </div>
 
     </form>
-
-    <b>
-        <p>Crédito Semanal:
-            <input type="number" name="pedido-credito" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clCredito" id="id_pedido-credito">
-        / {{ coagri.credito }}</p>
-        <p>Valor do Pedido (R$):
-            <input type="number" name="pedido-valor" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clValor" id="id_pedido-valor">
-        </p>
-    </b>
-
   </div>
 </div>
 
