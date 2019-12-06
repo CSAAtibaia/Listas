@@ -20,6 +20,17 @@ class Estoque(TimeStampedModel):
     class Meta:
         ordering = ('-finaliza', 'usuario',)
 
+    @property
+    def total(self):
+        total = list(EstoqueItens.objects.filter(estoque=self).aggregate(Sum('quantidade')).values())[0]
+        return total
+    
+    @property
+    def preco_total(self):
+        x = 0.00
+        for item in EstoqueItens.objects.filter(estoque=self):
+            x = x + (item.quantidade * item.preco)
+        return x
 
     def __str__(self):
         try:
