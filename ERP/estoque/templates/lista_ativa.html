@@ -18,39 +18,40 @@
                 Itens por CoAgri
             </button>
         </p>
-        <div class="collapse" id="lista_ativa"> <h2>Itens da Lista Ativa</h2>
+
+        <div class="collapse" id="lista_ativa">
+            <h2>Itens da Lista Ativa</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th class="text-center">Oferta</th>
+                        <th class="text-center">Pedido</th>
                         <th>Sobras</th>
                         <th class="text-center">Saldo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for estoque in ativa_tb %}
-                        {% for item in estoque %}
-                            <tr>
-                                <td>{{ item.produto|title }}</td>
-                                <td class="text-center">{{ item.quantidade }}</td>
-                                <td>
-                                    {% if item.produto.saldo > 0 %}
-                                        <i class="fa fa-check-circle ok"></i>
-                                    {% else %}
-                                        <i class="fa fa-minus-circle no"></i>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">{{ item.produto.saldo }}</td>
-                            </tr>
-                        {% empty %}
-                            <p class="alert alert-warning">Sem Lista Ativa Válida</p>
-                        {% endfor %}
+                    {% for item in itens %}
+                        <tr>
+                            <td>{{ item.produto|title }}</td>
+                            <td class="text-center">{{ item.qtde }}</td>
+                            <td>
+                                {% if item.saldo > 0 %}
+                                    <i class="fa fa-check-circle ok"></i>
+                                {% else %}
+                                    <i class="fa fa-minus-circle no"></i>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">{{ item.saldo }}</td>
+                        </tr>
+                    {% empty %}
+                        <p class="alert alert-warning">Sem Lista Ativa Válida</p>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
         <div class="collapse" id="locais"> <h2>Itens por Locais de Entrega</h2>
             {% regroup locais_tb|dictsort:"entrega" by entrega_ico as ico_tb %}
                 {% for ico in ico_tb %}
