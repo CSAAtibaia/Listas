@@ -30,21 +30,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for object in ativa_tb %}
-                        <tr>
-                            <td>{{ object.estoqueitens.produto|title }}</td>
-                            <td class="text-center">{{ object.estoqueitens.quantidade }}</td>
-                            <td>
-                                {% if object.estoqueitens.produto.saldo > 0 %}
-                                    <i class="fa fa-check-circle ok"></i>
-                                {% else %}
-                                    <i class="fa fa-minus-circle no"></i>
-                                {% endif %}
-                            </td>
-                            <td class="text-center">{{ object.estoqueitens.produto.saldo }}</td>
-                        </tr>
-                    {% empty %}
-                        <p class="alert alert-warning">Sem Lista Ativa Válida</p>
+                    {% for estoque in ativa_tb %}
+                        {% for item in estoque %}
+                            <tr>
+                                <td>{{ item.produto|title }}</td>
+                                <td class="text-center">{{ item.quantidade }}</td>
+                                <td>
+                                    {% if item.produto.saldo > 0 %}
+                                        <i class="fa fa-check-circle ok"></i>
+                                    {% else %}
+                                        <i class="fa fa-minus-circle no"></i>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">{{ item.produto.saldo }}</td>
+                            </tr>
+                        {% empty %}
+                            <p class="alert alert-warning">Sem Lista Ativa Válida</p>
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>
