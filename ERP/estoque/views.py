@@ -9,6 +9,7 @@ from ERP.core.models import CoAgri, Item
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
+from django.contrib import messages
 import logging
 
 logger = logging.getLogger(__name__)
@@ -203,6 +204,7 @@ def pedido_edit(request):
             #logger.error('É Valido')
             itens.save()
             recalcular_estoque()
+            messages.success(request, 'Pedido atualizado com sucesso')
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
     #logger.error('É GET ou Invalido')
