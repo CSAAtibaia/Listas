@@ -10,36 +10,33 @@
 <div class="row">
   <div class="cols">
     <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario }} para {{ pedido.finaliza }}</label>
+    <b><label style="border-bottom: 1px solid #e5e5e5;">Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
     <form method="POST" novalidate>
       {% csrf_token %}
-      {{ itens.as_table }}
-
-      <div class="row float-right">
-        <div class="col-sm-12" style="margin-top: 10px;">
-          <div class="form-inline buttons">
-            <button type="submit" class="btn btn-primary" value="Save">
-              <i class="fa fa-floppy-o"></i>
-              Salvar
-            </button>
-            <a href="{% url 'core:index' %}" class="btn btn-danger">
-              <i class="fa fa-times"></i>
-              Cancelar
-            </a>
-          </div>
-        </div>
-      </div>
-
+        {{ itens.management_form }}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="visibility:collapse;">Id</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Saldo</th>
+                    <th>$ Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens %}
+                    <tr>
+                        <td style="visibility:collapse;">{{ item.id }}</td>
+                        <td>{{ item.produto|add_class:"clProduto" }}</td>
+                        <td>{% render_field item.quantidade class="clQuantidade" onChange="form.submit();" %}</td>
+                        <td>{{ item.instance.saldo }}</td>
+                        <td>{{ item.instance.preco }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </form>
-
-    <b>
-        <p>Crédito Semanal:
-            <input type="number" name="pedido-credito" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clCredito" id="id_pedido-credito">
-        / {{ coagri.credito }</p>
-        <p>Valor do Pedido (R$):
-            <input type="number" name="pedido-valor" value="{{ coagri.credito }}" min="0" readonly="readonly" class="clValor" id="id_pedido-valor">
-        </p>
-    </b>
-
   </div>
 </div>
 

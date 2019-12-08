@@ -1,5 +1,9 @@
 -f /usr/share/pip-wheels
-Django==2.2.4
+<<<<<<< HEAD
+Django==2.2.8
+=======
+Django==3.0
+>>>>>>> c02dab875055eccf007b0ed223af153462070832
 django-bootstrap-form==3.4
 django-extensions==2.2.1
 django-widget-tweaks==1.4.5
