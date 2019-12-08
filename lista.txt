@@ -1,9 +1,6 @@
-salvar / criar pedido - em teste
-validar / limitar pelo crédito semanal 
-multiplicar unitário e somar
-visualização do pedido atual para coagri - ok
+validar / limitar pelo crédito semanal - falta mensagem de sucesso / erro
 visualização dos pedidos atual / coagri - formatação
 visualização dos pedidos atual somado por item x local - formatação
 fechamento (entrega) - estruturado. falta botão para realização manual e tela para configurar regra de fechamento automatico
 email ao criar lista - 0%
-email ao fechar lista - 0%
+email ao fechar lista - 0% https://docs.djangoproject.com/en/3.0/topics/email/
