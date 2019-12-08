@@ -7,7 +7,7 @@
         <p>
             <!-- botões de controle de collapse -->
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lista_ativa" aria-expanded="false" aria-controls="collapseExample">
-                Itens da Lista Ativa
+                Itens Ativos
             </button>
 
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#locais" aria-expanded="false" aria-controls="collapseExample">
@@ -32,16 +32,16 @@
                 <tbody>
                     {% for object in ativa_tb %}
                         <tr>
-                            <td>{{ object.item|title }}</td>
-                            <td class="text-center">{{ object.limite }}</td>
+                            <td>{{ object.estoqueitens.produto|title }}</td>
+                            <td class="text-center">{{ object.estoqueitens.quantidade }}</td>
                             <td>
-                                {% if object.saldo > 0 %}
+                                {% if object.estoqueitens.produto.saldo > 0 %}
                                     <i class="fa fa-check-circle ok"></i>
                                 {% else %}
                                     <i class="fa fa-minus-circle no"></i>
                                 {% endif %}
                             </td>
-                            <td class="text-center">{{ object.saldo }}</td>
+                            <td class="text-center">{{ object.estoqueitens.produto.saldo }}</td>
                         </tr>
                     {% empty %}
                         <p class="alert alert-warning">Sem Lista Ativa Válida</p>

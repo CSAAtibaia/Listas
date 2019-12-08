@@ -2,20 +2,31 @@
   <dictionary name="user">
     <words>
       <w>aberto</w>
+      <w>ativa</w>
       <w>coagri</w>
+      <w>coagris</w>
       <w>entrada</w>
+      <w>entrega</w>
       <w>estoque</w>
       <w>estoqueitens</w>
       <w>finaliza</w>
       <w>finalizar</w>
+      <w>higieniza</w>
+      <w>icone</w>
       <w>itens</w>
+      <w>lista</w>
+      <w>locais</w>
       <w>movimento</w>
+      <w>nomeitem</w>
+      <w>partilha</w>
       <w>pedido</w>
+      <w>pedidos</w>
       <w>preco</w>
       <w>produto</w>
       <w>qtde</w>
       <w>quantidade</w>
       <w>recalcular</w>
+      <w>retira</w>
       <w>saida</w>
       <w>saldo</w>
       <w>usuario</w>
