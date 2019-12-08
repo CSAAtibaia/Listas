@@ -28,17 +28,10 @@ class PedidoItemForm(forms.ModelForm):
         for field_name in self.changed_data:
             if field_name == 'quantidade':
                 e = self.cleaned_data.get('estoque')
-                logger.error(e)
                 velho = EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e).first().quantidade
-                logger.error('velho, novo, cred, usado')
-                logger.error(velho)
                 novo = self.cleaned_data.get('quantidade')
-                logger.error(novo)
-                logger.error(e.usuario.coagri.credito)
-                logger.error(e.total)
                 saldo = e.usuario.coagri.credito - e.total
                 diferenca = novo - velho
-
                 if diferenca > saldo:
                     raise forms.ValidationError('Quantidade Excede o Crédito Mensal')
         return self.cleaned_data.get('quantidade')
