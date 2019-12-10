@@ -166,17 +166,19 @@ def estoque_saida_add(request):
 def pedido_edit(request):
     coagri = CoAgri.objects.get(user=request.user)
     if coagri.status == 'ATIVO' or coagri.status == 'AVISO':
-        finaliza = Estoque.objects.filter(aberto=True, movimento='e').aggregate(Max('finaliza'))
+        q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
+        finaliza = q['fim']
         if finaliza is not None:
-            pedido = Estoque.objects.get(aberto=True, movimento='s', usuario=request.user)
-            if pedido is None:
+            try:
+                pedido = Estoque.objects.get(aberto=True, movimento='s', usuario=request.user)
+            except Estoque.DoesNotExist:
                 pedido = Estoque(
                             aberto=True,
                             movimento='s',
                             finaliza=finaliza,
                             usuario=request.user
                                 )
-                pedido.save
+                pedido.save()
         else:
             #raise ValidationError(
             #    _('Sem lista aberta. Por favor aguarde.')

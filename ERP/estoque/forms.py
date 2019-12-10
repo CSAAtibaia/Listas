@@ -29,12 +29,19 @@ class PedidoItemForm(forms.ModelForm):
             if field_name == 'quantidade':
                 e = self.cleaned_data.get('estoque')
                 velho = 0
-                if EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e):
-                    velho = EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e).first().quantidade
+                if self.cleaned_data.get('produto') is not None:
                     preco = Item.objects.get(produto=self.cleaned_data.get('produto')).preco
                     saldo_item = Item.objects.get(produto=self.cleaned_data.get('produto')).saldo
+                else:
+                    preco = 0
+                    saldo_item = 0
+                if EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e):
+                    velho = EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e).first().quantidade
                 novo = self.cleaned_data.get('quantidade')
-                saldo = e.usuario.coagri.credito - e.total
+                if e.total is None:
+                    saldo = e.usuario.coagri.credito
+                else:
+                    saldo = e.usuario.coagri.credito - e.total
                 diferenca = novo - velho
                 #logger.error(preco)
                 if diferenca > saldo and preco < 0.01:

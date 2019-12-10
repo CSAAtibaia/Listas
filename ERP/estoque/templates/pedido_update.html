@@ -12,7 +12,7 @@
     <form method="POST" novalidate>
       {% csrf_token %}
         <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario }} para {{ pedido.finaliza }}</label>
-        <b><label style="border-bottom: 1px solid #e5e5e5;">Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
+        <b><label>Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
         {% for message in messages %}
           <div class="alert {{ message.tags }} alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
