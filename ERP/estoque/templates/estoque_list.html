@@ -23,12 +23,12 @@
       </tr>
     </thead>
     <tbody>
-      {% for object in object_list %}
+      {% for object in object_list|dictsortreversed:"modified" %}
         <tr>
           <td>
             <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object.pk }}</a>
           </td>
-          <td>{{ object.created }}</td>
+          <td>{{ object.modified }}</td>
           <td>{{ object.usuario }}</td>
           <td>{{ object.aberto }}</td>
         </tr>

@@ -5,7 +5,7 @@ from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url, redirect
 from django.views.generic import ListView, DetailView #, UpdateView
-from ERP.core.models import CoAgri, Item
+from ERP.core.models import CoAgri, Item, Situacao
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
@@ -153,16 +153,6 @@ def estoque_saida_detail(request, pk):
 
 
 @login_required(login_url='login/')
-def estoque_saida_add(request):
-    template_name = 'estoque_saida_form.html'
-    movimento = 's'
-    url = 'estoque:estoque_detail'
-    context = estoque_add(request, template_name, movimento, url)
-    if context.get('pk'):
-        return HttpResponseRedirect(resolve_url(url, context.get('pk')))
-    return render(request, template_name, context)
-
-@login_required(login_url='login/')
 def pedido_edit(request):
     coagri = CoAgri.objects.get(user=request.user)
     if coagri.status == 'ATIVO' or coagri.status == 'AVISO':
@@ -180,15 +170,15 @@ def pedido_edit(request):
                                 )
                 pedido.save()
         else:
-            #raise ValidationError(
+            #raise Error(
             #    _('Sem lista aberta. Por favor aguarde.')
             #    )
-            return redirect('index')
+            return redirect('core:index')
     else:
-        #raise ValidationError(
+        #raise Error(
         #    _('CoAgricultor sem permissão para Pedidos')
         #    )
-        return redirect('index')
+        return redirect('core:index')
 
     pedido_itens_formset = inlineformset_factory(
                                 Estoque,
@@ -198,17 +188,36 @@ def pedido_edit(request):
                                 can_delete=False)
 
     itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')
-    #logger.error(pedido)
     if request.method == 'POST':
-        #logger.error('É POST')
-        #logger.error(request.POST)
         if itens.is_valid():
-            #logger.error('É Valido')
             itens.save()
             recalcular_estoque()
             messages.success(request, 'Pedido atualizado com sucesso')
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
-    #logger.error('É GET ou Invalido')
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})
+
+
+def controle(request):
+    if not request.user.is_superuser:
+        #TODO levantar erro 'só admin'
+        return redirect('core:index')
+    template_name = 'controle.html'
+    objects = Situacao.objects.all()
+    context = {
+        'object_list': objects,
+        'titulo': 'Controle',
+        'url_add': 'estoque:controle'
+    }
+    return render(request, template_name, context)
+
+@login_required(login_url='login/')
+class ControleEstoque(UpdateView):
+    model = Situacao
+    template_name = 'controle.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ControleEstoque, self).get_context_data(**kwargs)
+        context['titulo'] = 'Controle'
+        return context

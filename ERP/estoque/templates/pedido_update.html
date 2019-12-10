@@ -11,7 +11,7 @@
   <div class="cols">
     <form method="POST" novalidate>
       {% csrf_token %}
-        <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario }} para {{ pedido.finaliza }}</label>
+        <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario|capfirst }} para {{ pedido.finaliza }}</label>
         <b><label>Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
         {% for message in messages %}
           <div class="alert {{ message.tags }} alert-dismissible" role="alert">
@@ -43,8 +43,8 @@
                 {% for item in itens %}
                     <tr>
                         <td style="visibility:collapse;">{{ item.id }}</td>
-                        <td>{{ item.produto|add_class:"clProduto" }}</td>
-                        <td>{% render_field item.quantidade class="clQuantidade" onChange="form.submit();" %}</td>
+                        <td>{{ item.produto|capfirst }}</td>
+                        <td>{% render_field item.quantidade onChange="form.submit();" %}</td>
                         <td>{{ item.instance.saldo }}</td>
                         <td>{{ item.instance.preco }}</td>
                     </tr>
