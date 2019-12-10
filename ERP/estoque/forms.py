@@ -28,11 +28,15 @@ class PedidoItemForm(forms.ModelForm):
         for field_name in self.changed_data:
             if field_name == 'quantidade':
                 e = self.cleaned_data.get('estoque')
-                velho = EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e).first().quantidade
+                velho = 0
+                if EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e):
+                    velho = EstoqueItens.objects.filter(produto=self.cleaned_data.get('produto'), estoque=e).first().quantidade
+                    preco = Item.objects.get(produto=self.cleaned_data.get('produto')).preco
                 novo = self.cleaned_data.get('quantidade')
                 saldo = e.usuario.coagri.credito - e.total
                 diferenca = novo - velho
-                if diferenca > saldo:
+                #logger.error(preco)
+                if diferenca > saldo and preco < 0.01:
                     raise forms.ValidationError('Quantidade Excede o Crédito Mensal')
         return self.cleaned_data.get('quantidade')
 
@@ -41,7 +45,4 @@ class PedidoItemForm(forms.ModelForm):
         super(PedidoItemForm, self).__init__(*args, **kwargs)
         # Retorna somente produtos com estoque maior do que zero.
         itens = Item.objects.filter(saldo__gt=0)
-        # Remove da lista produtos que já estejam no pedido
-        #e_id = self.cleaned_data.get('estoque')
-        #itens = itens.exclude(estoqueitens__estoque=e_id)
         self.fields['produto'].queryset = itens

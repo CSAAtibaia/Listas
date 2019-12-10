@@ -102,3 +102,7 @@ class CoAgri(models.Model):
             x = self.user.username
         return x
 
+class Situacao(models.Model):
+    nome = models.CharField(max_length=25)
+    valor = models.BooleanField(default=False)
+

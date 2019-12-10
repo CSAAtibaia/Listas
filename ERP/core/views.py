@@ -1,11 +1,9 @@
 from django.shortcuts import render
-from datetime import datetime
-from django.contrib import messages
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, ListView
-from .models import Item as Produto
-from .forms import ItemForm as ProdutoForm
+from .models import Item as Produto, Situacao
+from .forms import ItemForm as ProdutoForm, SituacaoForm
 
 # Create your views here.
 
@@ -58,6 +56,12 @@ class ProdutoUpdate(UpdateView):
     model = Produto
     template_name = 'produto_form.html'
     form_class = ProdutoForm
+
+
+class SituacaoUpdate(UpdateView):
+    model = Situacao
+    template_name = 'situacao.html'
+    form_class = SituacaoForm
 
 
 def produto_json(request, pk):
