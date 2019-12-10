@@ -21,5 +21,5 @@ urlpatterns = [
     path('<int:pk>/', v.EstoqueDetail.as_view(), name='estoque_detail'),
     path('entrada/', include(entrada_patterns)),
     path('saida/', include(saida_patterns)),
-    path('controle/', v.ControleEstoque, name='controle'),
+    path('controle/', v.ControleEstoque.as_view(), name='controle'),
 ]
