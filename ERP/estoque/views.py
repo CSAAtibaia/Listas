@@ -212,7 +212,6 @@ def controle(request):
     }
     return render(request, template_name, context)
 
-@login_required(login_url='login/')
 class ControleEstoque(UpdateView):
     model = Situacao
     template_name = 'controle.html'
