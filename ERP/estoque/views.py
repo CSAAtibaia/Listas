@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url, redirect
-from django.views.generic import ListView, DetailView #, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView
 from ERP.core.models import CoAgri, Item, Situacao
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
