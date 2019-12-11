@@ -15,7 +15,7 @@ def email_abertura():
 	body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nLista: \n' % (finaliza)
 	for item in lista_itens:
 		for val in item:
-			body = body + val + '\t'
+			body = body + str(val) + '\t'
 		body = body + '\n'
 
 	body = body.join('\nAtt, \nHorta CSA')
