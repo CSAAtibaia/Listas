@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from ERP.core.models import CoAgri, Item, Status
 from ERP.estoque.models import Estoque
+from django.db.models import Max
 from ERP.settings import DEFAULT_FROM_EMAIL
 
 def email_abertura():
