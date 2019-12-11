@@ -12,7 +12,7 @@ class EstoqueForm(forms.ModelForm):
         fields = ('finaliza', )
 
     def __init__(self, *args, **kwargs):
-        super(CircuitForm, self).__init__(*args, **kwargs)
+        super(EstoqueForm, self).__init__(*args, **kwargs)
         self.fields['finaliza'].required = True
 
 

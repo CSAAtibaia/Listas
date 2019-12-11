@@ -10,6 +10,7 @@ from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, Es
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
 from django.contrib import messages
+from ERP.estoque.email import email_abertura
 import logging
 
 logger = logging.getLogger(__name__)
@@ -101,6 +102,7 @@ def estoque_add(request, template_name, movimento, url):
             form.save()
             formset.save()
             recalcular_estoque()
+            email_abertura()
             return {'pk': form.pk}
     else:
         form = EstoqueForm(instance=estoque_form, prefix='main')

@@ -49,7 +49,7 @@ class Partilha(models.Model):
 
 class Item(models.Model):
 
-    produto = models.CharField('Item', max_length=50, unique=True)
+    produto = models.CharField('Item', max_length=25, unique=True)
     saldo = models.IntegerField('Saldo Atual', default=0)
     preco   = models.DecimalField('Preço R$', max_digits=7, decimal_places=2, default=0)
 

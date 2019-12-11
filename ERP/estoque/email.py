@@ -1,12 +1,11 @@
 from django.core.mail import send_mail
-from ERP.core.models import CoAgri, Item, Status
+from ERP.core.models import CoAgri, Item
 from ERP.estoque.models import Estoque
 from django.db.models import Max
 from ERP.settings import DEFAULT_FROM_EMAIL
 
 def email_abertura():
-	#lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
-	lista_coagri = CoAgri.objects.filter(user=1)
+	lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
 	lista_emails = list(lista_coagri.values_list('user__email', flat=True))
 	lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco')
 	q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
