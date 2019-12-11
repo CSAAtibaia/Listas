@@ -3,7 +3,7 @@ from ERP.core.models import CoAgri, Item, Status
 from ERP.estoque.models import Estoque
 from ERP.settings import DEFAULT_FROM_EMAIL
 
-def email_abertura
+def email_abertura():
 	#lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
 	lista_coagri = CoAgri.objects.get(user=1)
 	lista_emails = list(lista_coagri.values_list('user__email', flat=True))
