@@ -46,7 +46,11 @@
                         <td>{{ item.produto|capfirst }}</td>
                         <td>{% render_field item.quantidade onChange="form.submit();" %}</td>
                         <td>{{ item.instance.saldo }}</td>
-                        <td>{{ item.instance.preco }}</td>
+                        <td>
+                        {% if item.instance.preco > 0 %}
+                            {{ item.instance.preco }}
+                        {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
