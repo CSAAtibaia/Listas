@@ -12,7 +12,7 @@ def email_abertura():
 	q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
 	finaliza = q['fim']
 	subject = 'Itens Disponibilizados - Finaliza em:%s \n' % (finaliza)
-	body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nLista: \n' % (finaliza, lista_itens)
+	body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nLista: \n' % (finaliza)
 	for item in lista_itens:
 		body = body + item + '\n'
 
