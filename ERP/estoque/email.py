@@ -20,3 +20,18 @@ def email_abertura():
 
 	body = body + '\nAtt, \nHorta CSA'
 	send_mail(subject, body, DEFAULT_FROM_EMAIL, lista_emails)
+
+def body_test():
+	lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco')
+	q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
+	finaliza = q['fim']
+	body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nLista: \n' % (finaliza)
+	body = body + 'Nome \t Saldo \t Preço Unitário (R$)\n'
+	for item in lista_itens:
+		for val in item:
+			a = '%-*s' % (25, str(val))
+			body = body + a
+		body = body + '\n'
+
+	body = body + '\nAtt, \nHorta CSA'
+	return body
