@@ -11,6 +11,10 @@ class EstoqueForm(forms.ModelForm):
         model = Estoque
         fields = ('finaliza', )
 
+    def __init__(self, *args, **kwargs):
+        super(CircuitForm, self).__init__(*args, **kwargs)
+        self.fields['finaliza'].required = True
+
 
 class EstoqueItensForm(forms.ModelForm):
     class Meta:
