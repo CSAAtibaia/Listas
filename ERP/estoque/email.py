@@ -11,7 +11,7 @@ def email_abertura():
 	lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco')
 	q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
 	finaliza = q['fim']
-	subject = 'Itens Disponibilizados - Finaliza em:%s \n' % (finaliza)
+	subject = 'Itens Disponibilizados - Finaliza em:%s' % (finaliza)
 	body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nLista: \n' % (finaliza)
 	for item in lista_itens:
 		for val in item:
