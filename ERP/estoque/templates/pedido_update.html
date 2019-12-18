@@ -13,14 +13,6 @@
       {% csrf_token %}
         <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario|capfirst }} para {{ pedido.finaliza }}</label>
         <b><label>Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
-        {% for message in messages %}
-          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            {{ message }}
-          </div>
-        {% endfor %}
         {% for erro in itens.errors %}
             {% if erro %}
                 <div class="alert alert-danger" role="alert">

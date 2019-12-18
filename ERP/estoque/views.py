@@ -10,7 +10,7 @@ from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, Es
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
 from django.contrib import messages
-from ERP.estoque.email import email_abertura
+from ERP.estoque.email import email_abertura, email_fechamento
 import logging
 
 logger = logging.getLogger(__name__)
@@ -75,6 +75,7 @@ def finalizar():
     cursor1 = connection.cursor()
     cursor1.execute("update core_item as c set c.saldo = 0")
     cursor1.execute("update estoque_estoque set aberto = FALSE")
+    email_fechamento()
 
 
 def estoque_add(request, template_name, movimento, url):
@@ -196,6 +197,7 @@ def pedido_edit(request):
             recalcular_estoque()
             messages.success(request, 'Pedido atualizado com sucesso')
             return HttpResponseRedirect(resolve_url('core:index'))
+        return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})

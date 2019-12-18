@@ -6,7 +6,7 @@ from ERP.settings import DEFAULT_FROM_EMAIL
 
 def email_abertura():
     lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
-    lista_coagri = CoAgri.objects.filter(pk=7)
+    #lista_coagri = CoAgri.objects.filter(pk=7)
     lista_emails = list(lista_coagri.values_list('user__email', flat=True))
     lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco')
     q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
@@ -25,4 +25,13 @@ def email_abertura():
         body = body + '\n'
 
     body = body + '\nAtt, \nHorta CSA'
+    send_mail(subject, body, DEFAULT_FROM_EMAIL, lista_emails)
+
+
+def email_fechamento():
+    lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
+    #lista_coagri = CoAgri.objects.filter(pk=7)
+    lista_emails = list(lista_coagri.values_list('user__email', flat=True))
+    subject = 'Pedidos Encerrados'
+    body = 'Encerrado o período de pedidos para a próxima partilha.'
     send_mail(subject, body, DEFAULT_FROM_EMAIL, lista_emails)
