@@ -195,7 +195,7 @@ def pedido_edit(request):
             itens.save()
             recalcular_estoque()
             messages.success(request, 'Pedido atualizado com sucesso')
-            return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
+            return HttpResponseRedirect(resolve_url('core:index'))
 
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})

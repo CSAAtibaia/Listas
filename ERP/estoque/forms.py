@@ -49,7 +49,7 @@ class PedidoItemForm(forms.ModelForm):
                 diferenca = novo - velho
                 #logger.error(preco)
                 if diferenca > saldo and preco < 0.01:
-                    raise forms.ValidationError('Quantidade Excede o Crédito Mensal')
+                    raise forms.ValidationError('Quantidade Excede o Crédito Semanal')
                 if saldo_item - diferenca < 0:
                     raise forms.ValidationError('Saldo Negativo para o Item')
         return self.cleaned_data.get('quantidade')
