@@ -202,18 +202,17 @@ def pedido_edit(request):
         {"itens": itens, "pedido": pedido, "coagri": coagri})
 
 
-def controle(request):
+'''def controle(request):
     if not request.user.is_superuser:
         #TODO levantar erro 'só admin'
         return redirect('core:index')
     template_name = 'controle.html'
-    objects = Situacao.objects.all()
+    objects = Situacao.objects.get(pk=pk)
     context = {
         'object_list': objects,
         'titulo': 'Controle',
-        'url_add': 'estoque:controle'
     }
-    return render(request, template_name, context)
+    return render(request, template_name, context)'''
 
 class ControleEstoque(UpdateView):
     model = Situacao

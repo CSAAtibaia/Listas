@@ -19,7 +19,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_add' %}">Criar Lista</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'estoque:controle' %}">Controle</a>
+              <a class="dropdown-item" href="{% url 'estoque:controle' 1 %}">Controle</a>
           </li>
       {% endif %}
       {% if user.is_authenticated %}
