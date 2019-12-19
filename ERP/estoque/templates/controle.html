@@ -1,15 +1,10 @@
 {% extends "base.html" %}
 
+{% block title %}
+<h2>{{ titulo }}</h2>
+{% endblock title %}
+
 {% block content %}
-
-<h2>Estoque {{ titulo }}
-  <span class="pull-right">
-    <a href="#">
-      <button type="button" class="btn btn-primary">
-        <span class="fa fa-plus"></span> Adicionar
-      </button>
-    </a>
-  </span>
-</h2>
-
+    {% csrf_token %}
+    {{ form.as_p }}
 {% endblock content %}
