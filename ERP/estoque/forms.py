@@ -35,6 +35,7 @@ class PedidoItemForm(forms.ModelForm):
                 velho = 0
                 if self.cleaned_data.get('produto') is not None:
                     preco = Item.objects.get(produto=self.cleaned_data.get('produto')).preco
+                    nome_item = Item.objects.get(produto=self.cleaned_data.get('produto')).produto
                     saldo_item = Item.objects.get(produto=self.cleaned_data.get('produto')).saldo
                 else:
                     preco = 0
@@ -49,9 +50,9 @@ class PedidoItemForm(forms.ModelForm):
                 diferenca = novo - velho
                 #logger.error(preco)
                 if diferenca > saldo and preco < 0.01:
-                    raise forms.ValidationError('Quantidade Excede o Crédito Semanal')
+                    raise forms.ValidationError('Quantidade Total Excede o Crédito Semanal')
                 if saldo_item - diferenca < 0:
-                    raise forms.ValidationError('Saldo Negativo para o Item')
+                    raise forms.ValidationError('Excede Saldo de %s', nome_item)
         return self.cleaned_data.get('quantidade')
 
 

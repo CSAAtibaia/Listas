@@ -187,7 +187,7 @@ def pedido_edit(request):
                                 Estoque,
                                 EstoqueItens,
                                 form=PedidoItemForm,
-                                extra=1,
+                                extra=coagri.credito,
                                 can_delete=False)
 
     itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')

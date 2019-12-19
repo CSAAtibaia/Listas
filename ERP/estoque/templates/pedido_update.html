@@ -28,7 +28,7 @@
                     <th>Produto</th>
                     <th>Quantidade</th>
                     <th>Saldo</th>
-                    <th>$ Unit</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,17 +36,32 @@
                     <tr>
                         <td style="visibility:collapse;">{{ item.id }}</td>
                         <td>{{ item.produto|capfirst }}</td>
-                        <td>{% render_field item.quantidade onChange="form.submit();" %}</td>
+                        <td>{{ item.quantidade }}</td>
                         <td>{{ item.instance.saldo }}</td>
                         <td>
                         {% if item.instance.preco > 0 %}
-                            {{ item.instance.preco }}
+                            R${{ item.instance.preco }}
                         {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="row float-right">
+            <div class="col-sm-12" style="margin-top: 10px;">
+                <div class="form-inline buttons">
+                    <button class="btn btn-primary" value="Save" onClick="form.submit();">
+                        <i class="fa fa-floppy-o"></i>
+                        Salvar
+                    </button>
+                    <a href="{% url 'estoque:estoque_entrada_list' %}" class="btn btn-danger">
+                        <i class="fa fa-times"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
     </form>
   </div>
 </div>

@@ -32,6 +32,7 @@ class Tipo(ChoiceEnum):
     BOLSISTA = 'Bolsista'
     APOIADOR = 'Apoiador'
     PERMUTA = 'Permuta'
+    VOLUNTARIO = 'Voluntário'
 
 
 class Status(ChoiceEnum):
