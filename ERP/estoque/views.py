@@ -173,14 +173,10 @@ def pedido_edit(request):
                                 )
                 pedido.save()
         else:
-            #raise Error(
-            #    _('Sem lista aberta. Por favor aguarde.')
-            #    )
+            messages.warning(request, 'Sem lista aberta. Por favor aguarde.')
             return redirect('core:index')
     else:
-        #raise Error(
-        #    _('CoAgricultor sem permissão para Pedidos')
-        #    )
+        messages.error(request, 'CoAgricultor sem permissão para Pedidos')
         return redirect('core:index')
 
     pedido_itens_formset = inlineformset_factory(
@@ -198,6 +194,8 @@ def pedido_edit(request):
             messages.success(request, 'Pedido atualizado com sucesso')
             if pedido.total == coagri.credito:
                 return HttpResponseRedirect(resolve_url('core:index'))
+            messages.error(request, 'Pedido não Salvo')
+            return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
         return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
     return render(request, 'pedido_update.html',
