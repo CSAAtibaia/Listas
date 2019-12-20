@@ -3,13 +3,15 @@
 {% block content %}
 
 <h2>Estoque {{ titulo }}
-  <span class="pull-right">
-    <a href="{% url url_add %}">
-      <button type="button" class="btn btn-primary">
-        <span class="fa fa-plus"></span> Adicionar
-      </button>
-    </a>
-  </span>
+  {% if user.is_superuser %}
+    <span class="pull-right">
+      <a href="{% url url_add %}">
+        <button type="button" class="btn btn-primary">
+          <span class="fa fa-plus"></span> Adicionar
+        </button>
+      </a>
+    </span>
+  {% endif %}
 </h2>
 
 {% if object_list %}

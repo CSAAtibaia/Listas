@@ -35,7 +35,7 @@
                 {% for item in itens %}
                     <tr>
                         <td style="visibility:collapse;">{{ item.id }}</td>
-                        <td>{{ item.produto|capfirst }}</td>
+                        <td>{% render_field item.produto class="clProduto" %}</td>
                         <td>{% render_field item.quantidade onChange="form.submit();" %}</td>
                         <td>{{ item.instance.saldo }}</td>
                         <td>
@@ -64,5 +64,5 @@
 
 {% endblock content %}
 {% block js %}
-
+<script src="{% static 'js/pedido.js' %}"></script>
 {% endblock js %}
