@@ -217,8 +217,9 @@ def pedido_edit(request):
 class ControleEstoque(UpdateView):
     model = Situacao
     template_name = 'controle.html'
+    fields = '__all__'
 
     def get_context_data(self, **kwargs):
         context = super(ControleEstoque, self).get_context_data(**kwargs)
-        context['titulo'] = 'Controle'
+        context['titulo'] = 'Controle de Fechamento'
         return context
