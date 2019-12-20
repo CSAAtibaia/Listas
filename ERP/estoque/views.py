@@ -136,11 +136,7 @@ def estoque_saida_list(request):
 
 class EstoqueSaidaList(ListView):
     queryset = EstoqueSaida.objects.all()
-
-    def get_context_data(self, **kwargs):
-        context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
-        context['titulo'] = 'Pedido'
-        return context
+    template_name = 'pedido_list.html'
 
 
 def estoque_saida_detail(request, pk):
@@ -181,7 +177,7 @@ def pedido_edit(request):
                                 Estoque,
                                 EstoqueItens,
                                 form=PedidoItemForm,
-                                extra=coagri.credito,
+                                extra=1,
                                 can_delete=False)
 
     itens = pedido_itens_formset(request.POST or None, instance=pedido, prefix='item')

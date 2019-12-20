@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ titulo }}</h2>
+
+{% if object_list %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Data</th>
+        <th>Criador</th>
+        <th>Aberta</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list|dictsortreversed:"modified" %}
+        <tr>
+          <td>
+            <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object.pk }}</a>
+          </td>
+          <td>{{ object.modified }}</td>
+          <td>{{ object.usuario }}</td>
+          <td>{{ object.aberto }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="alert alert-warning">Sem itens na lista.</p>
+{% endif %}
+
+{% endblock content %}
