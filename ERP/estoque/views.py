@@ -129,7 +129,7 @@ def estoque_saida_list(request):
     context = {
         'object_list': objects,
         'titulo': 'Pedido',
-        'url_add': 'estoque:estoque_saida_add'
+        'url_add': 'estoque:pedido_update'
     }
     return render(request, template_name, context)
 
@@ -141,7 +141,7 @@ class EstoqueSaidaList(ListView):
     def get_context_data(self, **kwargs):
         context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
         context['titulo'] = 'Pedido'
-        context['url_add'] = 'estoque:estoque_saida_add'
+        context['url_add'] = 'estoque:pedido_update'
         return context
 
 
