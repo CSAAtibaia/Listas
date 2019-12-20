@@ -135,13 +135,11 @@ def estoque_saida_list(request):
 
 
 class EstoqueSaidaList(ListView):
-    model = EstoqueSaida
-    template_name = 'estoque_list.html'
+    queryset = EstoqueSaida.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
         context['titulo'] = 'Pedido'
-        context['url_add'] = 'estoque:pedido_update'
         return context
 
 
@@ -193,6 +191,7 @@ def pedido_edit(request):
             recalcular_estoque()
             messages.success(request, 'Pedido atualizado com sucesso')
             if pedido.total == coagri.credito:
+                messages.success(request, 'Listar o Pedido')
                 return HttpResponseRedirect(resolve_url('core:index'))
             messages.error(request, 'Pedido não Salvo')
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
