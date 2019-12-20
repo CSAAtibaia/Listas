@@ -36,7 +36,7 @@
                     <tr>
                         <td style="visibility:collapse;">{{ item.id }}</td>
                         <td>{{ item.produto|capfirst }}</td>
-                        <td>{{ item.quantidade }}</td>
+                        <td>{% render_field item.quantidade onChange="form.submit();" %}</td>
                         <td>{{ item.instance.saldo }}</td>
                         <td>
                         {% if item.instance.preco > 0 %}
@@ -53,12 +53,8 @@
                 <div class="form-inline buttons">
                     <button class="btn btn-primary" value="Save" onClick="form.submit();">
                         <i class="fa fa-floppy-o"></i>
-                        Salvar
+                        Enviar
                     </button>
-                    <a href="{% url 'estoque:estoque_entrada_list' %}" class="btn btn-danger">
-                        <i class="fa fa-times"></i>
-                        Cancelar
-                    </a>
                 </div>
             </div>
         </div>

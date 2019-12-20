@@ -70,6 +70,8 @@ class Item(models.Model):
         ordering = ('produto',)
 
     def __str__(self):
+        if self.saldo > 0
+            return '%s: %s' % (self.produto, self.saldo)
         return self.produto
 
 class CoAgri(models.Model):
