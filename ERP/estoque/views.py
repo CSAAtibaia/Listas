@@ -189,25 +189,12 @@ def pedido_edit(request):
             if pedido.total == coagri.credito:
                 messages.success(request, 'Listar o Pedido')
                 return HttpResponseRedirect(resolve_url('core:index'))
-            messages.error(request, 'Pedido não Salvo')
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
+        messages.error(request, 'Pedido não Salvo')
         return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
 
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})
-
-
-'''def controle(request):
-    if not request.user.is_superuser:
-        #TODO levantar erro 'só admin'
-        return redirect('core:index')
-    template_name = 'controle.html'
-    objects = Situacao.objects.get(pk=pk)
-    context = {
-        'object_list': objects,
-        'titulo': 'Controle',
-    }
-    return render(request, template_name, context)'''
 
 class ControleEstoque(UpdateView):
     model = Situacao
