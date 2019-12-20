@@ -187,7 +187,11 @@ def pedido_edit(request):
             recalcular_estoque()
             messages.success(request, 'Pedido atualizado com sucesso')
             if pedido.total == coagri.credito:
-                messages.success(request, 'Pedido:\n%s' % (itens))
+                listinha = EstoqueItens.objects.filter(estoque=pedido)
+                mensagem = 'Pedido:\t\t'
+                for ei in listinha:
+                    mensagem = mensagem + '%s - %s;\t\t' % (ei.produto, ei.quantidade)
+                messages.success(request, mensagem)
                 return HttpResponseRedirect(resolve_url('core:index'))
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
         messages.error(request, 'Pedido não Salvo')

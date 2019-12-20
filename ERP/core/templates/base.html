@@ -20,7 +20,7 @@
     <!-- Select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 
-    
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block css %}{% endblock %}
     {% block title %}
@@ -33,15 +33,16 @@
     <div class="container">
       {% block content %}{% endblock content%}
     </div>
-    {% for message in messages %}
-      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {{ message }}
-      </div>
-    {% endfor %}
-
+    <div class="container">
+        {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        {% endfor %}
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
