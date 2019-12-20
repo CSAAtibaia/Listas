@@ -5,10 +5,9 @@
 
 {% block content %}
 
-<a href="{% url 'estoque:estoque_saida_list' %}">Listagem</a>
-
 <div class="row">
   <div class="cols">
+    <a style="border-bottom: 1px solid #e5e5e5;" href="{% url 'estoque:estoque_saida_list' %}">Histórico</a>
     <form method="POST" novalidate>
       {% csrf_token %}
         <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario|capfirst }} para {{ pedido.finaliza }}</label>
