@@ -6,5 +6,18 @@
 
 {% block content %}
     {% csrf_token %}
-    {{ form.as_p }}
+    {% if user.is_superuser %}
+        <div="container">
+            <a  target="_blank"
+                class="btn btn-primary pull-left"
+                href="{% url 'estoque:finalizar' %}">
+                Finalizar Período de Pedidos
+            </a></br></br>
+            <a  target="_blank"
+                class="btn btn-danger pull-right"
+                href="{% url 'estoque:encerrar' %}">
+                Encerrar Partilha Atual
+            </a>
+        </div>
+    {% endif %}
 {% endblock content %}

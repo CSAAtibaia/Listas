@@ -84,6 +84,7 @@ class EstoqueItens(models.Model):
 
     class Meta:
         ordering = ('pk',)
+        unique_together = ('estoque', 'produto',)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.pk, self.estoque.pk, self.produto)

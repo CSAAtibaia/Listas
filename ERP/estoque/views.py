@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url, redirect
-from django.views.generic import ListView, DetailView, UpdateView
-from ERP.core.models import CoAgri, Item, Situacao
+from django.views.generic import ListView, DetailView #, UpdateView
+from ERP.core.models import CoAgri, Item #, Situacao
 from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
@@ -70,12 +70,22 @@ def recalcular_estoque():
         item.saldo = entrada - saida
         item.save()
 
+@login_required(login_url='login/')
+def finalizar(request):
+    cursor1 = connection.cursor()
+    cursor1.execute("update estoque_estoque set aberto = FALSE")
+    email_fechamento()
+    messages.success(request, 'Finalizado com sucesso')
+    return redirect('estoque:controle')
 
-def finalizar():
+
+@login_required(login_url='login/')
+def reiniciar(request):
     cursor1 = connection.cursor()
     cursor1.execute("update core_item as c set c.saldo = 0")
     cursor1.execute("update estoque_estoque set aberto = FALSE")
-    email_fechamento()
+    messages.success(request, 'Encerrado com sucesso')
+    return redirect('estoque:controle')
 
 
 def estoque_add(request, template_name, movimento, url):
@@ -200,12 +210,7 @@ def pedido_edit(request):
     return render(request, 'pedido_update.html',
         {"itens": itens, "pedido": pedido, "coagri": coagri})
 
-class ControleEstoque(UpdateView):
-    model = Situacao
+@login_required(login_url='login/')
+def controle(request):
     template_name = 'controle.html'
-    fields = '__all__'
-
-    def get_context_data(self, **kwargs):
-        context = super(ControleEstoque, self).get_context_data(**kwargs)
-        context['titulo'] = 'Controle de Fechamento'
-        return context
+    return render(request, template_name, {"titulo":'Controle de Fechamento'})

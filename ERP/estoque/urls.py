@@ -17,9 +17,11 @@ saida_patterns = [
 
 urlpatterns = [
     path('lista/', l.lista_itens, name='lista_ativa'),
+    path('finalizar/', v.finalizar, name='finalizar'),
+    path('encerrar/', v.reiniciar, name='encerrar'),
 	path('pedido/', v.pedido_edit, name='pedido_update'),
     path('<int:pk>/', v.EstoqueDetail.as_view(), name='estoque_detail'),
     path('entrada/', include(entrada_patterns)),
     path('saida/', include(saida_patterns)),
-    path('controle/<int:pk>/', v.ControleEstoque.as_view(), name='controle'),
+    path('controle/', v.controle, name='controle'),
 ]
