@@ -16,7 +16,7 @@ saida_patterns = [
 ]
 
 urlpatterns = [
-    path('enviar/', v.pedido_enviar, name='enviar'),
+    path('enviar/<int:pk>/', v.pedido_enviar, name='enviar'),
     path('lista/', l.lista_itens, name='lista_ativa'),
     path('finalizar/', v.finalizar, name='finalizar'),
     path('encerrar/', v.reiniciar, name='encerrar'),
