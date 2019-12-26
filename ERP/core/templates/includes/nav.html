@@ -33,10 +33,12 @@
               Relatórios
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{% url 'estoque:lista_ativa' %}">Separação Horta</a>
-              <div class="dropdown-divider">Histórico</div>
-              <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_list' %}">Listas</a>
-              <a class="dropdown-item" href="{% url 'estoque:estoque_saida_list' %}">Pedidos</a>
+                <a class="dropdown-item" href="{% url 'estoque:lista_ativa' %}">Separação Horta</a>
+            {% if user.is_superuser %}
+                <div class="dropdown-divider">Histórico</div>
+                    <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_list' %}">Listas</a>
+                    <a class="dropdown-item" href="{% url 'estoque:estoque_saida_list' %}">Pedidos</a>
+            {% endif %}
             </div>
           </li>
       {% endif %}

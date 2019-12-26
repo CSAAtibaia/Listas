@@ -109,25 +109,28 @@
                                     <i class="fas fa-tint-slash ok">In Natura</i>
                                 {% endif %}
                                 </h4>
-
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Coagri</th>
-                                            <th>Item</th>
-                                            <th>Qtde</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in higieniza.list|dictsort:"coagri" %}
+                                <div class="container">
+                                    {% regroup higieniza.list|dictsort:"coagri" by coagri as item_tb %}
+                                    {% for coagri in item_tb %}
+                                    </br><h3>{{ coagri.grouper|title }}</h3>
+                                    <table class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td>{{ item.coagri|title }}</td>
-                                                <td>{{ item.nomeitem|title }}</td>
-                                                <td>{{ item.total }}</td>
+                                                <th>Item</th>
+                                                <th>Qtde</th>
                                             </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in coagri.list|dictsort:"nomeitem" %}
+                                                <tr>
+                                                    <td>{{ item.nomeitem|title }}</td>
+                                                    <td>{{ item.total }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endfor %}
+                                </div>
                             {% endfor %}
                         {% endfor %}
             {% endfor %}

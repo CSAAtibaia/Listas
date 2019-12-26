@@ -25,6 +25,7 @@ def lista_itens(request):
             higieniza=F('estoque__usuario__coagri__higieniza'),
             coagri=Coalesce(
                 Cast('estoque__usuario__coagri__apelido', CharField()),
+                Cast('estoque__usuario__email', CharField()),
                 Cast('estoque__usuario__username', CharField())
                 ),
             nomeitem=F('produto__produto'),
