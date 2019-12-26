@@ -88,6 +88,17 @@ def reiniciar(request):
     return redirect('estoque:controle')
 
 
+@login_required(login_url='login/')
+def pedido_enviar(request, pk):
+    listinha = EstoqueItens.objects.filter(estoque=pk)
+    mensagem = 'Pedido:\t\t'
+    for ei in listinha:
+        mensagem = mensagem + '%s - %s;\t\t' % (ei.produto, ei.quantidade)
+    messages.success(request, mensagem)
+    email_pedido(request.user, mensagem)
+    return redirect('core:index')
+
+
 def estoque_add(request, template_name, movimento, url):
     estoque_form = Estoque()
     item_estoque_formset = inlineformset_factory(
@@ -196,13 +207,6 @@ def pedido_edit(request):
             itens.save()
             recalcular_estoque()
             messages.success(request, 'Pedido atualizado com sucesso')
-            if pedido.total == coagri.credito:
-                listinha = EstoqueItens.objects.filter(estoque=pedido)
-                mensagem = 'Pedido:\t\t'
-                for ei in listinha:
-                    mensagem = mensagem + '%s - %s;\t\t' % (ei.produto, ei.quantidade)
-                messages.success(request, mensagem)
-                return HttpResponseRedirect(resolve_url('core:index'))
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
         messages.error(request, 'Pedido não Salvo')
         return HttpResponseRedirect(resolve_url('estoque:pedido_update'))

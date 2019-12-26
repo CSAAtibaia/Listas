@@ -1,8 +1,8 @@
-from django.core.mail import send_mail
 from ERP.core.models import CoAgri, Item
 from ERP.estoque.models import Estoque
 from django.db.models import Max
 from ERP.settings import DEFAULT_FROM_EMAIL
+from django.core.mail import send_mail
 
 def email_abertura():
     lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
@@ -35,3 +35,8 @@ def email_fechamento():
     subject = 'Pedidos Encerrados'
     body = 'Encerrado o período de pedidos para a próxima partilha.'
     send_mail(subject, body, DEFAULT_FROM_EMAIL, lista_emails)
+
+
+def email_pedido(user, mensagem):
+    email = list(User.objects.get(pk=user).email)
+    send_mail('Pedido Confirmado', mensagem, DEFAULT_FROM_EMAIL, email)
