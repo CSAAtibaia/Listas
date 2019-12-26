@@ -11,7 +11,13 @@
     <form method="POST" novalidate>
       {% csrf_token %}
         <label style="border-bottom: 1px solid #e5e5e5;">Pedido: {{ pedido.usuario|capfirst }} para {{ pedido.finaliza }}</label>
-        <b><label>Horta: {{ pedido.total }} de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
+        <b><label>Horta:
+        {% if pedido.total == None %}
+          0
+        {% else %}
+          {{ pedido.total }}
+        {% endif %}
+         de {{ coagri.credito }} | Fornecedores: R${{ pedido.preco_total }}</label></b>
         {% for erro in itens.errors %}
             {% if erro %}
                 <div class="alert alert-danger" role="alert">
