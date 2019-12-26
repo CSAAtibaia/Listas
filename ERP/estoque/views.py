@@ -10,7 +10,7 @@ from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, Es
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
 from django.contrib import messages
-from ERP.estoque.email import email_abertura, email_fechamento
+from ERP.estoque.email import email_abertura, email_fechamento, email_pedido
 import logging
 
 logger = logging.getLogger(__name__)
@@ -91,9 +91,10 @@ def reiniciar(request):
 @login_required(login_url='login/')
 def pedido_enviar(request, pk):
     listinha = EstoqueItens.objects.filter(estoque=pk)
-    mensagem = 'Pedido:\t\t'
+    mensagem = 'Pedido:\n\t\t'
     for ei in listinha:
-        mensagem = mensagem + '%s - %s;\t\t' % (ei.produto, ei.quantidade)
+        mensagem = mensagem + '%s - %s;\n\t\t' % (ei.produto, ei.quantidade)
+    mensagem = mensagem + 'Confirmado.'
     messages.success(request, mensagem)
     email_pedido(request.user, mensagem)
     return redirect('core:index')

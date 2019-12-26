@@ -38,5 +38,5 @@ def email_fechamento():
 
 
 def email_pedido(user, mensagem):
-    email = list(User.objects.get(pk=user).email)
+    email = [user.email]
     send_mail('Pedido Confirmado', mensagem, DEFAULT_FROM_EMAIL, email)
