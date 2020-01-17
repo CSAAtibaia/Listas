@@ -28,19 +28,23 @@
           </li>
       {% endif %}
       {% if user.is_authenticated %}
+        {% if user.is_superuser %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Relatórios
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'estoque:lista_ativa' %}">Separação Horta</a>
-            {% if user.is_superuser %}
                 <div class="dropdown-divider">Histórico</div>
                     <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_list' %}">Listas</a>
                     <a class="dropdown-item" href="{% url 'estoque:estoque_saida_list' %}">Pedidos</a>
-            {% endif %}
             </div>
           </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'estoque:lista_ativa' %}">Relatório</a>
+          </li>
+        {% endif %}
       {% endif %}
       {% if user.is_superuser %}
           <li class="nav-item dropdown">

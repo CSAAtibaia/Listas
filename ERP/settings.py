@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #3rd
-    'django_extensions',
+    #'django_extensions',
     'widget_tweaks',
     'bootstrapform',
     #myapps
