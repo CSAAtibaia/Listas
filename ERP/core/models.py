@@ -2,10 +2,19 @@ from django.db import models
 from enum import Enum
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
 # Create your models here.
+
+class User(AbstractUser):
+    """User model."""
+
+    username = None
+    email = models.EmailField(_('email address'), unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(
