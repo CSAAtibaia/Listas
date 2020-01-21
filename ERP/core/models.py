@@ -1,6 +1,7 @@
 from django.db import models
 from enum import Enum
-#from datetime import datetime
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
@@ -77,7 +78,7 @@ class Item(models.Model):
 class CoAgri(models.Model):
 
     user = models.OneToOneField(User,
-                                on_delete=models.PROTECT)
+                                on_delete=models.CASCADE)
     dt_nascimento = models.DateField('Data de Nascimento', null=True, blank=True)
     apelido = models.CharField('Apelido', max_length=50, unique=True, null=True, blank=True)
     tipo = models.CharField('Tipo', choices=Tipo.choices(), default=Tipo.COTISTA, max_length=15, null=True, blank=True)
