@@ -1,20 +1,11 @@
 from django.db import models
 from enum import Enum
-from django.contrib.auth.models import AbstractUser
-from django.utils.translation import ugettext_lazy as _
-#from django.contrib.auth.models import User
+#from django.contrib.auth.models import AbstractUser
+#from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
 # Create your models here.
-
-class Usuario(AbstractUser):
-    """User model."""
-
-    username = None
-    email = models.EmailField(_('email address'), unique=True)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
 
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(
@@ -86,7 +77,7 @@ class Item(models.Model):
 
 class CoAgri(models.Model):
 
-    user = models.OneToOneField(Usuario,
+    user = models.OneToOneField(User,
                                 on_delete=models.CASCADE)
     dt_nascimento = models.DateField('Data de Nascimento', null=True, blank=True)
     apelido = models.CharField('Apelido', max_length=50, unique=True, null=True, blank=True)
