@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 
 # Create your models here.
 
-class User(AbstractUser):
+class Usuario(AbstractUser):
     """User model."""
 
     username = None
@@ -86,7 +86,7 @@ class Item(models.Model):
 
 class CoAgri(models.Model):
 
-    user = models.OneToOneField(User,
+    user = models.OneToOneField(Usuario,
                                 on_delete=models.CASCADE)
     dt_nascimento = models.DateField('Data de Nascimento', null=True, blank=True)
     apelido = models.CharField('Apelido', max_length=50, unique=True, null=True, blank=True)
