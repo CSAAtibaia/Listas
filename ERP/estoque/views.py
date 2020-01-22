@@ -157,7 +157,7 @@ def estoque_saida_list(request):
 
 
 class EstoqueSaidaList(ListView):
-    queryset = EstoqueSaida.objects.all()
+    model = EstoqueSaida
     template_name = 'pedido_list.html'
 
     def get_context_data(self, **kwargs):
