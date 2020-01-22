@@ -11,7 +11,7 @@ def lista_itens(request):
 
     ativa_tb = Estoque.objects.filter(movimento='s', aberto=True)
 
-    pedidos_item_tb = EstoqueItens.objects.filter(estoque__in = ativa_tb)
+    pedidos_item_tb = EstoqueItens.objects.filter(estoque__in = ativa_tb, quantidade__gt = 0)
 
     itens = Item.objects.filter(estoqueitens__gt=0, estoqueitens__estoque__aberto=True).values('produto', 'saldo').distinct().annotate(
         qtde=Sum(

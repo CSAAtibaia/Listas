@@ -160,6 +160,12 @@ class EstoqueSaidaList(ListView):
     queryset = EstoqueSaida.objects.all()
     template_name = 'pedido_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(EstoqueEntradaList, self).get_context_data(**kwargs)
+        context['titulo'] = 'Pedidos'
+        context['url_add'] = 'estoque:pedido_update'
+        return context
+
 
 def estoque_saida_detail(request, pk):
     template_name = 'estoque_detail.html'
@@ -207,7 +213,7 @@ def pedido_edit(request):
         if itens.is_valid():
             itens.save()
             recalcular_estoque()
-            messages.success(request, 'Pedido atualizado com sucesso')
+            messages.success(request, 'Item atualizado com sucesso')
             return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
         messages.error(request, 'Pedido não Salvo')
         return HttpResponseRedirect(resolve_url('estoque:pedido_update'))
