@@ -161,7 +161,7 @@ class EstoqueSaidaList(ListView):
     template_name = 'pedido_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super(EstoqueEntradaList, self).get_context_data(**kwargs)
+        context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
         context['titulo'] = 'Pedidos'
         context['url_add'] = 'estoque:pedido_update'
         return context
