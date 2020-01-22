@@ -11,7 +11,7 @@ entrada_patterns = [
 ]
 
 saida_patterns = [
-    path('', v.EstoqueSaidaList.as_view(), name='estoque_saida_list'),
+    path('', v.estoque_saida_list, name='estoque_saida_list'),
     #path('add/', v.estoque_saida_add, name='estoque_saida_add'),
 ]
 
