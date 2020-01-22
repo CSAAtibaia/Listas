@@ -42,6 +42,7 @@ class Status(ChoiceEnum):
     AVISO = 'Aviso Prévio'
     SUSPENSO = 'Suspenso'
 
+
 class Partilha(models.Model):
     partilha = models.CharField('Partilha', max_length=50, unique=True)
     icone = models.CharField('Ícone', max_length=50, blank=True, null=True)
@@ -49,11 +50,19 @@ class Partilha(models.Model):
     def __str__(self):
         return self.partilha
 
+
+class Fornecedor(models.Model):
+
+    nome = models.CharField(max_length=50)
+
+
 class Item(models.Model):
 
     produto = models.CharField('Item', max_length=70, unique=True)
     saldo = models.IntegerField('Saldo Atual', default=0)
-    preco   = models.DecimalField('Preço R$', max_digits=7, decimal_places=2, default=0)
+    preco = models.DecimalField('Preço R$', max_digits=7, decimal_places=2, default=0)
+    fornecedor = models.ForeignKey(Fornecedor,
+                                   on_delete=models.PROTECT, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse_lazy('core:produto_detail', kwargs={'pk': self.pk})
@@ -71,9 +80,8 @@ class Item(models.Model):
         ordering = ('produto',)
 
     def __str__(self):
-        #if self.saldo > 0:
-        #    return '%s: %s' % (self.produto, self.saldo)
         return self.produto
+
 
 class CoAgri(models.Model):
 
@@ -105,6 +113,7 @@ class CoAgri(models.Model):
         else:
             x = self.user.username
         return x
+
 
 class Situacao(models.Model):
     nome = models.CharField(max_length=25)
