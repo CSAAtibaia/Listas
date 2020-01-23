@@ -224,7 +224,7 @@ def sem_pedido(request):
     objects = User.objects.exclude(
         estoque__aberto=True,
         estoque__movimento='s'
-        )
+        ).order_by('first_name', 'username')
     context = {
         'object_list': objects,
         'titulo': 'Sem Pedido',
