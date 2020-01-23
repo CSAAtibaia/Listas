@@ -55,6 +55,9 @@ class Fornecedor(models.Model):
 
     nome = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nome
+
 
 class Item(models.Model):
 
@@ -118,4 +121,3 @@ class CoAgri(models.Model):
 class Situacao(models.Model):
     nome = models.CharField(max_length=25)
     valor = models.BooleanField(default=False)
-
