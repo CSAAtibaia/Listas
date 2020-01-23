@@ -10,6 +10,7 @@ from .models import Estoque, Lista as EstoqueEntrada, Pedido as EstoqueSaida, Es
 from .forms import EstoqueForm, EstoqueItensForm, PedidoItemForm
 from django.db import connection
 from django.contrib import messages
+from django.contrib.auth.models import User
 from ERP.estoque.email import email_abertura, email_fechamento, email_pedido
 import logging
 
@@ -69,6 +70,7 @@ def recalcular_estoque():
         entrada = produto['entrada']
         item.saldo = entrada - saida
         item.save()
+
 
 @login_required(login_url='login/')
 def finalizar(request):
@@ -147,24 +149,14 @@ def estoque_entrada_add(request):
 
 def estoque_saida_list(request):
     template_name = 'estoque_list.html'
-    objects = EstoqueSaida.objects.all()
+    objects = Estoque.objects.filter(aberto=true,
+                                     movimento='s')
     context = {
         'object_list': objects,
         'titulo': 'Pedido',
         'url_add': 'estoque:pedido_update'
     }
     return render(request, template_name, context)
-
-
-class EstoqueSaidaList(ListView):
-    model = EstoqueSaida
-    template_name = 'pedido_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(EstoqueSaidaList, self).get_context_data(**kwargs)
-        context['titulo'] = 'Pedidos'
-        context['url_add'] = 'estoque:pedido_update'
-        return context
 
 
 def estoque_saida_detail(request, pk):
@@ -225,3 +217,16 @@ def pedido_edit(request):
 def controle(request):
     template_name = 'controle.html'
     return render(request, template_name, {"titulo":'Controle de Fechamento'})
+
+
+def sem_pedido(request):
+    template_name = 'sem_pedido.html'
+    objects = User.objects.exclude(
+        estoque__aberto=True,
+        estoque__movimento='s'
+        )
+    context = {
+        'object_list': objects,
+        'titulo': 'Sem Pedido',
+    }
+    return render(request, template_name, context)

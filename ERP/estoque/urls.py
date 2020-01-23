@@ -12,6 +12,7 @@ entrada_patterns = [
 
 saida_patterns = [
     path('', v.estoque_saida_list, name='estoque_saida_list'),
+    path('sem_pedido/', v.sem_pedido, name='sem_pedido'),
     #path('add/', v.estoque_saida_add, name='estoque_saida_add'),
 ]
 

@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for object in object_list|dictsortreversed:"modified" %}
+      {% for object in object_list %}
         <tr>
           <td>
             <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object.pk }}</a>

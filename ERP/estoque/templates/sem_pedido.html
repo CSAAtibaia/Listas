@@ -4,14 +4,16 @@
 
 <h2>{{ titulo }}</h2>
 
+{{object_list.as_table}}
+
 {% if object_list %}
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Id</th>
-        <th>Data</th>
-        <th>Criador</th>
-        <th>Aberta</th>
+        <th>Nome</th>
+        <th>Último Login</th>
+        <th>Username</th>
       </tr>
     </thead>
     <tbody>
@@ -20,15 +22,15 @@
           <td>
             <a href="{% url 'estoque:estoque_detail' object.pk %}">{{ object.pk }}</a>
           </td>
-          <td>{{ object.modified }}</td>
-          <td>{{ object.usuario }}</td>
-          <td>{{ object.aberto }}</td>
+          <td>{{ object.first_name }}</td>
+          <td>{{ object.last_login }}</td>
+          <td>{{ object.username }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 {% else %}
-  <p class="alert alert-warning">Sem itens na lista.</p>
+  <p class="alert alert-warning">Todos pediram!</p>
 {% endif %}
 
 {% endblock content %}
