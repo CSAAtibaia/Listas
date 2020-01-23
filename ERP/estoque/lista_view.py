@@ -13,13 +13,19 @@ def lista_itens(request):
 
     pedidos_item_tb = EstoqueItens.objects.filter(estoque__in = ativa_tb, quantidade__gt = 0)
 
-    itens = Item.objects.filter(estoqueitens__gt=0, estoqueitens__estoque__aberto=True).values('produto', 'saldo').distinct().annotate(
-        qtde=Sum(
-            Case(
-                When(estoqueitens__estoque__movimento='s', then=F('estoqueitens__quantidade')),
-                default=0,
-                output_field=IntegerField(),
-                )))
+    itens = Item.objects.filter(
+            estoqueitens__gt=0, estoqueitens__estoque__aberto=True
+        ).values(
+            'produto', 'saldo', 'fornecedor'
+        ).order_by(
+            'fornecedor', 'produto'
+        ).distinct().annotate(
+            qtde=Sum(
+                Case(
+                    When(estoqueitens__estoque__movimento='s', then=F('estoqueitens__quantidade')),
+                    default=0,
+                    output_field=IntegerField(),
+                    )))
 
     coagris_tb = pedidos_item_tb.values(
             higieniza=F('estoque__usuario__coagri__higieniza'),
