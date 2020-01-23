@@ -22,36 +22,38 @@
         <div class="collapse" id="lista_ativa">
             <h2>Itens da Lista Ativa</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Fornecedor</th>
-                        <th>Item</th>
-                        <th class="text-center">Pedido</th>
-                        <th>Sobras</th>
-                        <th class="text-center">Saldo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in itens %}
-                        <tr>
-                            <td>{{ item.fornecedor }}</td>
-                            <td>{{ item.produto }}</td>
-                            <td class="text-center">{{ item.qtde }}</td>
-                            <td>
-                                {% if item.saldo > 0 %}
-                                    <i class="fa fa-check-circle ok"></i>
-                                {% else %}
-                                    <i class="fa fa-minus-circle no"></i>
-                                {% endif %}
-                            </td>
-                            <td class="text-center">{{ item.saldo }}</td>
-                        </tr>
-                    {% empty %}
-                        <p class="alert alert-warning">Sem Lista Ativa Válida</p>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% regroup itens by nome_forn as itens_grouped %}
+                {% for itens_tb in itens_grouped %}
+                    <h4>{{ itens_tb.grouper|title }}</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th class="text-center">Pedido</th>
+                                <th>Sobras</th>
+                                <th class="text-center">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in itens_tb.list %}
+                                <tr>
+                                    <td>{{ item.produto }}</td>
+                                    <td class="text-center">{{ item.qtde }}</td>
+                                    <td>
+                                        {% if item.saldo > 0 %}
+                                            <i class="fa fa-check-circle ok"></i>
+                                        {% else %}
+                                            <i class="fa fa-minus-circle no"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">{{ item.saldo }}</td>
+                                </tr>
+                            {% empty %}
+                                <p class="alert alert-warning">Sem Lista Ativa Válida</p>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            {% endfor %}
         </div>
 
         <div class="collapse" id="locais"> <h2>Itens por Locais de Entrega</h2>

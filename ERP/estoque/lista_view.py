@@ -16,9 +16,10 @@ def lista_itens(request):
     itens = Item.objects.filter(
             estoqueitens__gt=0, estoqueitens__estoque__aberto=True
         ).values(
-            'produto', 'saldo', 'fornecedor'
+            'produto', 'saldo',
+            nome_forn=F('fornecedor__nome')
         ).order_by(
-            'fornecedor', 'produto'
+            'fornecedor__nome', 'produto'
         ).distinct().annotate(
             qtde=Sum(
                 Case(
