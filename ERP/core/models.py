@@ -62,7 +62,7 @@ class Item(models.Model):
     saldo = models.IntegerField('Saldo Atual', default=0)
     preco = models.DecimalField('Preço R$', max_digits=7, decimal_places=2, default=0)
     fornecedor = models.ForeignKey(Fornecedor,
-                                   on_delete=models.PROTECT, null=True, blank=True)
+                                   on_delete=models.PROTECT, default=1)
 
     def get_absolute_url(self):
         return reverse_lazy('core:produto_detail', kwargs={'pk': self.pk})
