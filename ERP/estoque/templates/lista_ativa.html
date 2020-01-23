@@ -22,6 +22,9 @@
         <div class="collapse" id="lista_ativa">
             <h2>Itens da Lista Ativa</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
+            {% regroup itens by fornecedor as itens_tb %}
+                {% for item in itens_tb %}
+            <h4>{{ item.grouper|title }}</h4>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -32,11 +35,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% regroup itens by fornecedor as itens_tb %}
-                    {% for item in itens_tb %}
-                    <h4>{{ item.grouper|title }}</h4>
                         <tr>
-                            <td>{{ item.produto|title }}</td>
+                            <td>{{ item.produto }}</td>
                             <td class="text-center">{{ item.qtde }}</td>
                             <td>
                                 {% if item.saldo > 0 %}
