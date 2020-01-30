@@ -20,6 +20,7 @@
         </p>
 
         <div class="collapse" id="lista_ativa">
+
             <h2>Itens da Lista Ativa</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
             {% regroup itens by nome_forn as itens_grouped %}
@@ -57,17 +58,16 @@
         </div>
 
         <div class="collapse" id="locais"> <h2>Itens por Locais de Entrega</h2>
-            {% regroup locais_tb|dictsort:"entrega" by entrega_ico as ico_tb %}
+            {% regroup locais_tb by entrega_ico as ico_tb %}
                 {% for ico in ico_tb %}
                 <hr>
                     <h4>
                         <i class="{{ ico.grouper }}">
-                    {% regroup ico.list|dictsort:"entrega" by entrega as entrega_tb %}
+                    {% regroup ico.list by entrega as entrega_tb %}
                         {% for entrega in entrega_tb %}
                             {{ entrega.grouper|title }}</i>
                             {% regroup entrega.list by higieniza as higieniza_tb %}
                             {% for higieniza in higieniza_tb %}
-                                <!--<h4>{{ higieniza.grouper }}</h4>-->
                                 {% if higieniza.grouper %}
                                     <i class="fas fa-shower water"> Pré-Lavados</i>
                                 {% else %}
@@ -96,15 +96,15 @@
         </div>
         <div class="collapse" id="coagris"> <h2>Itens por Coagri</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
-            {% regroup coagris_tb|dictsort:"entrega" by entrega_ico as ico_tb %}
+            {% regroup coagris_tb by entrega_ico as ico_tb %}
                 {% for ico in ico_tb %}
                 <hr>
                     <h4>
                         <i class="{{ ico.grouper }}">
-                    {% regroup ico.list|dictsort:"entrega" by entrega as entrega_tb %}
+                    {% regroup ico.list by entrega as entrega_tb %}
                         {% for entrega in entrega_tb %}
                             {{ entrega.grouper|title }}</i>
-                            {% regroup entrega.list|dictsort:"higieniza" by higieniza as higieniza_tb %}
+                            {% regroup entrega.list by higieniza as higieniza_tb %}
                             {% for higieniza in higieniza_tb %}
                                 <!--<h4>{{ higieniza.grouper }}</h4>-->
                                 {% if higieniza.grouper %}
@@ -114,7 +114,7 @@
                                 {% endif %}
                                 </h4>
                                 <div class="container">
-                                    {% regroup higieniza.list|dictsort:"coagri" by coagri as item_tb %}
+                                    {% regroup higieniza.list by coagri as item_tb %}
                                     {% for coagri in item_tb %}
                                     </br><h3>{{ coagri.grouper|title }}</h3>
                                     <table class="table table-striped">
@@ -125,7 +125,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for item in coagri.list|dictsort:"nomeitem" %}
+                                            {% for item in coagri.list %}
                                                 <tr>
                                                     <td>{{ item.nomeitem|title }}</td>
                                                     <td>{{ item.total }}</td>
