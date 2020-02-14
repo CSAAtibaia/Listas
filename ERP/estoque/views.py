@@ -95,7 +95,8 @@ def pedido_enviar(request, pk):
     listinha = EstoqueItens.objects.filter(estoque=pk)
     mensagem = 'Pedido:\n\t\t'
     for ei in listinha:
-        mensagem = mensagem + '%s - %s;\n\t\t' % (ei.produto, ei.quantidade)
+        if ei.quantidade > 0:
+            mensagem = mensagem + '%s - %s;\n\t\t' % (ei.produto, ei.quantidade)
     mensagem = mensagem + 'Confirmado.'
     messages.success(request, mensagem)
     email_pedido(request.user, mensagem)
@@ -149,7 +150,7 @@ def estoque_entrada_add(request):
 
 def estoque_saida_list(request):
     template_name = 'estoque_list.html'
-    objects = Estoque.objects.filter(aberto=true,
+    objects = Estoque.objects.filter(aberto=True,
                                      movimento='s')
     context = {
         'object_list': objects,

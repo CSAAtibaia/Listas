@@ -2,7 +2,7 @@ from django.shortcuts import render
 from ERP.estoque.models import Estoque, EstoqueItens
 from ERP.core.models import Item
 from django.db.models import Sum, F, CharField, IntegerField, Case, When, Value #, Q
-from django.db.models.functions import Coalesce, Cast
+from django.db.models.functions import Coalesce, Cast, Concat
 # Create your views here.
 
 
@@ -32,6 +32,9 @@ def lista_itens(request):
             higieniza=F('estoque__usuario__coagri__higieniza'),
             coagri=Coalesce(
                 Cast('estoque__usuario__coagri__apelido', CharField()),
+                Cast(
+                    Concat('estoque__usuario__first_name', Value(' '),
+                            'estoque__usuario__last_name'), CharField()),
                 Cast('estoque__usuario__email', CharField()),
                 Cast('estoque__usuario__username', CharField())
                 ),
