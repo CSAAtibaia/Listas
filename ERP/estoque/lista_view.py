@@ -28,7 +28,7 @@ def lista_itens(request):
                     output_field=IntegerField(),
                     )))
 
-    coagris_tb = pedidos_item_tb.values(
+    coagris_tb_1 = pedidos_item_tb.values(
             higieniza=F('estoque__usuario__coagri__higieniza'),
             coagri=Coalesce(
                 Cast('estoque__usuario__coagri__apelido', CharField()),
@@ -48,6 +48,9 @@ def lista_itens(request):
                         output_field=CharField(),
                         )
         )
+
+    coagris_tb = coagris_tb_1.order_by('higieniza', 'entrega', 'coagri', 'nomeitem')
+
     locais_tb = coagris_tb.values(
                 'entrega', 'entrega_ico', 'higieniza', 'nomeitem'
             ).order_by(

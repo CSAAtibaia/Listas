@@ -9,12 +9,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         today = datetime.today()
-        lista = Estoque.objects.filter(finaliza__lte=today, aberto=True)
+        lista = Estoque.objects.filter(finaliza__lte=today, aberto=True, movimento='e')
         for estoque in lista:
             estoque.aberto=False
             estoque.save()
             self.stdout.write(self.style.SUCCESS('Pedidos fechados com sucesso "%s"' % estoque))
-        
-        if lista:    
+
+        if lista:
             email_fechamento()
             recalcular_estoque()

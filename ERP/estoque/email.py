@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 
 def email_abertura():
     lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
-    lista_coagri = lista_coagri.filter(user__is_staff=True)
+    #lista_coagri = lista_coagri.filter(user__is_staff=True)
     #lista_coagri = CoAgri.objects.filter(pk=7)
     lista_emails = list(lista_coagri.values_list('user__email', flat=True))
     lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco')
@@ -31,7 +31,7 @@ def email_abertura():
 
 def email_fechamento():
     lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
-    lista_coagri = lista_coagri.filter(user__is_staff=True)
+    #lista_coagri = lista_coagri.filter(user__is_staff=True)
     #lista_coagri = CoAgri.objects.filter(pk=7)
     lista_emails = list(lista_coagri.values_list('user__email', flat=True))
     subject = 'Pedidos Encerrados'
