@@ -1,4 +1,4 @@
-from django.contrib import admin
+'''from django.contrib import admin
 from .models import Lista, Pedido, EstoqueItens
 
 
@@ -25,3 +25,4 @@ class PedidoAdmin(admin.ModelAdmin):
     #search_fields = ('nf',)
     list_filter = ('usuario',)
     date_hierarchy = 'created'
+'''

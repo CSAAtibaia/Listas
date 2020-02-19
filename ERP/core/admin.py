@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from ERP.core.models import CoAgri, Item, Partilha#, Fornecedor
+from ERP.core.models import CoAgri
+
+''', Item, Partilha, Fornecedor
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -12,7 +14,7 @@ class ItemAdmin(admin.ModelAdmin):
     )
     search_fields = ('produto',)
     readonly_fields = ('saldo', )
-
+'''
 
 class CoAgriInline(admin.StackedInline):
     model = CoAgri
@@ -29,6 +31,6 @@ admin.site.index_title = 'Admin'
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Item, ItemAdmin)
+'''admin.site.register(Item, ItemAdmin)
 admin.site.register(Partilha)
-#admin.site.register(Fornecedor)
+admin.site.register(Fornecedor)'''

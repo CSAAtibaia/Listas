@@ -35,9 +35,11 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'estoque:lista_ativa' %}">Separação Horta</a>
                 <a class="dropdown-item" href="{% url 'estoque:sem_pedido' %}">Sem Pedido</a>
-              <div class="dropdown-divider">Histórico</div>
-                    <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_list' %}">Listas</a>
-                    <a class="dropdown-item" href="{% url 'estoque:estoque_saida_list' %}">Pedidos</a>
+              {% if user.is_superuser %}
+                  <div class="dropdown-divider">Histórico</div>
+                        <a class="dropdown-item" href="{% url 'estoque:estoque_entrada_list' %}">Listas</a>
+                        <a class="dropdown-item" href="{% url 'estoque:estoque_saida_list' %}">Pedidos</a>
+              {% endif %}
             </div>
           </li>
       {% endif %}
