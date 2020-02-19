@@ -3,30 +3,26 @@ from ERP.estoque.models import Estoque
 from django.db.models import Max
 from ERP.settings import DEFAULT_FROM_EMAIL
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def email_abertura():
     lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
     #lista_coagri = lista_coagri.filter(user__is_staff=True)
-    #lista_coagri = CoAgri.objects.filter(pk=7)
+    lista_coagri = CoAgri.objects.filter(pk=7)
     lista_emails = list(lista_coagri.values_list('user__email', flat=True))
-    lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco')
+    lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco'
+        ).order_by('produto')
     q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
     finaliza = q['fim']
+
+    subject = 'Subject'
+    html_message = render_to_string('email_lista_criada.html', 
+                                    {'finaliza': finaliza, 'lista_itens': lista_itens})
+    plain_message = strip_tags(html_message)
+
     subject = 'Itens Disponibilizados - Finaliza em:%s' % (finaliza)
-    body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nAcesse http://www.CSAAtibaia.in para fazer seu pedido.\n\nLista: \n' % (finaliza)
-    body = body + '%-*s%s\n' % (25, 'Nome', 'Saldo')
-    for item in lista_itens:
-        for val in item:
-            if str(val) == "0.00":
-                val=str("")
-
-            a = '%-*s' % (25, str(val))
-            body = body + a
-
-        body = body + '\n'
-
-    body = body + '\nAtt, \nHorta CSA'
-    send_mail(subject, body, DEFAULT_FROM_EMAIL, lista_emails)
+    send_mail(subject, plain_message, DEFAULT_FROM_EMAIL, lista_emails, html_message=html_message)
 
 
 def email_fechamento():

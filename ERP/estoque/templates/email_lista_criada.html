@@ -1,0 +1,24 @@
+<html>
+<body>
+	<h3>Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia {{ finaliza }}.</h3>
+	</br>
+	<p>Acesse http://www.CSAAtibaia.in para fazer seu pedido.</p>
+	{{ lista_itens.as_table }}
+	</br>
+	<p>Att, Horta CSA</p>
+</body>
+
+<!--    body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nAcesse http://www.CSAAtibaia.in para fazer seu pedido.\n\nLista: \n' % (finaliza)
+    body = body + '%-*s%s\n' % (25, 'Nome', 'Saldo')
+    for item in lista_itens:
+        for val in item:
+            if str(val) == "0.00":
+                val=str("")
+
+            a = '%-*s' % (25, str(val))
+            body = body + a
+
+        body = body + '\n'
+
+    body = body + '\nAtt, \nHorta CSA'
+    -->
