@@ -94,6 +94,7 @@
                         {% endfor %}
                 {% endfor %}
         </div>
+
         <div class="collapse" id="coagris"> <h2>Itens por Coagri</h2>
           <!--<div class="card card-body"> Ftaghn </div>-->
             {% regroup coagris_tb by entrega_ico as ico_tb %}
@@ -116,7 +117,7 @@
                                 <div class="container">
                                     {% regroup higieniza.list by coagri as item_tb %}
                                     {% for coagri in item_tb %}
-                                    </br><h3>{{ coagri.grouper|title }}</h3>
+                                    </br><p>{{ coagri.grouper|title }}</p>
                                     <table class="table table-sm">
                                         <thead>
                                             <tr>
