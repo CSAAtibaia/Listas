@@ -117,7 +117,7 @@
                                 <div class="container">
                                     {% regroup higieniza.list by coagri as item_tb %}
                                     {% for coagri in item_tb %}
-                                    </br><p>{{ coagri.grouper|title }}</p>
+                                    <b>{{ coagri.grouper|title }}</b>
                                     <table class="table table-sm">
                                         <thead>
                                             <tr>
