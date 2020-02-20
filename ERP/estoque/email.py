@@ -9,15 +9,14 @@ from django.utils.html import strip_tags
 def email_abertura():
     lista_coagri = CoAgri.objects.filter(status='ATIVO') | CoAgri.objects.filter(status='AVISO')
     #lista_coagri = lista_coagri.filter(user__is_staff=True)
-    lista_coagri = CoAgri.objects.filter(pk=7)
+    #lista_coagri = CoAgri.objects.filter(pk=7)
     lista_emails = list(lista_coagri.values_list('user__email', flat=True))
-    lista_itens = Item.objects.filter(saldo__gt=0).values_list('produto', 'saldo', 'preco'
-        ).order_by('produto')
+    lista_itens = Item.objects.filter(saldo__gt=0).order_by('produto')
     q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
     finaliza = q['fim']
 
     subject = 'Subject'
-    html_message = render_to_string('email_lista_criada.html', 
+    html_message = render_to_string('email_lista_criada.html',
                                     {'finaliza': finaliza, 'lista_itens': lista_itens})
     plain_message = strip_tags(html_message)
 

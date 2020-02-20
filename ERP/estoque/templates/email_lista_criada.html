@@ -1,11 +1,33 @@
 <html>
 <body>
-	<h3>Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia {{ finaliza }}.</h3>
+	<h3>Prezad@s,</h3>
+	<h3>Os {{ lista_itens.count }} itens desta semana já estão disponíveis para Pedido até dia {{ finaliza }}.</h3>
 	</br>
-	<p>Acesse http://www.CSAAtibaia.in para fazer seu pedido.</p>
-	{{ lista_itens.as_table }}
+	<h4>Acesse <a href="http://www.CSAAtibaia.in">CSAAtibaia</a> para fazer seu pedido.</h4>
+    </br>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in lista_itens %}
+                <tr>
+                    <td>{{ item.produto|title }}</td>
+                    <td>{{ item.saldo }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 	</br>
-	<p>Att, Horta CSA</p>
+	<p>Att,</p>
+	<p>Horta CSA</p>
+
+    <img src="https://i.imgur.com/G5XJbQD.jpg" alt="Lista Disponível" height="128" width="128">
+
 </body>
 
 <!--    body = 'Prezad@s, Os itens desta semana já estão disponíveis para Pedido até dia %s.\nAcesse http://www.CSAAtibaia.in para fazer seu pedido.\n\nLista: \n' % (finaliza)
