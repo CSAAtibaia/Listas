@@ -8,15 +8,15 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Item</th>
                 <th>Saldo</th>
+                <th>Item</th>
             </tr>
         </thead>
         <tbody>
             {% for item in lista_itens %}
                 <tr>
+                    <td><b>{{ item.saldo }}</b></td>
                     <td>{{ item.produto|title }}</td>
-                    <td>{{ item.saldo }}</td>
                 </tr>
             {% endfor %}
         </tbody>
