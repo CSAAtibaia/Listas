@@ -28,9 +28,9 @@
                                             {% for row in item_tb %}
                                                 <tr>
                                                 {% for cell in row %}
-                                                    {% if forloop.first or forloop.parentloop.first %} <th> {% else %} <td> {% endif %}
+                                                    {% if forloop.first %} <th> {% else %} <td> {% endif %}
                                                         {{ cell }}
-                                                    {% if forloop.first or forloop.parentloop.first %} </th> {% else %} </td> {% endif %}
+                                                    {% if forloop.first %} </th> {% else %} </td> {% endif %}
                                                 {% endfor %}
                                                 </tr>
                                             {% endfor %}
