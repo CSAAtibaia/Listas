@@ -73,21 +73,6 @@ def lista_print(request):
 
     pedidos_item_tb = EstoqueItens.objects.filter(estoque__in = ativa_tb, quantidade__gt = 0)
 
-    itens = Item.objects.filter(
-            estoqueitens__gt=0, estoqueitens__estoque__aberto=True
-        ).values(
-            'produto', 'saldo',
-            nome_forn=F('fornecedor__nome')
-        ).order_by(
-            'fornecedor__nome', 'produto'
-        ).distinct().annotate(
-            qtde=Sum(
-                Case(
-                    When(estoqueitens__estoque__movimento='s', then=F('estoqueitens__quantidade')),
-                    default=0,
-                    output_field=IntegerField(),
-                    )))
-
     coagris_tb_1 = pedidos_item_tb.values(
             higieniza=F('estoque__usuario__coagri__higieniza'),
             coagri=Coalesce(
@@ -114,14 +99,6 @@ def lista_print(request):
 
     coagris_tb = coagris_tb_1.order_by('higieniza', 'entrega', 'coagri', 'nomeitem')
 
-    locais_tb = coagris_tb.values(
-                'entrega', 'entrega_ico', 'higieniza', 'nomeitem'
-            ).order_by(
-                'entrega', 'entrega_ico', 'higieniza', 'nomeitem'
-            ).annotate(soma=Sum('quantidade'))
-
     context = {'ativa_tb': ativa_tb,
-                'locais_tb': locais_tb,
-                'coagris_tb': coagris_tb,
-                'itens': itens,}
+                'coagris_tb': coagris_tb,}
     return render(request, template_name, context)
