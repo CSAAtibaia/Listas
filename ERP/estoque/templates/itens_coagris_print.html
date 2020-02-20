@@ -28,7 +28,7 @@
                                         <div class="container">
                                             <p>
                                             {% for item in coagri.list %}
-                                                {{ item.nomeitem|title }} ; <b>{{ item.total }}</b>
+                                                <b>{{ item.total }}</b> {{ item.nomeitem|title }} ;
                                             {% endfor %}
                                             </p>
                                         </div>
