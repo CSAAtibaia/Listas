@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page header">
+    <h1><i class="fas fa-seedling ok"></i> Lista Ativa <i class="fas fa-leaf ok"></i></h1>
+        <div id="coagris"> <h2>Itens por Coagri</h2>
+            {% regroup coagris_tb by entrega_ico as ico_tb %}
+                {% for ico in ico_tb %}
+                <hr>
+                    <h4>
+                        <i class="{{ ico.grouper }}">
+                    {% regroup ico.list by entrega as entrega_tb %}
+                        {% for entrega in entrega_tb %}
+                            {{ entrega.grouper|title }}</i>
+                            {% regroup entrega.list by higieniza as higieniza_tb %}
+                            {% for higieniza in higieniza_tb %}
+                                <!--<h4>{{ higieniza.grouper }}</h4>-->
+                                {% if higieniza.grouper %}
+                                    <i class="fas fa-shower water"> Pré-Lavados</i>
+                                {% else %}
+                                    <i class="fas fa-tint-slash ok">In Natura</i>
+                                {% endif %}
+                                </h4>
+                                <div class="container">
+                                    {% regroup higieniza.list by coagri as item_tb %}
+                                        <table class="table table-sm">
+                                            {% for row in item_tb %}
+                                                <tr>
+                                                {% for cell in row %}
+                                                    {% if forloop.first or forloop.parentloop.first %} <th> {% else %} <td> {% endif %}
+                                                        {{ cell }}
+                                                    {% if forloop.first or forloop.parentloop.first %} </th> {% else %} </td> {% endif %}
+                                                {% endfor %}
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+            {% endfor %}
+        </div>
+
+</div>
+
+{% endblock content %}
