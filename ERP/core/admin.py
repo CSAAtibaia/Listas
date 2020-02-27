@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from ERP.core.models import CoAgri, Partilha
+from ERP.core.models import CoAgri
 
-''', Item, Fornecedor
+''', Item, Fornecedor, Partilha
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -31,7 +31,7 @@ admin.site.index_title = 'Admin'
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Partilha)
 
 '''admin.site.register(Item, ItemAdmin)
+admin.site.register(Partilha)
 admin.site.register(Fornecedor)'''
