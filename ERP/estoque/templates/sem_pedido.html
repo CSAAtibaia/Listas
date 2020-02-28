@@ -10,18 +10,21 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Partilha</th>
+        <th>Pré-Lavados</th>
         <th>Nome</th>
         <th>Sobrenome</th>
-        <th>Último Login</th>
         <th>Username</th>
       </tr>
     </thead>
     <tbody>
       {% for object in object_list%}
         <tr>
+          <td>{{ object.coagri.partilha }}</td>
+          <td>{{ object.coagri.higieniza }}</td>
+          <td>{{ object.first_name }}</td>
           <td>{{ object.first_name }}</td>
           <td>{{ object.last_name }}</td>
-          <td>{{ object.last_login }}</td>
           <td>{{ object.username }}</td>
         </tr>
       {% endfor %}
