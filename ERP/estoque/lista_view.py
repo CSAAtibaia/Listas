@@ -100,5 +100,6 @@ def lista_print(request):
     coagris_tb = coagris_tb_1.order_by('higieniza', 'entrega', 'coagri', 'nomeitem')
 
     context = {'ativa_tb': ativa_tb,
-                'coagris_tb': coagris_tb,}
+                'coagris_tb': coagris_tb,
+                'count_qt': coagris_tb.count()}
     return render(request, template_name, context)
