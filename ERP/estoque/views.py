@@ -174,7 +174,10 @@ def estoque_saida_detail(request, pk):
 def pedido_edit(request):
     coagri = CoAgri.objects.get(user=request.user)
     if coagri.status == 'ATIVO' or coagri.status == 'AVISO':
-        q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
+        if request.user.is_superuser == True:
+            q = Estoque.objects.filter(movimento='e').aggregate(fim=Max('finaliza'))
+        else:    
+            q = Estoque.objects.filter(aberto=True, movimento='e').aggregate(fim=Max('finaliza'))
         finaliza = q['fim']
         if finaliza is not None:
             try:
