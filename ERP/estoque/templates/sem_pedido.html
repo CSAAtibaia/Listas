@@ -4,8 +4,6 @@
 
 <h2>{{ titulo }}</h2>
 
-{{object_list.as_table}}
-
 {% if object_list %}
   <table class="table table-striped">
     <thead>
@@ -29,9 +27,9 @@
       {% endfor %}
     </tbody>
   </table>
-  <h4><b>Total:{{ count_qt }}</b></h4>
+  <h4><b>Total:{{ object_list.count }}</b></h4>
 {% else %}
-  <p class="alert alert-warning">Todos pediram!</p>
+  <p class="alert alert-success">Todos pediram!</p>
 {% endif %}
 
 {% endblock content %}
