@@ -229,7 +229,7 @@ def sem_pedido(request):
         estoque__aberto=True,
         estoque__movimento='s',
         coagri__status='INATIVO',
-        coagri__status='SUSPENSO',
+        #coagri__status='SUSPENSO',
         coagri__credito=0
         ).order_by('coagri__partilha', 'coagri__higieniza', 'first_name', 'last_name', 'username')
     context = {
