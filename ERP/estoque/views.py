@@ -226,11 +226,17 @@ def controle(request):
 def sem_pedido(request):
     template_name = 'sem_pedido.html'
     objects = User.objects.exclude(
+        coagri__status='INATIVO',
+        )
+    objects = objects.objects.exclude(
+        coagri__status='SUSPENSO',
+        )
+    objects = objects.objects.exclude(
+        coagri__credito=0,
+        )
+    objects = objects.objects.exclude(
         estoque__aberto=True,
         estoque__movimento='s',
-        coagri__status='INATIVO',
-        #coagri__status='SUSPENSO',
-        coagri__credito=0
         ).order_by('coagri__partilha', 'coagri__higieniza', 'first_name', 'last_name', 'username')
     context = {
         'object_list': objects,
