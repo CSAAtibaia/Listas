@@ -228,13 +228,13 @@ def sem_pedido(request):
     objects = User.objects.exclude(
         coagri__status='INATIVO',
         )
-    objects = objects.objects.exclude(
+    objects = objects.exclude(
         coagri__status='SUSPENSO',
         )
-    objects = objects.objects.exclude(
+    objects = objects.exclude(
         coagri__credito=0,
         )
-    objects = objects.objects.exclude(
+    objects = objects.exclude(
         estoque__aberto=True,
         estoque__movimento='s',
         ).order_by('coagri__partilha', 'coagri__higieniza', 'first_name', 'last_name', 'username')
