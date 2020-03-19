@@ -181,7 +181,8 @@ def pedido_edit(request):
         finaliza = q['fim']
         if finaliza is not None:
             try:
-                pedido = Estoque.objects.get(aberto=True, movimento='s', usuario=request.user)
+                pedido = Estoque.objects.filter(aberto=True, movimento='s', usuario=request.user)
+                pedido = pedido[0]
             except Estoque.DoesNotExist:
                 pedido = Estoque(
                             aberto=True,
