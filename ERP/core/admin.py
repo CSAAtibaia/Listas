@@ -31,7 +31,7 @@ class UserAdmin(BaseUserAdmin):
         'status'
         )
     def cota(self, obj):
-            return ("%s" % (obj.coagri.cota))
+            return ("%s" % (obj.coagri.credito))
         
     def status(self, obj):
             return ("%s" % (obj.coagri.status))
