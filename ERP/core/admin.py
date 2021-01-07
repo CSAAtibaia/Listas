@@ -23,6 +23,21 @@ class CoAgriInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = [CoAgriInline,
         ]
+    list_display = (
+        'first_name',
+        'last_name',
+        'username',
+        'cota',
+        'status'
+        )
+    def cota(self):
+            return ("%s" % (self.CoAgri.cota))
+        
+    def status(self):
+            return ("%s" % (self.CoAgri.status))
+    
+    status.short_description = 'Status'
+    cota.short_description = 'Cota'
 
 
 admin.site.site_header = 'CSA Atibaia'
