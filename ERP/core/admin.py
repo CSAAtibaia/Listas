@@ -30,10 +30,10 @@ class UserAdmin(BaseUserAdmin):
         'cota',
         'status'
         )
-    def cota(self):
+    def cota(self, obj):
             return ("%s" % (self.CoAgri.cota))
         
-    def status(self):
+    def status(self, obj):
             return ("%s" % (self.CoAgri.status))
     
     status.short_description = 'Status'
