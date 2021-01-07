@@ -30,6 +30,8 @@ class UserAdmin(BaseUserAdmin):
         'cota',
         'status'
         )
+    ordering = ('first_name', 'last_name')
+    
     def cota(self, obj):
             return ("%s" % (obj.coagri.credito))
         
