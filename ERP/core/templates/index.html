@@ -11,7 +11,7 @@
 <div class="container">
   {% if user.is_authenticated %}
     Olá {{ user.username }}!
-    <a href="../estoque/pedido/">CLIQUE AQUI</a> para fazer seu pedido.
+    <p><a href="../estoque/pedido/">CLIQUE AQUI</a> para fazer seu pedido.</p>
   {% else %}
   <p>Você não está logado.</p>
   <a href="{% url 'login' %}">login</a>
