@@ -18,6 +18,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 class CoAgriInline(admin.StackedInline):
     model = CoAgri
+    exclude = ('higieniza',)
 
 
 class UserAdmin(BaseUserAdmin):

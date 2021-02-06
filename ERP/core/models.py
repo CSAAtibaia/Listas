@@ -94,7 +94,7 @@ class CoAgri(models.Model):
     apelido = models.CharField('Apelido', max_length=50, unique=True, null=True, blank=True)
     tipo = models.CharField('Tipo', choices=Tipo.choices(), default=Tipo.COTISTA, max_length=15, null=True, blank=True)
     status = models.CharField('Status', choices=Status.choices(), default=Status.ATIVO, max_length=15)
-    higieniza = models.BooleanField('Higieniza', default=False)
+    higieniza = models.BooleanField('Higieniza', default=True)
     retira = models.BooleanField('Retira', default=False)
     partilha = models.ForeignKey(Partilha,
                                         on_delete=models.PROTECT, null=True, blank=True)

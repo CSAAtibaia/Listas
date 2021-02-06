@@ -17,6 +17,10 @@
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#coagris" aria-expanded="false" aria-controls="collapseExample">
                 Itens por CoAgri
             </button>
+
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#coagris2" aria-expanded="false" aria-controls="collapseExample">
+                CoAgris por Local
+            </button>
         </p>
 
         <div class="collapse" id="lista_ativa">
@@ -140,6 +144,29 @@
             {% endfor %}
         </div>
 
+        <div class="collapse" id="coagris2"> <h2>Coagris por Local</h2>
+          <!--<div class="card card-body"> Ftaghn </div>-->
+            {% regroup coagris_tb by entrega_ico as ico_tb %}
+                {% for ico in ico_tb %}
+                <hr>
+                    <h4>
+                        <i class="{{ ico.grouper }}">
+                    {% regroup ico.list by entrega as entrega_tb %}
+                        {% for entrega in entrega_tb %}
+                            {{ entrega.grouper|title }}</i>
+                            {% regroup entrega.list by higieniza as higieniza_tb %}
+                            {% for higieniza in higieniza_tb %}
+                                <!--<h4>{{ higieniza.grouper }}</h4>-->
+                                {% if higieniza.grouper %}
+                                    <i class="fas fa-shower water"> Pré-Lavados</i>
+                                {% else %}
+                                    <i class="fas fa-tint-slash ok">In Natura</i>
+                                {% endif %}
+                                </h4>
+                            {% endfor %}
+                        {% endfor %}
+            {% endfor %}
+        </div>
 </div>
 
 {% endblock content %}
