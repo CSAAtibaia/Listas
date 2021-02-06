@@ -163,6 +163,13 @@
                                     <i class="fas fa-tint-slash ok">In Natura</i>
                                 {% endif %}
                                 </h4>
+                                <div class="container">
+                                    {% regroup higieniza.list by coagri as item_tb %}
+                                    {% for coagri in item_tb %}
+                                    <b>{{ coagri.grouper|title }}</b>
+                                    {% endfor %}
+                                </div>
+
                             {% endfor %}
                         {% endfor %}
             {% endfor %}
