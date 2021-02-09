@@ -85,17 +85,11 @@ def lista_print(request):
                 ),
             nomeitem=F('produto__produto'),
             total=F('quantidade')
-        ).annotate(entrega=Case(
-                        When(estoque__usuario__coagri__retira=True, then=Value("Retira")),
-                        default=F('estoque__usuario__coagri__partilha__partilha'),
+        ).annotate(entrega=F('estoque__usuario__coagri__partilha__partilha'),
                         output_field=CharField(),
-                        ),
-                    entrega_ico=Case(
-                        When(estoque__usuario__coagri__retira=True, then=Value("fab fa-pied-piper-alt ok")),
-                        default=F('estoque__usuario__coagri__partilha__icone'),
-                        output_field=CharField(),
+                    entrega_ico=F('estoque__usuario__coagri__partilha__icone'),
+                        output_field=CharField()
                         )
-        )
 
     coagris_tb = coagris_tb_1.order_by('higieniza', 'entrega', 'coagri', 'nomeitem')
 
