@@ -71,11 +71,6 @@
                             {% for higieniza in higieniza_tb %}
                                 <h4>
                                     <i class="{{ ico.grouper }}">{{ entrega.grouper|title }}</i>
-                                    {% if higieniza.grouper %}
-                                        <i class="fas fa-shower water"> Pré-Lavados</i>
-                                    {% else %}
-                                        <i class="fas fa-tint-slash ok">In Natura</i>
-                                    {% endif %}
                                 </h4>
                                 <table class="table table-striped">
                                     <thead>
@@ -110,12 +105,12 @@
                             {{ entrega.grouper|title }}</i>
                             {% regroup entrega.list by higieniza as higieniza_tb %}
                             {% for higieniza in higieniza_tb %}
-                                <!--<h4>{{ higieniza.grouper }}</h4>-->
+                                <!--<h4>{{ higieniza.grouper }}</h4>
                                 {% if higieniza.grouper %}
                                     <i class="fas fa-shower water"> Pré-Lavados</i>
                                 {% else %}
                                     <i class="fas fa-tint-slash ok">In Natura</i>
-                                {% endif %}
+                                {% endif %}-->
                                 </h4>
                                 <div class="container">
                                     {% regroup higieniza.list by coagri as item_tb %}
@@ -156,12 +151,12 @@
                             {{ entrega.grouper|title }}</i>
                             {% regroup entrega.list by higieniza as higieniza_tb %}
                             {% for higieniza in higieniza_tb %}
-                                <!--<h4>{{ higieniza.grouper }}</h4>-->
+                                <!--<h4>{{ higieniza.grouper }}</h4>-
                                 {% if higieniza.grouper %}
                                     <i class="fas fa-shower water"> Pré-Lavados</i>
                                 {% else %}
                                     <i class="fas fa-tint-slash ok">In Natura</i>
-                                {% endif %}
+                                {% endif %}-->
                                 </h4>
                                 <div class="container">
                                     {% regroup higieniza.list by coagri as item_tb %}
